@@ -1,0 +1,160 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Contact"
+  description="Neem contact op met het HorecaRooster-team. We reageren binnen één werkdag."
+  lang="nl"
+>
+
+  <!-- Hero -->
+  <section class="bg-[var(--color-cream)] pt-32 pb-12 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center">
+      <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-3">
+        Neem contact op
+      </h1>
+      <p class="text-[var(--color-stone)] text-lg">We reageren op alle berichten binnen één werkdag.</p>
+    </div>
+  </section>
+
+  <!-- Twee kolommen -->
+  <section class="bg-white py-16 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
+
+      <!-- Links: Contactinfo -->
+      <div class="flex flex-col gap-8">
+        <div>
+          <h2 class="font-display font-semibold text-xl text-[var(--color-charcoal)] mb-3">Bereik ons direct</h2>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-4">
+            We zijn een klein team — er is geen supportticketwachtrij. Berichten komen direct bij ons terecht.
+          </p>
+          <a
+            href="mailto:pieter.elsharouni@gmail.com"
+            class="text-[var(--color-forest)] font-semibold hover:underline"
+          >
+            pieter.elsharouni@gmail.com
+          </a>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-[var(--color-charcoal)] mb-2">Wil je een live demo?</h3>
+          <p class="text-[var(--color-stone)] text-sm leading-relaxed mb-3">
+            We doen graag een schermshare van 20 minuten en laten zien hoe HorecaRooster werkt voor jouw specifieke locatie.
+          </p>
+          <a
+            href="https://calendly.com/horecárooster"
+            class="inline-flex items-center gap-1 text-[var(--color-forest)] font-semibold text-sm hover:underline"
+          >
+            Plan een demo →
+          </a>
+        </div>
+
+        <div class="bg-[var(--color-cream)] rounded-2xl p-6">
+          <h3 class="font-semibold text-[var(--color-charcoal)] mb-3 text-sm uppercase tracking-wide">Wat je kunt verwachten</h3>
+          <ul class="space-y-2 text-sm text-[var(--color-stone)]">
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-[var(--color-forest)]" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              Reactie binnen 1 werkdag
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-[var(--color-forest)]" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              Je spreekt met degenen die het gebouwd hebben
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-[var(--color-forest)]" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              Nederlands en Engels zijn beide prima
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Rechts: Contactformulier -->
+      <div>
+        <form
+          action="https://formspree.io/f/placeholder"
+          method="POST"
+          class="flex flex-col gap-5"
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label for="name" class="block text-sm font-medium text-[var(--color-charcoal)] mb-1.5">Naam</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="Jouw naam"
+                class="border border-stone-200 rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-forest)] text-sm"
+              />
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-[var(--color-charcoal)] mb-1.5">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="jij@locatie.nl"
+                class="border border-stone-200 rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-forest)] text-sm"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="venue" class="block text-sm font-medium text-[var(--color-charcoal)] mb-1.5">Naam locatie</label>
+            <input
+              type="text"
+              id="venue"
+              name="venue"
+              placeholder="Café De Kroon"
+              class="border border-stone-200 rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-forest)] text-sm"
+            />
+          </div>
+
+          <div>
+            <label for="type" class="block text-sm font-medium text-[var(--color-charcoal)] mb-1.5">Ik ben een...</label>
+            <select
+              id="type"
+              name="type"
+              class="border border-stone-200 rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-forest)] text-sm bg-white"
+            >
+              <option value="">Maak een keuze</option>
+              <option value="owner">Eigenaar locatie</option>
+              <option value="manager">Manager</option>
+              <option value="jobseeker">Werkzoekende</option>
+              <option value="other">Anders</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-medium text-[var(--color-charcoal)] mb-1.5">Bericht</label>
+            <textarea
+              id="message"
+              name="message"
+              rows={4}
+              required
+              placeholder="Vertel ons over je locatie en wat je nodig hebt..."
+              class="border border-stone-200 rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-forest)] text-sm resize-none"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] text-white font-semibold py-3.5 px-6 rounded-xl transition-colors duration-200 text-sm"
+          >
+            Verstuur bericht →
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>

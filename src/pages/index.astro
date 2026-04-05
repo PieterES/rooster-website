@@ -1,0 +1,217 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+---
+
+<BaseLayout
+  title="Jouw team altijd gedekt. Elke dienst, zonder chaos."
+  description="HorecaRooster maakt automatisch uw weekrooster — passend bij wie beschikbaar is, wie welke rol kan invullen, en wie gisteren werkte. Gemaakt voor de Nederlandse horeca."
+  lang="nl"
+>
+
+  <!-- SECTIE 1: HERO -->
+  <section data-hero class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img
+        src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&auto=format&fit=crop&q=80"
+        alt="Druk restaurant interieur met warme verlichting"
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-[#1B4332]/75"></div>
+    </div>
+
+    <div class="relative max-w-4xl mx-auto px-6 lg:px-8 text-center text-white py-32">
+      <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-8 text-sm font-medium backdrop-blur-sm">
+        <span class="w-2 h-2 rounded-full bg-[var(--color-amber)] animate-pulse"></span>
+        Gebouwd voor de Nederlandse horeca
+      </div>
+
+      <h1 class="font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
+        Jouw team altijd gedekt.<br/>
+        <span class="text-[#FBBF24]">Elke dienst</span>, zonder chaos.
+      </h1>
+
+      <p class="text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed mb-10">
+        HorecaRooster maakt automatisch je weekrooster — rekening houdend met wie beschikbaar is, wie welke rol kan invullen, en wie er gisteren werkte. Gemaakt voor de Nederlandse horeca. Geprijsd voor echte locaties.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a
+          href="https://app.horecárooster.nl"
+          class="bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] text-white font-semibold text-base px-8 py-4 rounded-xl transition-all duration-200 shadow-lg"
+        >
+          Aan de slag — €10/maand →
+        </a>
+        <a href="/nl/hoe-het-werkt" class="text-white/90 underline underline-offset-4 font-medium hover:text-white transition-colors">
+          Bekijk hoe het werkt →
+        </a>
+      </div>
+
+      <div class="mt-16 grid grid-cols-3 gap-4 max-w-lg mx-auto">
+        {[
+          { stat: "5K+", label: "Diensten ingepland" },
+          { stat: "150+", label: "Locaties actief" },
+          { stat: "98%", label: "Beschikbaarheid gerespecteerd" },
+        ].map((s) => (
+          <div class:list={[s.label === "Locaties actief" && "border-x border-white/20", "text-center"]}>
+            <div class="font-display font-bold text-3xl text-white">{s.stat}</div>
+            <div class="text-white/70 text-sm mt-1">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- SECTIE 2: HERKENBAAR? -->
+  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeading title="Klinkt dit bekend?" subtitle="Als je een horecateam runt, heb je dit vast al eens meegemaakt." align="center" />
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {[
+          { emoji: "📅", text: "Iemand belt zich woensdagochtend ziek. Vervolgens ben je 40 minuten aan het appen met mensen die al ergens anders aan het werk zijn." },
+          { emoji: "💬", text: "Je maakte het rooster zondag — donderdagmiddag klopt het al niet meer omdat Maria heeft geruild met Joost maar dat vergat te zeggen." },
+          { emoji: "👤", text: "Je beste barman is vertrokken. Mede omdat hij steeds werd ingepland voor diensten waarvan hij had gezegd dat hij die niet kon." },
+          { emoji: "💸", text: "Je betaalt voor een planningsapp die overduidelijk is ontworpen voor een hotelketen van 200 man." },
+        ].map((item) => (
+          <div class="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm flex gap-4 items-start">
+            <div class="w-11 h-11 rounded-xl bg-[#E8F5EE] flex items-center justify-center text-xl shrink-0">{item.emoji}</div>
+            <p class="text-[var(--color-charcoal)] leading-relaxed">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTIE 3: OPLOSSING — 3 STAPPEN -->
+  <section class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeading title="Één keer instellen. In seconden roosteren." subtitle="Drie stappen van chaos naar gedekt." align="center" />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {[
+          { number: "01", title: "Je team één keer instellen", body: "Voeg je medewerkers, afdelingen, rollen en beschikbaarheid toe. Kost 15 minuten." },
+          { number: "02", title: "Laat het systeem het rooster bouwen", body: "Elke dienst wordt automatisch ingevuld met de juiste persoon per rol — rekening houdend met rusttijd en voorkeuren. Niet alleen wie vrij is. Wie geschikt is." },
+          { number: "03", title: "Controleer, pas aan, publiceer", body: "Drag-and-drop om aan te passen wat je wil. Druk op publiceren. Je team krijgt direct een melding." },
+        ].map((step) => (
+          <div class="flex flex-col gap-3">
+            <div class="font-display font-bold text-6xl text-[var(--color-amber)] opacity-30 leading-none select-none">{step.number}</div>
+            <div class="-mt-4">
+              <h3 class="font-display font-semibold text-xl text-[var(--color-charcoal)] mb-2">{step.title}</h3>
+              <p class="text-[var(--color-stone)] leading-relaxed">{step.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/hoe-het-werkt" class="text-[var(--color-forest)] font-semibold hover:underline">Bekijk de volledige uitleg →</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTIE 4: FUNCTIONALITEITEN HIGHLIGHTS -->
+  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeading title="Anders gebouwd. Met opzet." subtitle="Geen generieke plantool met een horecalaagje." align="center" />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {[
+          {
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>`,
+            title: "Slimme Inplanmotor",
+            hook: "Vult diensten in zoals jij dat zou doen — maar sneller.",
+            body: "Weet welke medewerker welke rol kan invullen. Houdt rekening met senioriteit, beschikbaarheid en rusttijd. Legt elke toewijzing uit zodat jij de controle houdt.",
+          },
+          {
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+            title: "Beschikbaarheid die ertoe doet",
+            hook: "Medewerkers geven aan wanneer ze kunnen. Het systeem luistert ook echt.",
+            body: "Wekelijkse templates plus losse uitzonderingen. Als iemand op vrijdag niet kan, staat die er ook niet op. Simpel. Gerespecteerd. Vertrouwd.",
+          },
+          {
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+            title: "Nederlands door en door",
+            hook: "Gebouwd voor de Nederlandse horeca. Geen vertaalde Amerikaanse app.",
+            body: "Dutch en Engelse interface. Horecaterminologie. EU-dataopslag. Prijsstelling die logisch is voor een café, niet voor een kantineketen.",
+          },
+        ].map((card) => (
+          <div class="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm border-l-4 border-l-[var(--color-forest)] hover:shadow-md transition-shadow duration-300">
+            <div class="w-11 h-11 rounded-xl bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] mb-4" set:html={card.icon} />
+            <h3 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-1">{card.title}</h3>
+            <p class="text-[var(--color-amber)] text-sm font-medium mb-3">{card.hook}</p>
+            <p class="text-[var(--color-stone)] text-sm leading-relaxed">{card.body}</p>
+          </div>
+        ))}
+      </div>
+      <div class="text-center">
+        <Button href="/functies" variant="primary" size="lg">Bekijk alle functies →</Button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTIE 5: SOCIAL PROOF -->
+  <section class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <SectionHeading title="Vertrouwd door horecabedrijven door heel Nederland" align="center" />
+      <div class="grid grid-cols-3 gap-8 mb-16">
+        {[
+          { stat: "5.000+", label: "Diensten ingepland" },
+          { stat: "150+", label: "Locaties actief" },
+          { stat: "98%", label: "Beschikbaarheid gerespecteerd" },
+        ].map((s) => (
+          <div>
+            <div class="font-display font-bold text-4xl text-[var(--color-forest)] mb-1">{s.stat}</div>
+            <div class="text-[var(--color-stone)] text-sm">{s.label}</div>
+          </div>
+        ))}
+      </div>
+      <blockquote class="bg-[var(--color-cream)] rounded-2xl p-8 border-l-4 border-[var(--color-amber)] text-left max-w-2xl mx-auto">
+        <p class="text-lg text-[var(--color-charcoal)] leading-relaxed italic mb-4">
+          "Vroeger besteedden we zondagavond aan het rooster maken. Nu kost het 10 minuten en iedereen krijgt de diensten die ze aangevraagd hebben."
+        </p>
+        <footer class="text-[var(--color-stone)] text-sm font-medium">— Eigenaar, Amsterdam</footer>
+      </blockquote>
+    </div>
+  </section>
+
+
+  <!-- SECTIE 6: PRICING TEASER -->
+  <section class="bg-[var(--color-forest)] py-24 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-4 leading-tight">
+        Prijsstelling die past bij hoe horeca echt werkt.
+      </h2>
+      <p class="text-white/80 text-lg leading-relaxed mb-8">
+        Vanaf <strong class="text-[#FBBF24]">€10/maand</strong> — minder dan wat Planday rekent voor 3 medewerkers. Geen contracten, geen kosten per medewerker, op elk moment opzegbaar.
+      </p>
+      <Button href="/prijzen" variant="secondary" size="lg">Bekijk alle prijzen →</Button>
+    </div>
+  </section>
+
+
+  <!-- SECTIE 7: AFSLUITING CTA -->
+  <section class="bg-[var(--color-dark)] py-28 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-4xl md:text-5xl leading-tight mb-4">
+        Klaar om te stoppen met roostergedoe?
+      </h2>
+      <p class="text-white/70 text-lg mb-10">
+        Vandaag beginnen — je team in 15 minuten ingesteld, je eerste rooster dezelfde dag gegenereerd.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button href="https://app.horecárooster.nl" variant="secondary" size="lg">Aan de slag →</Button>
+        <Button href="/contact" variant="ghost" size="lg">Plan een demo →</Button>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

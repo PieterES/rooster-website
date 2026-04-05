@@ -1,0 +1,196 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PricingCard from "../../components/PricingCard.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+
+const starterFeatures = [
+  { text: "Up to 5 staff, 1 location", included: true },
+  { text: "Manual schedule builder", included: true },
+  { text: "Availability management", included: true },
+  { text: "Shift swaps & leave requests", included: true },
+  { text: "Open shifts", included: true },
+  { text: "PWA mobile app", included: true },
+  { text: "Email notifications", included: true },
+  { text: "Auto-generate scheduling", included: false },
+  { text: "Clock in/out & hours tracking", included: true },
+  { text: "Email support", included: false },
+];
+
+const proFeatures = [
+  { text: "Up to 25 staff, 1 location", included: true },
+  { text: "Everything in Starter", included: true },
+  { text: "Auto-generate scheduling", included: true },
+  { text: "Clock in/out & hours tracking", included: true },
+  { text: "Email support (1 business day)", included: true },
+  { text: "Shift swap audit log", included: true },
+  { text: "Leave approval workflow", included: true },
+  { text: "Best-of-N schedule runs", included: false },
+  { text: "Multi-location (up to 3)", included: false },
+  { text: "Priority support", included: false },
+];
+
+const businessFeatures = [
+  { text: "Up to 75 staff, 3 locations", included: true },
+  { text: "Everything in Pro", included: true },
+  { text: "Best-of-N schedule runs", included: true },
+  { text: "Multi-location management", included: true },
+  { text: "Priority support", included: true },
+  { text: "Dedicated onboarding", included: true },
+];
+
+const faq = [
+  {
+    q: "Can I switch tiers mid-month?",
+    a: "Yes. Switching is instant and prorated — you'll only pay for the days you used each plan.",
+  },
+  {
+    q: "What happens if I exceed my staff limit?",
+    a: "You'll be prompted to upgrade. There's no hard cutoff, no data loss, and no service interruption — we just ask you to move up when you've grown beyond your tier.",
+  },
+  {
+    q: "Is there a discount for seasonal businesses?",
+    a: "Yes. Contact us directly and we'll work out a seasonal arrangement. We'd rather keep you on a fair deal than lose you for 4 months.",
+  },
+  {
+    q: "Where is my data stored?",
+    a: "All data is stored in the EU — Netherlands-based servers. We comply fully with GDPR.",
+  },
+  {
+    q: "Do you offer discounts for non-profits or community clubs?",
+    a: "Yes. Contact us and we'll work something out.",
+  },
+];
+---
+
+<BaseLayout
+  title="Pricing"
+  description="Flat pricing, no per-employee surprises. Free forever for small teams. Paid plans from €29/month."
+>
+
+  <!-- Hero -->
+  <section class="bg-[var(--color-cream)] pt-32 pb-12 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-4">
+        Flat pricing.<br/>No per-employee surprises.
+      </h1>
+      <p class="text-lg text-[var(--color-stone)] leading-relaxed">
+        No contracts. Cancel any time. Starts at €10/month — less than what Planday charges for 3 staff. We checked.
+      </p>
+    </div>
+  </section>
+
+  <!-- Pricing cards -->
+  <section class="bg-[var(--color-cream)] py-12 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+
+        <PricingCard
+          tier="Starter"
+          priceMonthly="€10"
+          staffLimit="Up to 5 staff · 1 location"
+          features={starterFeatures}
+          cta="Get started →"
+          ctaHref="https://app.horecárooster.nl"
+        />
+
+        <PricingCard
+          tier="Pro"
+          priceMonthly="€29"
+          staffLimit="Up to 25 staff · 1 location"
+          features={proFeatures}
+          cta="Start Pro trial →"
+          ctaHref="https://app.horecárooster.nl"
+          highlighted={true}
+          badge="Most popular"
+        />
+
+        <PricingCard
+          tier="Business"
+          priceMonthly="€59"
+          staffLimit="Up to 75 staff · 3 locations"
+          features={businessFeatures}
+          cta="Start Business trial →"
+          ctaHref="https://app.horecárooster.nl"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- What's always free callout -->
+  <section class="bg-white py-14 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto">
+      <div class="bg-[#E8F5EE] border border-[var(--color-forest)]/20 rounded-2xl p-8 text-center">
+        <div class="w-12 h-12 bg-[var(--color-forest)] rounded-xl flex items-center justify-center mx-auto mb-4">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-3">Everything in Starter — for €10/month</h3>
+        <p class="text-[var(--color-charcoal)] leading-relaxed">
+          <strong>Starter is not a trial.</strong> No per-employee pricing, no seat fees, no surprise invoices. €10 flat, up to 5 staff, cancel any time. No credit card until you're ready.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto">
+      <SectionHeading title="Pricing questions" align="center" />
+      <div class="space-y-3" id="faq-list">
+        {faq.map((item, i) => (
+          <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+            <button
+              class="w-full text-left px-6 py-4 flex items-center justify-between font-medium text-[var(--color-charcoal)] hover:text-[var(--color-forest)] transition-colors"
+              aria-expanded="false"
+              data-faq-btn
+            >
+              {item.q}
+              <svg class="w-5 h-5 shrink-0 transition-transform duration-200 text-[var(--color-stone)]" viewBox="0 0 20 20" fill="currentColor" data-chevron>
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+            <div class="px-6 pb-0 max-h-0 overflow-hidden transition-all duration-300" data-faq-body>
+              <p class="text-[var(--color-stone)] pb-4 leading-relaxed">{item.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="bg-[var(--color-forest)] py-20 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-3xl mb-4">Ready to try it?</h2>
+      <p class="text-white/80 mb-8">€10/month. No long-term contract. Set up your first schedule today.</p>
+      <a
+        href="https://app.horecárooster.nl"
+        class="inline-flex items-center bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] text-white font-semibold text-base px-8 py-4 rounded-xl transition-all duration-200"
+      >
+        Get started →
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-faq-btn]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const body = btn.nextElementSibling as HTMLElement;
+      const chevron = btn.querySelector<SVGElement>("[data-chevron]");
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+      if (isOpen) {
+        btn.setAttribute("aria-expanded", "false");
+        body.style.maxHeight = "0";
+        chevron?.classList.remove("rotate-180");
+      } else {
+        btn.setAttribute("aria-expanded", "true");
+        body.style.maxHeight = body.scrollHeight + "px";
+        chevron?.classList.add("rotate-180");
+      }
+    });
+  });
+</script>

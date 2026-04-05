@@ -1,0 +1,28 @@
+---
+interface Props {
+  icon: string; // inline SVG string
+  title: string;
+  hook: string;
+  bullets: string[];
+}
+
+const { icon, title, hook, bullets } = Astro.props;
+---
+
+<div class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col gap-5 border-l-4 border-l-[var(--color-forest)]">
+  <div class="w-12 h-12 bg-[#E8F5EE] rounded-xl flex items-center justify-center text-[var(--color-forest)] shrink-0" set:html={icon} />
+  <div>
+    <h3 class="font-display font-semibold text-xl text-[var(--color-charcoal)] mb-2">{title}</h3>
+    <p class="text-[var(--color-amber)] font-medium text-sm mb-4">{hook}</p>
+    <ul class="space-y-2">
+      {bullets.map((b) => (
+        <li class="flex items-start gap-2 text-sm text-[var(--color-stone)]">
+          <svg class="w-4 h-4 text-[var(--color-forest)] mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+          {b}
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

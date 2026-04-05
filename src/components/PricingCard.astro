@@ -1,0 +1,107 @@
+---
+interface Feature {
+  text: string;
+  included: boolean;
+}
+
+interface Props {
+  tier: string;
+  priceMonthly: string;
+  priceAnnual?: string;
+  staffLimit: string;
+  features: Feature[];
+  cta: string;
+  ctaHref: string;
+  highlighted?: boolean;
+  badge?: string;
+  note?: string;
+  showToggle?: boolean;
+  isAnnual?: boolean;
+}
+
+const {
+  tier,
+  priceMonthly,
+  priceAnnual,
+  staffLimit,
+  features,
+  cta,
+  ctaHref,
+  highlighted = false,
+  badge,
+  note,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "relative rounded-2xl p-8 flex flex-col gap-6",
+    highlighted
+      ? "bg-[var(--color-forest)] text-white shadow-2xl shadow-[#1B4332]/30 ring-2 ring-[var(--color-forest)] scale-105"
+      : "bg-white border border-gray-100 shadow-sm",
+  ]}
+>
+  {badge && (
+    <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+      <span class="bg-[var(--color-amber)] text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wide">
+        {badge}
+      </span>
+    </div>
+  )}
+
+  <div>
+    <p class:list={["text-sm font-semibold uppercase tracking-wider mb-2", highlighted ? "text-green-300" : "text-[var(--color-stone)]"]}>
+      {tier}
+    </p>
+    <div class="flex items-end gap-1 mb-1">
+      <span class:list={["font-display font-bold text-5xl", highlighted ? "text-white" : "text-[var(--color-charcoal)]"]} id={`price-monthly-${tier}`}>
+        {priceMonthly}
+      </span>
+      {priceMonthly !== "Free" && (
+        <span class:list={["text-sm mb-2", highlighted ? "text-green-300" : "text-[var(--color-stone)]"]}>/month</span>
+      )}
+    </div>
+    {priceAnnual && (
+      <p class:list={["text-sm", highlighted ? "text-green-200" : "text-[var(--color-stone)]"]}>
+        {priceAnnual} billed annually
+      </p>
+    )}
+    <p class:list={["text-sm mt-2 font-medium", highlighted ? "text-green-200" : "text-[var(--color-stone)]"]}>
+      {staffLimit}
+    </p>
+    {note && (
+      <p class:list={["text-xs mt-1", highlighted ? "text-green-300" : "text-[var(--color-amber)]"]}>
+        {note}
+      </p>
+    )}
+  </div>
+
+  <ul class="space-y-3 flex-1">
+    {features.map((f) => (
+      <li class:list={["flex items-center gap-3 text-sm", !f.included && "opacity-40"]}>
+        {f.included ? (
+          <svg class:list={["w-5 h-5 shrink-0", highlighted ? "text-green-300" : "text-[var(--color-forest)]"]} viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+        ) : (
+          <svg class="w-5 h-5 shrink-0 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        )}
+        <span class={highlighted ? "text-green-50" : "text-[var(--color-charcoal)]"}>{f.text}</span>
+      </li>
+    ))}
+  </ul>
+
+  <a
+    href={ctaHref}
+    class:list={[
+      "w-full text-center font-semibold py-3 px-6 rounded-xl transition-all duration-200",
+      highlighted
+        ? "bg-[var(--color-amber)] text-white hover:bg-[var(--color-amber-light)]"
+        : "bg-[var(--color-forest)] text-white hover:bg-[var(--color-forest-light)]",
+    ]}
+  >
+    {cta}
+  </a>
+</div>

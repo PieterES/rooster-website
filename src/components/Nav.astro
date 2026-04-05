@@ -1,0 +1,180 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+
+const isNL = !currentPath.startsWith("/en");
+
+// Page slug mapping NL (root) <-> EN (/en/)
+const langMap: Record<string, string> = {
+  "/":                "/en/",
+  "/functies":        "/en/features",
+  "/prijzen":         "/en/pricing",
+  "/hoe-het-werkt":   "/en/how-it-works",
+  "/over-ons":        "/en/about",
+  "/contact":         "/en/contact",
+  "/en/":             "/",
+  "/en":              "/",
+  "/en/features":     "/functies",
+  "/en/pricing":      "/prijzen",
+  "/en/how-it-works": "/hoe-het-werkt",
+  "/en/about":        "/over-ons",
+  "/en/contact":      "/contact",
+};
+
+const normalised = currentPath === "/" ? "/" : currentPath.replace(/\/$/, "");
+const alternatePath = langMap[normalised] ?? (isNL ? "/en/" : "/");
+
+const links = isNL
+  ? [
+      { href: "/functies",      label: "Functies" },
+      { href: "/prijzen",       label: "Prijzen" },
+      { href: "/hoe-het-werkt", label: "Hoe het werkt" },
+      { href: "/over-ons",      label: "Over ons" },
+    ]
+  : [
+      { href: "/en/features",    label: "Features" },
+      { href: "/en/pricing",     label: "Pricing" },
+      { href: "/en/how-it-works",label: "How It Works" },
+      { href: "/en/about",       label: "About" },
+    ];
+
+const ctaLabel = isNL ? "Aan de slag →" : "Get started →";
+---
+
+<header
+  id="site-nav"
+  class="fixed top-0 left-0 right-0 z-50 bg-[#FAFAF7] border-b border-gray-100 shadow-sm"
+>
+  <div class="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
+    <!-- Logo -->
+    <a href={isNL ? "/" : "/en/"} class="flex items-center gap-2 font-display font-700 text-xl" aria-label="HorecaRooster home">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="28" height="28" rx="7" fill="#1B4332"/>
+        <path d="M7 9h14M7 14h14M7 19h9" stroke="#FAFAF7" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="22" cy="19" r="3" fill="#D97706"/>
+      </svg>
+      <span class="text-[var(--color-charcoal)]">HorecaRooster</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class:list={[
+            "text-sm font-medium transition-colors duration-200 hover:text-[var(--color-amber)]",
+            normalised === l.href || normalised.startsWith(l.href + "/")
+              ? "text-[var(--color-forest)] font-semibold"
+              : "text-[var(--color-charcoal)]",
+          ]}
+        >{l.label}</a>
+      ))}
+    </nav>
+
+    <!-- Desktop CTA + Language switcher -->
+    <div class="hidden md:flex items-center gap-4">
+      <div class="flex items-center gap-1 text-xs font-medium">
+        <a
+          href={!isNL ? normalised : alternatePath}
+          hreflang="en"
+          aria-label="Switch to English"
+          class:list={["px-2 py-1 rounded transition-colors hover:text-[var(--color-forest)]", !isNL ? "text-[var(--color-forest)] font-semibold" : "text-[var(--color-stone)]"]}
+        >EN</a>
+        <span class="text-gray-300">|</span>
+        <a
+          href={isNL ? normalised : alternatePath}
+          hreflang="nl"
+          aria-label="Schakel naar Nederlands"
+          class:list={["px-2 py-1 rounded transition-colors hover:text-[var(--color-forest)]", isNL ? "text-[var(--color-forest)] font-semibold" : "text-[var(--color-stone)]"]}
+        >NL</a>
+      </div>
+      <a
+        href="https://app.horecárooster.nl"
+        class="bg-[var(--color-forest)] text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-[var(--color-forest-light)] transition-colors duration-200"
+      >
+        {ctaLabel}
+      </a>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden p-2 rounded-lg text-[var(--color-charcoal)]"
+      aria-label="Open menu"
+      aria-expanded="false"
+    >
+      <svg id="icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+      <svg id="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="hidden">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div
+  id="mobile-drawer"
+  class="fixed inset-0 z-40 bg-white transform translate-x-full transition-transform duration-300 md:hidden flex flex-col pt-20 px-8 pb-8"
+  aria-hidden="true"
+>
+  <nav class="flex flex-col gap-6" aria-label="Mobile navigation">
+    {links.map((l) => (
+      <a href={l.href} class="text-2xl font-display font-semibold text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">
+        {l.label}
+      </a>
+    ))}
+    <a href={isNL ? "/contact" : "/en/contact"} class="text-2xl font-display font-semibold text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">
+      Contact
+    </a>
+    <div class="flex items-center gap-3 pt-2">
+      <a
+        href={!isNL ? normalised : alternatePath}
+        hreflang="en"
+        class:list={["text-sm font-medium transition-colors", !isNL ? "text-[var(--color-forest)] font-semibold" : "text-[var(--color-stone)] hover:text-[var(--color-forest)]"]}
+      >EN</a>
+      <span class="text-gray-300">|</span>
+      <a
+        href={isNL ? normalised : alternatePath}
+        hreflang="nl"
+        class:list={["text-sm font-medium transition-colors", isNL ? "text-[var(--color-forest)] font-semibold" : "text-[var(--color-stone)] hover:text-[var(--color-forest)]"]}
+      >NL</a>
+    </div>
+  </nav>
+  <div class="mt-auto flex flex-col gap-3">
+    <a href="https://app.horecárooster.nl" class="text-center bg-[var(--color-forest)] text-white font-semibold py-3 rounded-lg">
+      {ctaLabel}
+    </a>
+  </div>
+</div>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-btn")!;
+  const drawer = document.getElementById("mobile-drawer")!;
+  const iconOpen = document.getElementById("icon-open")!;
+  const iconClose = document.getElementById("icon-close")!;
+
+  menuBtn.addEventListener("click", () => {
+    const isOpen = drawer.getAttribute("aria-hidden") === "false";
+    if (isOpen) {
+      drawer.classList.add("translate-x-full");
+      drawer.setAttribute("aria-hidden", "true");
+      menuBtn.setAttribute("aria-expanded", "false");
+      iconOpen.classList.remove("hidden");
+      iconClose.classList.add("hidden");
+    } else {
+      drawer.classList.remove("translate-x-full");
+      drawer.setAttribute("aria-hidden", "false");
+      menuBtn.setAttribute("aria-expanded", "true");
+      iconOpen.classList.add("hidden");
+      iconClose.classList.remove("hidden");
+    }
+  });
+</script>

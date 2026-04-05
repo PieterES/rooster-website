@@ -1,0 +1,192 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import Button from "../../components/Button.astro";
+
+const features = [
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>`,
+    title: "Smart Fill Engine",
+    hook: "The only scheduling tool that knows who can cover what — not just who's free.",
+    bullets: [
+      "Fills each shift with the most eligible employee based on department, rank, and availability",
+      "Respects fill rules: a Bar Manager can fill Bartender slots; the engine knows this automatically",
+      "Prevents illegal scheduling: no Sunday closer working Monday open, no back-to-back overnight shifts",
+    ],
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>`,
+    title: "Availability Management",
+    hook: "Templates that staff actually update — because the system actually respects them.",
+    bullets: [
+      "Weekly availability templates that persist until changed — no re-entering every week",
+      "One-off date overrides so staff can block specific days without breaking their template",
+      "Manager sees unresolved availability gaps before generating, not after",
+    ],
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l4 4 10-10"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`,
+    title: "Drag-and-Drop Schedule Editing",
+    hook: "The engine suggests; you decide. Full manual override with zero friction.",
+    bullets: [
+      "Drag any employee to any slot — the system validates and warns on conflicts but doesn't block",
+      "Locked assignments survive re-generation so the engine works around them",
+      "Live conflict indicators: rest time violations, double-bookings, cross-department mismatches shown inline",
+    ],
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,
+    title: "Shift Swaps & Open Shifts",
+    hook: "Staff sort out swaps themselves. You just approve.",
+    bullets: [
+      "Employee requests swap with a specific colleague; both must confirm; manager approves or denies",
+      "Open shift claiming: publish an uncovered slot; eligible staff can claim it",
+      "Full audit trail — no more 'I thought you sorted that with Joost'",
+    ],
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+    title: "Leave & Absence Management",
+    hook: "One place for leave requests, sick days, and time-off — connected to the schedule.",
+    bullets: [
+      "Employees submit leave requests from the app; manager approves in one tap",
+      "Approved leave auto-blocks the employee for scheduling on those dates",
+      "Hours tracking integrates with leave for accurate weekly totals",
+    ],
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+    title: "Clock In/Out & Hours Tracking",
+    hook: "Know exactly who worked, when, and how many hours — without spreadsheets.",
+    bullets: [
+      "Employees clock in/out from their phone; timestamps recorded instantly",
+      "Correction requests for missed punches — manager approves inline",
+      "Weekly hours summary per employee, with overages flagged automatically",
+    ],
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`,
+    title: "Employee Self-Service (PWA + Android)",
+    hook: "Your staff don't need training. They check shifts the way they check everything — on their phone.",
+    bullets: [
+      "Installable Progressive Web App works on any device; Android wrapper available",
+      "Push notifications for new schedules, swap approvals, and shift changes",
+      "Employees see their week at a glance, request changes, submit availability — no login friction",
+    ],
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+    title: "Multi-Department & Role Configuration",
+    hook: "Two departments or twelve — the structure adapts to your venue, not the other way around.",
+    bullets: [
+      "Create departments (Bar, Kitchen, Floor, Host) with custom shift types per department",
+      "Define ranks within departments with fill rules: who can cover whose role in a pinch",
+      "Per-department scheduling so kitchen and bar managers own their own view",
+    ],
+  },
+];
+
+const comparison = [
+  { feature: "Hospitality-specific fill rules", us: true, them: false },
+  { feature: "Dutch language interface", us: true, them: false },
+  { feature: "Flat monthly pricing (no per-user fees)", us: true, them: false },
+  { feature: "EU data storage", us: true, them: false },
+  { feature: "Free tier for small teams (≤5 staff)", us: true, them: "Limited" },
+  { feature: "No lock-in contracts", us: true, them: true },
+  { feature: "Mobile PWA", us: true, them: true },
+];
+---
+
+<BaseLayout
+  title="Features"
+  description="Every feature built for real hospitality venues. Smart fill engine, availability management, shift swaps, hours tracking, and more."
+>
+
+  <!-- Hero -->
+  <section class="bg-[var(--color-cream)] pt-32 pb-16 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-4">
+        Every feature built for real venues.
+      </h1>
+      <p class="text-lg text-[var(--color-stone)] leading-relaxed">
+        HorecaRooster isn't a generic scheduling tool with a hospitality skin. Every feature was designed around how a real horeca venue actually operates.
+      </p>
+    </div>
+  </section>
+
+  <!-- Feature grid -->
+  <section class="bg-white py-16 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {features.map((f) => (
+          <div class="flex gap-6 p-6 rounded-2xl border border-gray-100 hover:border-[var(--color-forest)]/20 hover:shadow-md transition-all duration-300">
+            <div class="w-12 h-12 bg-[#E8F5EE] rounded-xl flex items-center justify-center text-[var(--color-forest)] shrink-0" set:html={f.icon} />
+            <div>
+              <h3 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-1">{f.title}</h3>
+              <p class="text-[var(--color-amber)] text-sm font-medium mb-3">{f.hook}</p>
+              <ul class="space-y-1.5">
+                {f.bullets.map((b) => (
+                  <li class="flex items-start gap-2 text-sm text-[var(--color-stone)]">
+                    <svg class="w-4 h-4 text-[var(--color-forest)] mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison table -->
+  <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <SectionHeading
+        title="HorecaRooster vs. generic scheduling apps"
+        subtitle="Without the enterprise price tag."
+        align="center"
+      />
+      <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+        <div class="grid grid-cols-3 bg-[var(--color-forest)] text-white text-sm font-semibold px-6 py-4">
+          <div>Feature</div>
+          <div class="text-center">HorecaRooster</div>
+          <div class="text-center">Typical app</div>
+        </div>
+        {comparison.map((row, i) => (
+          <div class:list={["grid grid-cols-3 px-6 py-4 text-sm border-t border-gray-50", i % 2 === 1 && "bg-gray-50/50"]}>
+            <div class="text-[var(--color-charcoal)] font-medium">{row.feature}</div>
+            <div class="text-center">
+              {row.us === true ? (
+                <span class="text-[var(--color-forest)] font-bold">✓</span>
+              ) : (
+                <span class="text-red-400">✗</span>
+              )}
+            </div>
+            <div class="text-center">
+              {row.them === true ? (
+                <span class="text-[var(--color-forest)] font-bold">✓</span>
+              ) : row.them === false ? (
+                <span class="text-red-400">✗</span>
+              ) : (
+                <span class="text-[var(--color-stone)] text-xs">{row.them}</span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-[var(--color-dark)] py-20 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-4">Ready to try it?</h2>
+      <p class="text-white/70 mb-8">Free for teams of up to 5. No credit card required.</p>
+      <Button href="https://app.horecárooster.nl" variant="secondary" size="lg">Start for free →</Button>
+    </div>
+  </section>
+
+</BaseLayout>

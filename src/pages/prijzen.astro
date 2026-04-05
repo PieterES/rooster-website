@@ -1,0 +1,196 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PricingCard from "../components/PricingCard.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+
+const starterFeatures = [
+  { text: "Tot 5 medewerkers, 1 locatie", included: true },
+  { text: "Handmatige roosterbouwer", included: true },
+  { text: "Beschikbaarheidsbeheer", included: true },
+  { text: "Dienstwisselingen & verlofaanvragen", included: true },
+  { text: "Open diensten", included: true },
+  { text: "PWA mobiele app", included: true },
+  { text: "E-mailmeldingen", included: true },
+  { text: "In- en uitklokken & urenregistratie", included: true },
+  { text: "Automatisch rooster genereren", included: false },
+  { text: "E-mailondersteuning", included: false },
+];
+
+const proFeatures = [
+  { text: "Tot 25 medewerkers, 1 locatie", included: true },
+  { text: "Alles in Starter", included: true },
+  { text: "Automatisch rooster genereren", included: true },
+  { text: "E-mailondersteuning (1 werkdag)", included: true },
+  { text: "Wissel-auditlog", included: true },
+  { text: "Verlofgoedkeuringsworkflow", included: true },
+  { text: "Beste-van-N roostergeneraties", included: false },
+  { text: "Meerdere locaties (tot 3)", included: false },
+  { text: "Prioriteitsondersteuning", included: false },
+];
+
+const businessFeatures = [
+  { text: "Tot 75 medewerkers, 3 locaties", included: true },
+  { text: "Alles in Pro", included: true },
+  { text: "Beste-van-N roostergeneraties", included: true },
+  { text: "Beheer van meerdere locaties", included: true },
+  { text: "Prioriteitsondersteuning", included: true },
+  { text: "Persoonlijke onboarding", included: true },
+];
+
+const faq = [
+  {
+    q: "Kan ik halverwege de maand van abonnement wisselen?",
+    a: "Ja. Wisselen gaat direct en wordt naar rato berekend — je betaalt alleen voor de dagen dat je elk plan gebruikte.",
+  },
+  {
+    q: "Wat gebeurt er als ik het limiet voor medewerkers overschrijd?",
+    a: "Je krijgt een melding om te upgraden. Er is geen harde afsluiting, geen dataverlies en geen onderbrekingen in de dienst — we vragen je gewoon om op te schalen wanneer je gegroeid bent.",
+  },
+  {
+    q: "Is er een korting voor seizoensbedrijven?",
+    a: "Ja. Neem direct contact op en we regelen iets passends. We houden je liever op een eerlijk tarief dan je 4 maanden kwijt te zijn.",
+  },
+  {
+    q: "Waar worden mijn gegevens opgeslagen?",
+    a: "Alle gegevens worden opgeslagen in de EU — servers in Nederland. We voldoen volledig aan de AVG.",
+  },
+  {
+    q: "Bieden jullie kortingen aan voor non-profits of buurtverenigingen?",
+    a: "Ja. Neem contact op en we denken mee.",
+  },
+];
+---
+
+<BaseLayout
+  title="Prijzen"
+  description="Vaste prijzen, geen verrassingen per medewerker. Plannen vanaf €10/maand. Geen jaarcontract."
+  lang="nl"
+>
+
+  <!-- Hero -->
+  <section class="bg-[var(--color-cream)] pt-32 pb-12 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-4">
+        Vaste prijs.<br/>Geen verrassingen per medewerker.
+      </h1>
+      <p class="text-lg text-[var(--color-stone)] leading-relaxed">
+        Geen contracten. Op elk moment opzegbaar. Begint bij €10/maand — minder dan wat Planday rekent voor 3 medewerkers. We hebben het nagekeken.
+      </p>
+    </div>
+  </section>
+
+  <!-- Abonnementskaarten -->
+  <section class="bg-[var(--color-cream)] py-12 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+
+        <PricingCard
+          tier="Starter"
+          priceMonthly="€10"
+          staffLimit="Tot 5 medewerkers · 1 locatie"
+          features={starterFeatures}
+          cta="Aan de slag →"
+          ctaHref="https://app.horecárooster.nl"
+        />
+
+        <PricingCard
+          tier="Pro"
+          priceMonthly="€29"
+          staffLimit="Tot 25 medewerkers · 1 locatie"
+          features={proFeatures}
+          cta="Start Pro-proefperiode →"
+          ctaHref="https://app.horecárooster.nl"
+          highlighted={true}
+          badge="Meest populair"
+        />
+
+        <PricingCard
+          tier="Business"
+          priceMonthly="€59"
+          staffLimit="Tot 75 medewerkers · 3 locaties"
+          features={businessFeatures}
+          cta="Start Business-proefperiode →"
+          ctaHref="https://app.horecárooster.nl"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Callout -->
+  <section class="bg-white py-14 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto">
+      <div class="bg-[#E8F5EE] border border-[var(--color-forest)]/20 rounded-2xl p-8 text-center">
+        <div class="w-12 h-12 bg-[var(--color-forest)] rounded-xl flex items-center justify-center mx-auto mb-4">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-3">Alles in Starter — voor €10/maand</h3>
+        <p class="text-[var(--color-charcoal)] leading-relaxed">
+          <strong>Starter is geen proefperiode.</strong> Geen kosten per medewerker, geen extra vergoedingen, geen verassingen op de factuur. €10 vast, tot 5 medewerkers, op elk moment opzegbaar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto">
+      <SectionHeading title="Veelgestelde vragen over prijzen" align="center" />
+      <div class="space-y-3" id="faq-list">
+        {faq.map((item, i) => (
+          <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+            <button
+              class="w-full text-left px-6 py-4 flex items-center justify-between font-medium text-[var(--color-charcoal)] hover:text-[var(--color-forest)] transition-colors"
+              aria-expanded="false"
+              data-faq-btn
+            >
+              {item.q}
+              <svg class="w-5 h-5 shrink-0 transition-transform duration-200 text-[var(--color-stone)]" viewBox="0 0 20 20" fill="currentColor" data-chevron>
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+            <div class="px-6 pb-0 max-h-0 overflow-hidden transition-all duration-300" data-faq-body>
+              <p class="text-[var(--color-stone)] pb-4 leading-relaxed">{item.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Afsluiting CTA -->
+  <section class="bg-[var(--color-forest)] py-20 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-3xl mb-4">Klaar om te beginnen?</h2>
+      <p class="text-white/80 mb-8">€10/maand. Geen jaarcontract. Maak vandaag je eerste rooster.</p>
+      <a
+        href="https://app.horecárooster.nl"
+        class="inline-flex items-center bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] text-white font-semibold text-base px-8 py-4 rounded-xl transition-all duration-200"
+      >
+        Aan de slag →
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-faq-btn]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const body = btn.nextElementSibling as HTMLElement;
+      const chevron = btn.querySelector<SVGElement>("[data-chevron]");
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+      if (isOpen) {
+        btn.setAttribute("aria-expanded", "false");
+        body.style.maxHeight = "0";
+        chevron?.classList.remove("rotate-180");
+      } else {
+        btn.setAttribute("aria-expanded", "true");
+        body.style.maxHeight = body.scrollHeight + "px";
+        chevron?.classList.add("rotate-180");
+      }
+    });
+  });
+</script>

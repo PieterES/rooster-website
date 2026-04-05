@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+
+const steps = [
+  {
+    number: "01",
+    title: "Maak je account aan",
+    body: "Registreer je, voeg de naam van je locatie toe en nodig je team uit — via e-mail of een deelbare link. Geen technische configuratie vereist.",
+    qa: [
+      { q: "Moet ik een database instellen?", a: "Nee. Alles wordt gehost. Je hoeft alleen maar aan te melden." },
+    ],
+  },
+  {
+    number: "02",
+    title: "Configureer je team",
+    body: "Voeg afdelingen toe (Bar, Keuken, Bediening), maak personeelsrangen aan en stel invulregels in voor wie welke rol kan overnemen. Dit kost ongeveer 10 minuten voor een gemiddelde locatie.",
+    qa: [],
+  },
+  {
+    number: "03",
+    title: "Medewerkers geven hun beschikbaarheid op",
+    body: "Elk teamlid vult een wekelijkse beschikbaarheidstemplate in en geeft aan welke specifieke dagen ze niet kunnen werken. Het systeem leest dit direct — geen handmatige vertaalslag nodig.",
+    qa: [],
+  },
+  {
+    number: "04",
+    title: "Genereer, controleer en publiceer",
+    body: "Eén klik vult het rooster in. Controleer het, pas aan wat je wil via drag-and-drop, en publiceer. Je team ontvangt direct een pushmelding.",
+    qa: [],
+  },
+];
+
+const quickFAQ = [
+  { q: "Hoe lang duurt de initiële setup?", a: "De meeste locaties zijn volledig live binnen 30 minuten. Medewerkers, afdelingen, rangen en de eerste wekelijkse template toevoegen is eenvoudig." },
+  { q: "Kan ik het gebruiken zonder de automatische generatiefunctie?", a: "Ja. Starter bevat een volledige handmatige drag-and-drop bouwer. Automatisch genereren is een Pro-functie." },
+  { q: "Wat als mijn team niet zo technisch is?", a: "De medewerkers-app is bewust minimalistisch — medewerkers zien hun diensten, geven beschikbaarheid op en vragen wisselingen aan. Drie schermen, meer niet." },
+];
+---
+
+<BaseLayout
+  title="Hoe het werkt"
+  description="Van setup naar eerste gepubliceerde rooster in minder dan 30 minuten. Zo werkt HorecaRooster."
+  lang="nl"
+>
+
+  <!-- Hero -->
+  <section class="bg-[var(--color-forest)] pt-32 pb-20 px-6 lg:px-8 text-white">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="font-display font-bold text-4xl md:text-5xl leading-tight mb-4">
+        Van setup naar eerste rooster<br/>in minder dan 30 minuten.
+      </h1>
+      <p class="text-white/80 text-lg leading-relaxed">
+        Geen integraties vereist. Geen IT-afdeling nodig. Alleen een locatie, een team en 30 minuten.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stappen — afwisselende indeling -->
+  <section class="bg-white py-20 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto space-y-24">
+      {steps.map((step, i) => (
+        <div class:list={["flex flex-col md:flex-row gap-12 items-center", i % 2 === 1 && "md:flex-row-reverse"]}>
+          <!-- Tekstzijde -->
+          <div class="flex-1">
+            <div class="font-display font-bold text-7xl text-[var(--color-amber)] opacity-20 leading-none select-none mb-2">
+              {step.number}
+            </div>
+            <h2 class="font-display font-bold text-2xl md:text-3xl text-[var(--color-charcoal)] mb-3 -mt-4">{step.title}</h2>
+            <p class="text-[var(--color-stone)] leading-relaxed text-lg mb-4">{step.body}</p>
+            {step.qa.map((qa) => (
+              <div class="bg-[var(--color-cream)] rounded-xl p-4 mt-3">
+                <p class="text-sm font-semibold text-[var(--color-charcoal)] mb-1">{qa.q}</p>
+                <p class="text-sm text-[var(--color-stone)]">{qa.a}</p>
+              </div>
+            ))}
+          </div>
+          <!-- Visuele placeholder -->
+          <div class="flex-1 w-full">
+            <div class="bg-stone-100 rounded-2xl aspect-video flex items-center justify-center">
+              <div class="text-center">
+                <div class="font-display font-bold text-6xl text-stone-300 mb-2">{step.number}</div>
+                <p class="text-stone-400 text-sm">{step.title}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Korte FAQ -->
+  <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-8 text-center">Snelle antwoorden</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {quickFAQ.map((item) => (
+          <div class="bg-white rounded-2xl p-6 border border-gray-100">
+            <p class="font-semibold text-[var(--color-charcoal)] mb-2 text-sm">{item.q}</p>
+            <p class="text-[var(--color-stone)] text-sm leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-[var(--color-dark)] py-20 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-3xl mb-4">Klinkt simpel? Dat is het ook.</h2>
+      <p class="text-white/70 mb-8">Vanaf €10/maand. Geen installatievergoeding.</p>
+      <Button href="https://app.horecárooster.nl" variant="secondary" size="lg">Aan de slag →</Button>
+    </div>
+  </section>
+
+</BaseLayout>

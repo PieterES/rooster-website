@@ -1,0 +1,227 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Button from "../../components/Button.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+---
+
+<BaseLayout title="Your team, covered. Every shift, without the chaos.">
+
+  <!-- SECTION 1: HERO -->
+  <section data-hero class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img
+        src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&auto=format&fit=crop&q=80"
+        alt="Busy restaurant interior with warm lighting"
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-[#1B4332]/75"></div>
+    </div>
+
+    <div class="relative max-w-4xl mx-auto px-6 lg:px-8 text-center text-white py-32">
+      <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-8 text-sm font-medium backdrop-blur-sm">
+        <span class="w-2 h-2 rounded-full bg-[var(--color-amber)] animate-pulse"></span>
+        Built for Dutch hospitality venues
+      </div>
+
+      <h1 class="font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
+        Your team, covered.<br/>
+        <span class="text-[#FBBF24]">Every shift</span>, without the chaos.
+      </h1>
+
+      <p class="text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed mb-10">
+        HorecaRooster builds your weekly schedule automatically — respecting who's available, who can cover which role, and who worked yesterday. Made for Dutch hospitality. Priced for real venues.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a
+          href="https://app.horecárooster.nl"
+          class="bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] text-white font-semibold text-base px-8 py-4 rounded-xl transition-all duration-200 shadow-lg"
+        >
+          Get started — €10/month →
+        </a>
+        <a href="/en/how-it-works" class="text-white/90 underline underline-offset-4 font-medium hover:text-white transition-colors">
+          See how it works →
+        </a>
+      </div>
+
+      <div class="mt-16 grid grid-cols-3 gap-4 max-w-lg mx-auto">
+        {[
+          { stat: "5K+", label: "Shifts scheduled" },
+          { stat: "150+", label: "Venues onboarded" },
+          { stat: "98%", label: "Availability respected" },
+        ].map((s) => (
+          <div class:list={[s.label === "Venues onboarded" && "border-x border-white/20", "text-center"]}>
+            <div class="font-display font-bold text-3xl text-white">{s.stat}</div>
+            <div class="text-white/70 text-sm mt-1">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- SECTION 2: PROBLEM -->
+  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeading title="Sound familiar?" subtitle="If you run a hospitality team, you've lived at least one of these." align="center" />
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {[
+          { emoji: "📅", text: "Someone calls in sick Wednesday morning. You spend 40 minutes texting people who are already at another job." },
+          { emoji: "💬", text: "You made the schedule Sunday — by Thursday it's wrong because Maria swapped with Joost but forgot to tell you." },
+          { emoji: "👤", text: "Your best bartender quit. Partly because they kept getting scheduled for shifts they told you they couldn't do." },
+          { emoji: "💸", text: "You're paying for a scheduling app clearly designed for a 200-person hotel chain." },
+        ].map((item) => (
+          <div class="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm flex gap-4 items-start">
+            <div class="w-11 h-11 rounded-xl bg-[#E8F5EE] flex items-center justify-center text-xl shrink-0">{item.emoji}</div>
+            <p class="text-[var(--color-charcoal)] leading-relaxed">{item.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 3: SOLUTION — 3 STEPS -->
+  <section class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeading title="Set up once. Schedule in seconds." subtitle="Three steps from chaos to covered." align="center" />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {[
+          { number: "01", title: "Set up your team once", body: "Add your staff, departments, roles, and when they're available. Takes 15 minutes." },
+          { number: "02", title: "Let the engine build the schedule", body: "Auto-fills every shift with the right person for each role, respecting rest time and preferences. Not just who's free. Who's right." },
+          { number: "03", title: "Review, adjust, publish", body: "Drag-and-drop to tweak anything. Hit publish. Your team gets notified instantly." },
+        ].map((step) => (
+          <div class="flex flex-col gap-3">
+            <div class="font-display font-bold text-6xl text-[var(--color-amber)] opacity-30 leading-none select-none">{step.number}</div>
+            <div class="-mt-4">
+              <h3 class="font-display font-semibold text-xl text-[var(--color-charcoal)] mb-2">{step.title}</h3>
+              <p class="text-[var(--color-stone)] leading-relaxed">{step.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/en/how-it-works" class="text-[var(--color-forest)] font-semibold hover:underline">See the full walkthrough →</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 4: FEATURE HIGHLIGHTS -->
+  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeading title="Built different. On purpose." subtitle="Not a generic scheduling tool with a hospitality skin." align="center" />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {[
+          {
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>`,
+            title: "Smart Fill Engine",
+            hook: "Fills shifts the way you would — but faster.",
+            body: "Knows which employee can cover which role. Respects seniority, availability, and rest time. Explains every assignment so you stay in control.",
+          },
+          {
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+            title: "Availability That Means Something",
+            hook: "Staff mark when they can work. The engine actually listens.",
+            body: "Weekly templates plus one-off overrides. If someone can't do Fridays, the system won't put them on Fridays. Simple. Respected. Trusted.",
+          },
+          {
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+            title: "Dutch-First by Design",
+            hook: "Built for Dutch horeca. Not translated from Silicon Valley.",
+            body: "Dutch and English interface. Horeca terminology. EU data residency. Pricing that makes sense for a café, not a corporate canteen.",
+          },
+        ].map((card) => (
+          <div class="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm border-l-4 border-l-[var(--color-forest)] hover:shadow-md transition-shadow duration-300">
+            <div class="w-11 h-11 rounded-xl bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] mb-4" set:html={card.icon} />
+            <h3 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-1">{card.title}</h3>
+            <p class="text-[var(--color-amber)] text-sm font-medium mb-3">{card.hook}</p>
+            <p class="text-[var(--color-stone)] text-sm leading-relaxed">{card.body}</p>
+          </div>
+        ))}
+      </div>
+      <div class="text-center">
+        <Button href="/en/features" variant="primary" size="lg">Explore all features →</Button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 5: SOCIAL PROOF -->
+  <section class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <SectionHeading title="Trusted by venues across the Netherlands" align="center" />
+      <!-- UPDATE with real stats -->
+      <div class="grid grid-cols-3 gap-8 mb-16">
+        {[
+          { stat: "5,000+", label: "Shifts scheduled" },
+          { stat: "150+", label: "Venues onboarded" },
+          { stat: "98%", label: "Availability respected" },
+        ].map((s) => (
+          <div>
+            <div class="font-display font-bold text-4xl text-[var(--color-forest)] mb-1">{s.stat}</div>
+            <div class="text-[var(--color-stone)] text-sm">{s.label}</div>
+          </div>
+        ))}
+      </div>
+      <!-- REPLACE with real testimonial when available -->
+      <blockquote class="bg-[var(--color-cream)] rounded-2xl p-8 border-l-4 border-[var(--color-amber)] text-left max-w-2xl mx-auto">
+        <p class="text-lg text-[var(--color-charcoal)] leading-relaxed italic mb-4">
+          "We used to spend Sunday evening on the rota. Now it takes 10 minutes and everyone gets the shifts they asked for."
+        </p>
+        <footer class="text-[var(--color-stone)] text-sm font-medium">— Venue owner, Amsterdam</footer>
+      </blockquote>
+    </div>
+  </section>
+
+
+  <!-- SECTION 6: PRICING TEASER -->
+  <section class="bg-[var(--color-forest)] py-24 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-4 leading-tight">
+        Pricing that respects how hospitality actually works.
+      </h2>
+      <p class="text-white/80 text-lg leading-relaxed mb-8">
+        Free for teams of up to 5. Paid plans from <strong class="text-[#FBBF24]">€29/month</strong> — less than one hour of labor. No contracts, no per-employee pricing surprises, cancel any time.
+      </p>
+      <Button href="/en/pricing" variant="secondary" size="lg">See full pricing →</Button>
+    </div>
+  </section>
+
+
+  <!-- SECTION 7: FINAL CTA -->
+  <section class="bg-[var(--color-dark)] py-28 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-4xl md:text-5xl leading-tight mb-4">
+        Ready to stop wrestling with the rota?
+      </h2>
+      <p class="text-white/70 text-lg mb-10">
+        Start free today — set up your team in 15 minutes, generate your first schedule the same day.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button href="https://app.horecárooster.nl" variant="secondary" size="lg">Start for free →</Button>
+        <Button href="/en/contact" variant="ghost" size="lg">Book a walkthrough →</Button>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+		<h1>Astro</h1>
+	</body>
+</html>

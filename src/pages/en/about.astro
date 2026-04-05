@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Button from "../../components/Button.astro";
+
+const values = [
+  {
+    title: "Honest by default",
+    body: "No hidden fees, no dark patterns, no enterprise bait-and-switch. Flat pricing, transparent features — what you see on the pricing page is exactly what you pay.",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  },
+  {
+    title: "Human-scale",
+    body: "Built for venues where the manager is also on the floor. Every design decision is made with a 12-person café team in mind, not a 200-person hotel chain.",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,
+  },
+  {
+    title: "EU-native",
+    body: "Data in the EU. Dutch/English interface. Built for local labor realities. Not an afterthought retrofit of a US product.",
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>`,
+  },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="HorecaRooster — built by people who've seen the chaos firsthand. A two-person team making scheduling tools for real Dutch hospitality venues."
+>
+
+  <!-- Hero -->
+  <section class="bg-[var(--color-forest)] pt-32 pb-20 px-6 lg:px-8 text-white">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="font-display font-bold text-4xl md:text-5xl leading-tight mb-4">
+        Built by people who've seen the chaos firsthand.
+      </h1>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-xl text-[var(--color-charcoal)] leading-relaxed">
+        HorecaRooster exists because small Dutch hospitality venues deserve planning tools that actually fit how they work — not watered-down enterprise software, not another Silicon Valley app that doesn't know what a CAO is.
+      </p>
+    </div>
+  </section>
+
+  <!-- Founder section -->
+  <section class="bg-white py-20 px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex flex-col md:flex-row gap-12 items-start">
+        <!-- Avatar placeholder -->
+        <div class="flex flex-col items-center gap-3 shrink-0">
+          <div class="w-28 h-28 rounded-full bg-stone-200 flex items-center justify-center">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="text-center">
+            <p class="font-semibold text-[var(--color-charcoal)] text-sm">Pieter</p>
+            <p class="text-[var(--color-stone)] text-xs">Product & Engineering</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-4">Built by someone who's been on both sides of the roster.</h2>
+          <p class="text-[var(--color-stone)] leading-relaxed text-lg mb-4">
+            I'm Pieter. By background I'm a data engineer with a focus on AI and machine learning — I've built production pipelines, trained models, and turned messy data into things that actually run. Before that (and in between), I worked the floor at one of the biggest hospitality venues in Utrecht.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-4">
+            I know what a 16-person roster looks like at 4pm on a Friday when two people call in sick. I also know how to build software that doesn't fall apart under pressure. HorecaRooster is where those two things meet.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            There's no growth team here optimizing for upgrade conversions. Just a product built to be genuinely useful for people running small Dutch venues — because I've been one of those people.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-[var(--color-charcoal)] text-center mb-10">What we believe</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {values.map((v) => (
+          <div class="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm">
+            <div class="w-11 h-11 bg-[#E8F5EE] text-[var(--color-forest)] rounded-xl flex items-center justify-center mb-4" set:html={v.icon} />
+            <h3 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-2">{v.title}</h3>
+            <p class="text-[var(--color-stone)] text-sm leading-relaxed">{v.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Made in NL -->
+  <section class="bg-white py-12 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center">
+      <p class="text-[var(--color-stone)] flex items-center justify-center gap-2 text-lg">
+        <span class="text-2xl">🇳🇱</span>
+        Proudly made in the Netherlands
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-[var(--color-dark)] py-20 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-3xl mb-4">Want to talk?</h2>
+      <p class="text-white/70 mb-8">We respond to every message. No support ticket queues.</p>
+      <Button href="/en/contact" variant="secondary" size="lg">Get in touch →</Button>
+    </div>
+  </section>
+
+</BaseLayout>
