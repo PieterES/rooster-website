@@ -33,12 +33,14 @@ const links = isNL
       { href: "/prijzen",       label: "Prijzen" },
       { href: "/hoe-het-werkt", label: "Hoe het werkt" },
       { href: "/over-ons",      label: "Over ons" },
+      { href: "/contact",       label: "Contact" },
     ]
   : [
       { href: "/en/features",    label: "Features" },
       { href: "/en/pricing",     label: "Pricing" },
       { href: "/en/how-it-works",label: "How It Works" },
       { href: "/en/about",       label: "About" },
+      { href: "/en/contact",     label: "Contact" },
     ];
 
 const ctaLabel = isNL ? "Aan de slag →" : "Get started →";
@@ -138,9 +140,6 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
         {l.label}
       </a>
     ))}
-    <a href={isNL ? "/contact" : "/en/contact"} class="text-2xl font-display font-semibold text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">
-      Contact
-    </a>
     <div class="flex items-center gap-3 pt-2">
       <a
         href={!isNL ? normalised : alternatePath}
