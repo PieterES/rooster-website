@@ -75,6 +75,16 @@ const features = [
     ],
   },
   {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
+    title: "Automatische Herinneringen & Geplande Publicatie",
+    hook: "Stel het eenmalig in. Het systeem herinnert je team en publiceert het rooster op jouw moment.",
+    bullets: [
+      "Stel een vast tijdstip in waarop medewerkers automatisch een herinnering krijgen om hun beschikbaarheid in te vullen — wekelijks, op de dag en tijd die jij kiest",
+      "Configureer een automatisch genereer- en publicatiemoment: het systeem maakt het rooster en stuurt iedereen een melding zonder dat jij er iets voor hoeft te doen",
+      "Medewerkers ontvangen een pushmelding en e-mail zodra het rooster live is — geen app hoeven te openen, geen aparte berichtjes sturen",
+    ],
+  },
+  {
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
     title: "Meerdere Afdelingen & Rolconfiguratie",
     hook: "Twee afdelingen of twaalf — de structuur past zich aan jouw locatie aan, niet andersom.",
@@ -86,15 +96,6 @@ const features = [
   },
 ];
 
-const comparison = [
-  { feature: "Horeca-specifieke invulregels", us: true, them: false },
-  { feature: "Nederlandse interface", us: true, them: false },
-  { feature: "Vaste maandprijs (geen kosten per medewerker)", us: true, them: false },
-  { feature: "EU-dataopslag", us: true, them: false },
-  { feature: "Gratis tier voor kleine teams (≤5 medewerkers)", us: true, them: "Beperkt" },
-  { feature: "Geen langetermijncontracten", us: true, them: true },
-  { feature: "Mobiele PWA", us: true, them: true },
-];
 ---
 
 <BaseLayout
@@ -166,45 +167,6 @@ const comparison = [
     </div>
   </section>
 
-
-  <!-- Vergelijkingstabel -->
-  <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
-    <div class="max-w-3xl mx-auto">
-      <SectionHeading
-        title="HorecaRooster vs. generieke planningsapps"
-        subtitle="Zonder de enterprise-prijskaart."
-        align="center"
-      />
-      <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
-        <div class="grid grid-cols-3 bg-[var(--color-forest)] text-white text-sm font-semibold px-6 py-4">
-          <div>Functie</div>
-          <div class="text-center">HorecaRooster</div>
-          <div class="text-center">Gemiddelde app</div>
-        </div>
-        {comparison.map((row, i) => (
-          <div class:list={["grid grid-cols-3 px-6 py-4 text-sm border-t border-gray-50", i % 2 === 1 && "bg-gray-50/50"]}>
-            <div class="text-[var(--color-charcoal)] font-medium">{row.feature}</div>
-            <div class="text-center">
-              {row.us === true ? (
-                <span class="text-[var(--color-forest)] font-bold">✓</span>
-              ) : (
-                <span class="text-red-400">✗</span>
-              )}
-            </div>
-            <div class="text-center">
-              {row.them === true ? (
-                <span class="text-[var(--color-forest)] font-bold">✓</span>
-              ) : row.them === false ? (
-                <span class="text-red-400">✗</span>
-              ) : (
-                <span class="text-[var(--color-stone)] text-xs">{row.them}</span>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <!-- CTA -->
   <section class="bg-[var(--color-dark)] py-20 px-6 lg:px-8">

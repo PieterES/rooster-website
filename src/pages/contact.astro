@@ -143,8 +143,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </div>
 
           <button
+            id="submit-btn"
             type="submit"
-            class="bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] text-white font-semibold py-3.5 px-6 rounded-xl transition-colors duration-200 text-sm"
+            class="bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-6 rounded-xl transition-colors duration-200 text-sm"
           >
             Verstuur bericht →
           </button>
@@ -158,10 +159,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
         <script>
           const form = document.getElementById('contact-form');
+          const btn = document.getElementById('submit-btn');
           form?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const success = document.getElementById('form-success');
             const error = document.getElementById('form-error');
+            if (btn) { btn.disabled = true; btn.textContent = 'Verzenden\u2026'; }
+            error?.classList.add('hidden');
             try {
               const res = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
@@ -169,15 +173,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               });
               const json = await res.json();
               if (json.success) {
-                form.reset();
+                form.classList.add('hidden');
                 success?.classList.remove('hidden');
-                error?.classList.add('hidden');
               } else {
                 throw new Error('submission failed');
               }
             } catch {
               error?.classList.remove('hidden');
               success?.classList.add('hidden');
+              if (btn) { btn.disabled = false; btn.textContent = 'Verstuur bericht \u2192'; }
             }
           });
         </script>

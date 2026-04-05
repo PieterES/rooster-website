@@ -8,6 +8,9 @@ interface Props {
   tier: string;
   priceMonthly: string;
   priceAnnual?: string;
+  priceAnnualMonthly?: string;
+  periodLabel?: string;
+  yearLabel?: string;
   staffLimit: string;
   features: Feature[];
   cta: string;
@@ -15,14 +18,15 @@ interface Props {
   highlighted?: boolean;
   badge?: string;
   note?: string;
-  showToggle?: boolean;
-  isAnnual?: boolean;
 }
 
 const {
   tier,
   priceMonthly,
   priceAnnual,
+  priceAnnualMonthly,
+  periodLabel = "/maand",
+  yearLabel = "/jaar",
   staffLimit,
   features,
   cta,
@@ -33,12 +37,13 @@ const {
 } = Astro.props;
 ---
 
-<div
+<a
+  href={ctaHref}
   class:list={[
-    "relative rounded-2xl p-8 flex flex-col gap-6",
+    "relative rounded-2xl p-8 flex flex-col gap-6 cursor-pointer transition-transform duration-200 hover:-translate-y-1",
     highlighted
       ? "bg-[var(--color-forest)] text-white shadow-2xl shadow-[#1B4332]/30 ring-2 ring-[var(--color-forest)] scale-105"
-      : "bg-white border border-gray-100 shadow-sm",
+      : "bg-white border border-gray-100 shadow-sm hover:shadow-md",
   ]}
 >
   {badge && (
@@ -53,18 +58,30 @@ const {
     <p class:list={["text-sm font-semibold uppercase tracking-wider mb-2", highlighted ? "text-green-300" : "text-[var(--color-stone)]"]}>
       {tier}
     </p>
-    <div class="flex items-end gap-1 mb-1">
-      <span class:list={["font-display font-bold text-5xl", highlighted ? "text-white" : "text-[var(--color-charcoal)]"]} id={`price-monthly-${tier}`}>
-        {priceMonthly}
-      </span>
-      {priceMonthly !== "Free" && (
-        <span class:list={["text-sm mb-2", highlighted ? "text-green-300" : "text-[var(--color-stone)]"]}>/month</span>
-      )}
+    <div data-billing="monthly">
+      <div class="flex items-end gap-1 mb-1">
+        <span class:list={["font-display font-bold text-5xl", highlighted ? "text-white" : "text-[var(--color-charcoal)]"]}>
+          {priceMonthly}
+        </span>
+        {priceMonthly !== "Free" && (
+          <span class:list={["text-sm mb-2", highlighted ? "text-green-300" : "text-[var(--color-stone)]"]}>{periodLabel}</span>
+        )}
+      </div>
     </div>
-    {priceAnnual && (
-      <p class:list={["text-sm", highlighted ? "text-green-200" : "text-[var(--color-stone)]"]}>
-        {priceAnnual} billed annually
-      </p>
+    {priceAnnualMonthly && (
+      <div data-billing="annual" class="hidden">
+        <div class="flex items-end gap-1 mb-1">
+          <span class:list={["font-display font-bold text-5xl", highlighted ? "text-white" : "text-[var(--color-charcoal)]"]}>
+            {priceAnnualMonthly}
+          </span>
+          <span class:list={["text-sm mb-2", highlighted ? "text-green-300" : "text-[var(--color-stone)]"]}>{periodLabel}</span>
+        </div>
+        {priceAnnual && (
+          <p class:list={["text-xs mt-1", highlighted ? "text-green-300" : "text-[var(--color-amber)]"]}>
+            {priceAnnual}{yearLabel}
+          </p>
+        )}
+      </div>
     )}
     <p class:list={["text-sm mt-2 font-medium", highlighted ? "text-green-200" : "text-[var(--color-stone)]"]}>
       {staffLimit}
@@ -93,15 +110,14 @@ const {
     ))}
   </ul>
 
-  <a
-    href={ctaHref}
+  <span
     class:list={[
       "w-full text-center font-semibold py-3 px-6 rounded-xl transition-all duration-200",
       highlighted
-        ? "bg-[var(--color-amber)] text-white hover:bg-[var(--color-amber-light)]"
-        : "bg-[var(--color-forest)] text-white hover:bg-[var(--color-forest-light)]",
+        ? "bg-[var(--color-amber)] text-white"
+        : "bg-[var(--color-forest)] text-white",
     ]}
   >
     {cta}
-  </a>
-</div>
+  </span>
+</a>

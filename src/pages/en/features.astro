@@ -75,6 +75,16 @@ const features = [
     ],
   },
   {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
+    title: "Automated Reminders & Scheduled Publishing",
+    hook: "Set it once. The system nudges your team and publishes the schedule on your schedule.",
+    bullets: [
+      "Set a fixed time for staff to automatically receive a reminder to submit their availability — weekly, on the day and time you choose",
+      "Configure an automated generate-and-publish moment: the system builds the schedule and notifies everyone without you lifting a finger",
+      "Employees receive a push notification and email the moment the schedule goes live — no prompting, no group messages",
+    ],
+  },
+  {
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
     title: "Multi-Department & Role Configuration",
     hook: "Two departments or twelve — the structure adapts to your venue, not the other way around.",
@@ -86,15 +96,6 @@ const features = [
   },
 ];
 
-const comparison = [
-  { feature: "Hospitality-specific fill rules", us: true, them: false },
-  { feature: "Dutch language interface", us: true, them: false },
-  { feature: "Flat monthly pricing (no per-user fees)", us: true, them: false },
-  { feature: "EU data storage", us: true, them: false },
-  { feature: "Free tier for small teams (≤5 staff)", us: true, them: "Limited" },
-  { feature: "No lock-in contracts", us: true, them: true },
-  { feature: "Mobile PWA", us: true, them: true },
-];
 ---
 
 <BaseLayout
@@ -165,45 +166,6 @@ const comparison = [
     </div>
   </section>
 
-
-  <!-- Comparison table -->
-  <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
-    <div class="max-w-3xl mx-auto">
-      <SectionHeading
-        title="HorecaRooster vs. generic scheduling apps"
-        subtitle="Without the enterprise price tag."
-        align="center"
-      />
-      <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
-        <div class="grid grid-cols-3 bg-[var(--color-forest)] text-white text-sm font-semibold px-6 py-4">
-          <div>Feature</div>
-          <div class="text-center">HorecaRooster</div>
-          <div class="text-center">Typical app</div>
-        </div>
-        {comparison.map((row, i) => (
-          <div class:list={["grid grid-cols-3 px-6 py-4 text-sm border-t border-gray-50", i % 2 === 1 && "bg-gray-50/50"]}>
-            <div class="text-[var(--color-charcoal)] font-medium">{row.feature}</div>
-            <div class="text-center">
-              {row.us === true ? (
-                <span class="text-[var(--color-forest)] font-bold">✓</span>
-              ) : (
-                <span class="text-red-400">✗</span>
-              )}
-            </div>
-            <div class="text-center">
-              {row.them === true ? (
-                <span class="text-[var(--color-forest)] font-bold">✓</span>
-              ) : row.them === false ? (
-                <span class="text-red-400">✗</span>
-              ) : (
-                <span class="text-[var(--color-stone)] text-xs">{row.them}</span>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <!-- CTA -->
   <section class="bg-[var(--color-dark)] py-20 px-6 lg:px-8">

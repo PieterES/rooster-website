@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PricingCard from "../../components/PricingCard.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
@@ -11,7 +11,7 @@ const starterFeatures = [
   { text: "Open shifts", included: true },
   { text: "PWA mobile app", included: true },
   { text: "Email notifications", included: true },
-  { text: "Auto-generate scheduling", included: false },
+  { text: "Auto-generate scheduling (1\u00d7 trial run)", included: true },
   { text: "Clock in/out & hours tracking", included: true },
   { text: "Email support", included: false },
 ];
@@ -24,7 +24,7 @@ const proFeatures = [
   { text: "Email support (1 business day)", included: true },
   { text: "Shift swap audit log", included: true },
   { text: "Leave approval workflow", included: true },
-  { text: "Best-of-N schedule runs", included: false },
+  { text: "Generate multiple schedules, pick the best", included: false },
   { text: "Multi-location (up to 3)", included: false },
   { text: "Priority support", included: false },
 ];
@@ -32,13 +32,17 @@ const proFeatures = [
 const businessFeatures = [
   { text: "Up to 75 staff, 3 locations", included: true },
   { text: "Everything in Pro", included: true },
-  { text: "Best-of-N schedule runs", included: true },
+  { text: "Generate multiple schedules, pick the best", included: true },
   { text: "Multi-location management", included: true },
   { text: "Priority support", included: true },
   { text: "Dedicated onboarding", included: true },
 ];
 
 const faq = [
+  {
+    q: "Is there an annual plan?",
+    a: "Yes. With annual billing you get 2 months free \u2014 you pay for 10 months and use 12. Use the toggle above to see the annual price. Your rate is locked in for the full year.",
+  },
   {
     q: "Can I switch tiers mid-month?",
     a: "Yes. Switching is instant and prorated — you'll only pay for the days you used each plan.",
@@ -79,6 +83,26 @@ const faq = [
     </div>
   </section>
 
+  <!-- Billing toggle -->
+  <section class="bg-[var(--color-cream)] pt-8 pb-0 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto flex justify-center">
+      <div class="inline-flex items-center bg-white border border-gray-200 rounded-xl p-1 gap-1">
+        <button
+          id="billing-monthly"
+          class="px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 bg-[var(--color-forest)] text-white"
+        >
+          Monthly
+        </button>
+        <button
+          id="billing-annual"
+          class="px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-[var(--color-stone)] hover:text-[var(--color-charcoal)]"
+        >
+          Annual
+        </button>
+      </div>
+    </div>
+  </section>
+
   <!-- Pricing cards -->
   <section class="bg-[var(--color-cream)] py-12 px-6 lg:px-8">
     <div class="max-w-5xl mx-auto">
@@ -86,31 +110,44 @@ const faq = [
 
         <PricingCard
           tier="Starter"
-          priceMonthly="€10"
-          staffLimit="Up to 5 staff · 1 location"
+          priceMonthly="\u20ac10"
+          priceAnnualMonthly="\u20ac8.33"
+          priceAnnual="\u20ac100"
+          periodLabel="/month"
+          yearLabel="/year"
+          staffLimit="Up to 5 staff \u00b7 1 location"
           features={starterFeatures}
-          cta="Get started →"
-          ctaHref="https://app.rooster-maker.app"
+          cta="Get started \u2192"
+          ctaHref="/en/contact"
+          note="6\u201310 staff? +\u20ac1.50/extra/month"
         />
 
         <PricingCard
           tier="Pro"
-          priceMonthly="€29"
-          staffLimit="Up to 25 staff · 1 location"
+          priceMonthly="\u20ac29"
+          priceAnnualMonthly="\u20ac24"
+          priceAnnual="\u20ac290"
+          periodLabel="/month"
+          yearLabel="/year"
+          staffLimit="Up to 25 staff \u00b7 1 location"
           features={proFeatures}
-          cta="Start Pro trial →"
-          ctaHref="https://app.rooster-maker.app"
+          cta="Start Pro trial \u2192"
+          ctaHref="/en/contact"
           highlighted={true}
           badge="Most popular"
         />
 
         <PricingCard
           tier="Business"
-          priceMonthly="€59"
-          staffLimit="Up to 75 staff · 3 locations"
+          priceMonthly="\u20ac59"
+          priceAnnualMonthly="\u20ac49"
+          priceAnnual="\u20ac590"
+          periodLabel="/month"
+          yearLabel="/year"
+          staffLimit="Up to 75 staff \u00b7 3 locations"
           features={businessFeatures}
-          cta="Start Business trial →"
-          ctaHref="https://app.rooster-maker.app"
+          cta="Start Business trial \u2192"
+          ctaHref="/en/contact"
         />
       </div>
     </div>
@@ -133,10 +170,31 @@ const faq = [
     </div>
   </section>
 
+  <!-- Competitive math -->
+  <section class="bg-white py-12 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <div class="bg-[var(--color-cream)] rounded-2xl p-8">
+        <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-stone)] mb-4">The maths</p>
+        <p class="text-[var(--color-charcoal)] text-lg leading-relaxed mb-3">
+          Most scheduling software charges <strong>€2.50–€4 per staff member per month.</strong>
+        </p>
+        <p class="text-[var(--color-charcoal)] text-lg leading-relaxed">
+          With HorecaRooster, a team of 25 pays a total of <strong class="text-[var(--color-forest)]">€29/month</strong> — that's <strong class="text-[var(--color-forest)]">€1.16 per person.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
     <div class="max-w-2xl mx-auto">
       <SectionHeading title="Pricing questions" align="center" />
+      <div class="bg-[var(--color-amber)]/10 border border-[var(--color-amber)]/30 rounded-xl px-6 py-4 mb-6">
+        <p class="font-semibold text-[var(--color-charcoal)] text-sm mb-1">Running a seasonal business?</p>
+          <p class="text-[var(--color-stone)] text-sm leading-relaxed">
+            We offer pause options and seasonal pricing — pay only for the months you're active.<br /><a href="/en/contact" class="text-[var(--color-forest)] font-semibold hover:underline">Get in touch →</a>
+          </p>
+      </div>
       <div class="space-y-3" id="faq-list">
         {faq.map((item, i) => (
           <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
@@ -165,10 +223,7 @@ const faq = [
       <h2 class="font-display font-bold text-3xl mb-4">Ready to try it?</h2>
       <p class="text-white/80 mb-8">€10/month. No long-term contract. Set up your first schedule today.</p>
       <a
-        href="https://app.rooster-maker.app"
-        class="inline-flex items-center bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] text-white font-semibold text-base px-8 py-4 rounded-xl transition-all duration-200"
-      >
-        Get started →
+        href="/en/contact"
       </a>
     </div>
   </section>
@@ -176,6 +231,31 @@ const faq = [
 </BaseLayout>
 
 <script>
+  // Billing toggle
+  const monthlyBtn = document.getElementById("billing-monthly");
+  const annualBtn = document.getElementById("billing-annual");
+  const monthlyEls = document.querySelectorAll<HTMLElement>('[data-billing="monthly"]');
+  const annualEls = document.querySelectorAll<HTMLElement>('[data-billing="annual"]');
+
+  function setBilling(annual: boolean) {
+    monthlyEls.forEach((el) => el.classList.toggle("hidden", annual));
+    annualEls.forEach((el) => el.classList.toggle("hidden", !annual));
+    if (annual) {
+      monthlyBtn?.classList.remove("bg-[var(--color-forest)]", "text-white");
+      monthlyBtn?.classList.add("text-[var(--color-stone)]");
+      annualBtn?.classList.add("bg-[var(--color-forest)]", "text-white");
+      annualBtn?.classList.remove("text-[var(--color-stone)]");
+    } else {
+      annualBtn?.classList.remove("bg-[var(--color-forest)]", "text-white");
+      annualBtn?.classList.add("text-[var(--color-stone)]");
+      monthlyBtn?.classList.add("bg-[var(--color-forest)]", "text-white");
+      monthlyBtn?.classList.remove("text-[var(--color-stone)]");
+    }
+  }
+
+  monthlyBtn?.addEventListener("click", () => setBilling(false));
+  annualBtn?.addEventListener("click", () => setBilling(true));
+
   document.querySelectorAll<HTMLButtonElement>("[data-faq-btn]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const body = btn.nextElementSibling as HTMLElement;

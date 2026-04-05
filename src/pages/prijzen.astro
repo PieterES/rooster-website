@@ -12,7 +12,7 @@ const starterFeatures = [
   { text: "PWA mobiele app", included: true },
   { text: "E-mailmeldingen", included: true },
   { text: "In- en uitklokken & urenregistratie", included: true },
-  { text: "Automatisch rooster genereren", included: false },
+  { text: "Automatisch rooster genereren (1\u00d7 probeerbeurt)", included: true },
   { text: "E-mailondersteuning", included: false },
 ];
 
@@ -23,7 +23,7 @@ const proFeatures = [
   { text: "E-mailondersteuning (1 werkdag)", included: true },
   { text: "Wissel-auditlog", included: true },
   { text: "Verlofgoedkeuringsworkflow", included: true },
-  { text: "Beste-van-N roostergeneraties", included: false },
+  { text: "Meerdere roosters genereren, beste kiezen", included: false },
   { text: "Meerdere locaties (tot 3)", included: false },
   { text: "Prioriteitsondersteuning", included: false },
 ];
@@ -31,13 +31,17 @@ const proFeatures = [
 const businessFeatures = [
   { text: "Tot 75 medewerkers, 3 locaties", included: true },
   { text: "Alles in Pro", included: true },
-  { text: "Beste-van-N roostergeneraties", included: true },
+  { text: "Meerdere roosters genereren, beste kiezen", included: true },
   { text: "Beheer van meerdere locaties", included: true },
   { text: "Prioriteitsondersteuning", included: true },
   { text: "Persoonlijke onboarding", included: true },
 ];
 
 const faq = [
+  {
+    q: "Is er een jaarlijks abonnement?",
+    a: "Ja. Bij jaarlijkse betaling krijg je 2 maanden gratis \u2014 je betaalt 10 maanden en gebruikt 12. Gebruik de toggle hierboven om de jaarprijs te zien. Je tarief staat voor het hele jaar vast.",
+  },
   {
     q: "Kan ik halverwege de maand van abonnement wisselen?",
     a: "Ja. Wisselen gaat direct en wordt naar rato berekend — je betaalt alleen voor de dagen dat je elk plan gebruikte.",
@@ -79,6 +83,26 @@ const faq = [
     </div>
   </section>
 
+  <!-- Factuurperiode toggle -->
+  <section class="bg-[var(--color-cream)] pt-8 pb-0 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto flex justify-center">
+      <div class="inline-flex items-center bg-white border border-gray-200 rounded-xl p-1 gap-1">
+        <button
+          id="billing-monthly"
+          class="px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 bg-[var(--color-forest)] text-white"
+        >
+          Maandelijks
+        </button>
+        <button
+          id="billing-annual"
+          class="px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-[var(--color-stone)] hover:text-[var(--color-charcoal)]"
+        >
+          Jaarlijks
+        </button>
+      </div>
+    </div>
+  </section>
+
   <!-- Abonnementskaarten -->
   <section class="bg-[var(--color-cream)] py-12 px-6 lg:px-8">
     <div class="max-w-5xl mx-auto">
@@ -86,31 +110,38 @@ const faq = [
 
         <PricingCard
           tier="Starter"
-          priceMonthly="€10"
-          staffLimit="Tot 5 medewerkers · 1 locatie"
+          priceMonthly="\u20ac10"
+          priceAnnualMonthly="\u20ac8,33"
+          priceAnnual="\u20ac100"
+          staffLimit="Tot 5 medewerkers \u00b7 1 locatie"
           features={starterFeatures}
-          cta="Aan de slag →"
-          ctaHref="https://app.rooster-maker.app"
+          cta="Aan de slag \u2192"
+          ctaHref="/contact"
+          note="6\u201310 medewerkers? +\u20ac1,50/extra/maand"
         />
 
         <PricingCard
           tier="Pro"
-          priceMonthly="€29"
-          staffLimit="Tot 25 medewerkers · 1 locatie"
+          priceMonthly="\u20ac29"
+          priceAnnualMonthly="\u20ac24"
+          priceAnnual="\u20ac290"
+          staffLimit="Tot 25 medewerkers \u00b7 1 locatie"
           features={proFeatures}
-          cta="Start Pro-proefperiode →"
-          ctaHref="https://app.rooster-maker.app"
+          cta="Start Pro-proefperiode \u2192"
+          ctaHref="/contact"
           highlighted={true}
           badge="Meest populair"
         />
 
         <PricingCard
           tier="Business"
-          priceMonthly="€59"
-          staffLimit="Tot 75 medewerkers · 3 locaties"
+          priceMonthly="\u20ac59"
+          priceAnnualMonthly="\u20ac49"
+          priceAnnual="\u20ac590"
+          staffLimit="Tot 75 medewerkers \u00b7 3 locaties"
           features={businessFeatures}
-          cta="Start Business-proefperiode →"
-          ctaHref="https://app.rooster-maker.app"
+          cta="Start Business-proefperiode \u2192"
+          ctaHref="/contact"
         />
       </div>
     </div>
@@ -133,10 +164,31 @@ const faq = [
     </div>
   </section>
 
+  <!-- Vergelijking met marktprijs -->
+  <section class="bg-white py-12 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <div class="bg-[var(--color-cream)] rounded-2xl p-8">
+        <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-stone)] mb-4">De rekening</p>
+        <p class="text-[var(--color-charcoal)] text-lg leading-relaxed mb-3">
+          De meeste planningssoftware rekent <strong>€2,50–€4 per medewerker per maand.</strong>
+        </p>
+        <p class="text-[var(--color-charcoal)] text-lg leading-relaxed">
+          Bij HorecaRooster betaalt een team van 25 personen in totaal <strong class="text-[var(--color-forest)]">€29/maand</strong> — dat is <strong class="text-[var(--color-forest)]">€1,16 per persoon.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="bg-[var(--color-cream)] py-20 px-6 lg:px-8">
     <div class="max-w-2xl mx-auto">
       <SectionHeading title="Veelgestelde vragen over prijzen" align="center" />
+      <div class="bg-[var(--color-amber)]/10 border border-[var(--color-amber)]/30 rounded-xl px-6 py-4 mb-6">
+        <p class="font-semibold text-[var(--color-charcoal)] text-sm mb-1">Seizoensgebonden bedrijf?</p>
+          <p class="text-[var(--color-stone)] text-sm leading-relaxed">
+            We bieden pauzeoptie en seizoenstarieven aan — je betaalt alleen de maanden dat je actief bent.<br /><a href="/contact" class="text-[var(--color-forest)] font-semibold hover:underline">Neem contact op →</a>
+          </p>
+      </div>
       <div class="space-y-3" id="faq-list">
         {faq.map((item, i) => (
           <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
@@ -165,10 +217,7 @@ const faq = [
       <h2 class="font-display font-bold text-3xl mb-4">Klaar om te beginnen?</h2>
       <p class="text-white/80 mb-8">€10/maand. Geen jaarcontract. Maak vandaag je eerste rooster.</p>
       <a
-        href="https://app.rooster-maker.app"
-        class="inline-flex items-center bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] text-white font-semibold text-base px-8 py-4 rounded-xl transition-all duration-200"
-      >
-        Aan de slag →
+        href="/contact"
       </a>
     </div>
   </section>
@@ -176,6 +225,31 @@ const faq = [
 </BaseLayout>
 
 <script>
+  // Billing toggle
+  const monthlyBtn = document.getElementById("billing-monthly");
+  const annualBtn = document.getElementById("billing-annual");
+  const monthlyEls = document.querySelectorAll<HTMLElement>('[data-billing="monthly"]');
+  const annualEls = document.querySelectorAll<HTMLElement>('[data-billing="annual"]');
+
+  function setBilling(annual: boolean) {
+    monthlyEls.forEach((el) => el.classList.toggle("hidden", annual));
+    annualEls.forEach((el) => el.classList.toggle("hidden", !annual));
+    if (annual) {
+      monthlyBtn?.classList.remove("bg-[var(--color-forest)]", "text-white");
+      monthlyBtn?.classList.add("text-[var(--color-stone)]");
+      annualBtn?.classList.add("bg-[var(--color-forest)]", "text-white");
+      annualBtn?.classList.remove("text-[var(--color-stone)]");
+    } else {
+      annualBtn?.classList.remove("bg-[var(--color-forest)]", "text-white");
+      annualBtn?.classList.add("text-[var(--color-stone)]");
+      monthlyBtn?.classList.add("bg-[var(--color-forest)]", "text-white");
+      monthlyBtn?.classList.remove("text-[var(--color-stone)]");
+    }
+  }
+
+  monthlyBtn?.addEventListener("click", () => setBilling(false));
+  annualBtn?.addEventListener("click", () => setBilling(true));
+
   document.querySelectorAll<HTMLButtonElement>("[data-faq-btn]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const body = btn.nextElementSibling as HTMLElement;
