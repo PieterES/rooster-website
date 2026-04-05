@@ -45,18 +45,7 @@ import SectionHeading from "../../components/SectionHeading.astro";
         </a>
       </div>
 
-      <div class="mt-16 grid grid-cols-3 gap-4 max-w-lg mx-auto">
-        {[
-          { stat: "5K+", label: "Shifts scheduled" },
-          { stat: "150+", label: "Venues onboarded" },
-          { stat: "98%", label: "Availability respected" },
-        ].map((s) => (
-          <div class:list={[s.label === "Venues onboarded" && "border-x border-white/20", "text-center"]}>
-            <div class="font-display font-bold text-3xl text-white">{s.stat}</div>
-            <div class="text-white/70 text-sm mt-1">{s.label}</div>
-          </div>
-        ))}
-      </div>
+
     </div>
 
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
@@ -154,30 +143,31 @@ import SectionHeading from "../../components/SectionHeading.astro";
   </section>
 
 
-  <!-- SECTION 5: SOCIAL PROOF -->
+  <!-- SECTION 5: WHY US -->
   <section class="bg-white py-24 px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto text-center">
-      <SectionHeading title="Trusted by venues across the Netherlands" align="center" />
-      <!-- UPDATE with real stats -->
-      <div class="grid grid-cols-3 gap-8 mb-16">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeading title="Simple. Personal. Fast." subtitle="We're a small team — and that's exactly the point." align="center" />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
-          { stat: "5,000+", label: "Shifts scheduled" },
-          { stat: "150+", label: "Venues onboarded" },
-          { stat: "98%", label: "Availability respected" },
-        ].map((s) => (
-          <div>
-            <div class="font-display font-bold text-4xl text-[var(--color-forest)] mb-1">{s.stat}</div>
-            <div class="text-[var(--color-stone)] text-sm">{s.label}</div>
+          {
+            title: "Live in 15 minutes",
+            body: "No lengthy onboarding, no consultant, no training days. Add your team, set availability, generate your first schedule — all on the same day. It really is that simple.",
+          },
+          {
+            title: "Small team, personal attention",
+            body: "You talk directly to the people building the product. No support ticket disappearing into a queue. Feedback that actually gets heard and acted on fast.",
+          },
+          {
+            title: "Built by someone who's been there",
+            body: "We spent years frustrated with apps built by people who've never worked a shift — overly complex, poorly designed, and expensive. HorecaRooster is the opposite.",
+          },
+        ].map((item) => (
+          <div class="bg-[var(--color-cream)] rounded-2xl p-7 border border-gray-100">
+            <h3 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-2">{item.title}</h3>
+            <p class="text-[var(--color-stone)] text-sm leading-relaxed">{item.body}</p>
           </div>
         ))}
       </div>
-      <!-- REPLACE with real testimonial when available -->
-      <blockquote class="bg-[var(--color-cream)] rounded-2xl p-8 border-l-4 border-[var(--color-amber)] text-left max-w-2xl mx-auto">
-        <p class="text-lg text-[var(--color-charcoal)] leading-relaxed italic mb-4">
-          "We used to spend Sunday evening on the rota. Now it takes 10 minutes and everyone gets the shifts they asked for."
-        </p>
-        <footer class="text-[var(--color-stone)] text-sm font-medium">— Venue owner, Amsterdam</footer>
-      </blockquote>
     </div>
   </section>
 

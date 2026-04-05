@@ -49,18 +49,7 @@ import SectionHeading from "../components/SectionHeading.astro";
         </a>
       </div>
 
-      <div class="mt-16 grid grid-cols-3 gap-4 max-w-lg mx-auto">
-        {[
-          { stat: "5K+", label: "Diensten ingepland" },
-          { stat: "150+", label: "Locaties actief" },
-          { stat: "98%", label: "Beschikbaarheid gerespecteerd" },
-        ].map((s) => (
-          <div class:list={[s.label === "Locaties actief" && "border-x border-white/20", "text-center"]}>
-            <div class="font-display font-bold text-3xl text-white">{s.stat}</div>
-            <div class="text-white/70 text-sm mt-1">{s.label}</div>
-          </div>
-        ))}
-      </div>
+
     </div>
 
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
@@ -158,28 +147,31 @@ import SectionHeading from "../components/SectionHeading.astro";
   </section>
 
 
-  <!-- SECTIE 5: SOCIAL PROOF -->
+  <!-- SECTIE 5: WAAROM WIJ -->
   <section class="bg-white py-24 px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto text-center">
-      <SectionHeading title="Vertrouwd door horecabedrijven door heel Nederland" align="center" />
-      <div class="grid grid-cols-3 gap-8 mb-16">
+    <div class="max-w-5xl mx-auto">
+      <SectionHeading title="Eenvoudig. Persoonlijk. Snel." subtitle="We zijn een klein team — en dat is precies de bedoeling." align="center" />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[
-          { stat: "5.000+", label: "Diensten ingepland" },
-          { stat: "150+", label: "Locaties actief" },
-          { stat: "98%", label: "Beschikbaarheid gerespecteerd" },
-        ].map((s) => (
-          <div>
-            <div class="font-display font-bold text-4xl text-[var(--color-forest)] mb-1">{s.stat}</div>
-            <div class="text-[var(--color-stone)] text-sm">{s.label}</div>
+          {
+            title: "In 15 minuten live",
+            body: "Geen langdurige onboarding, geen consultant, geen trainingsdagen. Medewerkers toevoegen, beschikbaarheid instellen en je eerste rooster genereren — allemaal op dezelfde dag. Zo simpel is het.",
+          },
+          {
+            title: "Klein team, persoonlijke aandacht",
+            body: "Je praat rechtstreeks met de mensen die het product bouwen. Geen supportticket dat verdwijnt in een wachtrij. Feedback die daadwerkelijk wordt gehoord en snel wordt verwerkt.",
+          },
+          {
+            title: "Gebouwd door iemand die het kent",
+            body: "We zijn lang gefrustreerd geraakt door apps gemaakt door mensen die nog nooit in de horeca hebben gewerkt — onlogisch, overcompleet en duur. HorecaRooster is het tegenovergestelde.",
+          },
+        ].map((item) => (
+          <div class="bg-[var(--color-cream)] rounded-2xl p-7 border border-gray-100">
+            <h3 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-2">{item.title}</h3>
+            <p class="text-[var(--color-stone)] text-sm leading-relaxed">{item.body}</p>
           </div>
         ))}
       </div>
-      <blockquote class="bg-[var(--color-cream)] rounded-2xl p-8 border-l-4 border-[var(--color-amber)] text-left max-w-2xl mx-auto">
-        <p class="text-lg text-[var(--color-charcoal)] leading-relaxed italic mb-4">
-          "Vroeger besteedden we zondagavond aan het rooster maken. Nu kost het 10 minuten en iedereen krijgt de diensten die ze aangevraagd hebben."
-        </p>
-        <footer class="text-[var(--color-stone)] text-sm font-medium">— Eigenaar, Amsterdam</footer>
-      </blockquote>
     </div>
   </section>
 
@@ -191,7 +183,7 @@ import SectionHeading from "../components/SectionHeading.astro";
         Prijsstelling die past bij hoe horeca echt werkt.
       </h2>
       <p class="text-white/80 text-lg leading-relaxed mb-8">
-        Vanaf <strong class="text-[#FBBF24]">€10/maand</strong> — minder dan wat Planday rekent voor 3 medewerkers. Geen contracten, geen kosten per medewerker, op elk moment opzegbaar.
+        Vanaf <strong class="text-[#FBBF24]">€10/maand</strong> Geen contracten, geen kosten per medewerker, op elk moment opzegbaar.
       </p>
       <Button href="/prijzen" variant="secondary" size="lg">Bekijk alle prijzen →</Button>
     </div>
