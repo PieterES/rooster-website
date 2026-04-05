@@ -71,10 +71,13 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       <!-- Right: Contact form -->
       <div>
         <form
-          action="https://formspree.io/f/placeholder"
+          id="contact-form"
+          action="https://api.web3forms.com/submit"
           method="POST"
           class="flex flex-col gap-5"
         >
+          <input type="hidden" name="access_key" value="959378dc-1635-4f42-9948-927920b5d150" />
+          <input type="hidden" name="subject" value="New contact message via HorecaRooster" />
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label for="name" class="block text-sm font-medium text-[var(--color-charcoal)] mb-1.5">Name</label>
@@ -144,7 +147,39 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           >
             Send message →
           </button>
+          <div id="form-success" class="hidden text-sm text-[var(--color-forest)] bg-[#E8F5EE] rounded-lg px-4 py-3">
+            Thank you! We'll get back to you as soon as possible.
+          </div>
+          <div id="form-error" class="hidden text-sm text-red-600 bg-red-50 rounded-lg px-4 py-3">
+            Something went wrong. Please try again or email <a href="mailto:pieter.elsharouni@gmail.com" class="underline">pieter.elsharouni@gmail.com</a>.
+          </div>
         </form>
+
+        <script>
+          const form = document.getElementById('contact-form');
+          form?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const success = document.getElementById('form-success');
+            const error = document.getElementById('form-error');
+            try {
+              const res = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: new FormData(form),
+              });
+              const json = await res.json();
+              if (json.success) {
+                form.reset();
+                success?.classList.remove('hidden');
+                error?.classList.add('hidden');
+              } else {
+                throw new Error('submission failed');
+              }
+            } catch {
+              error?.classList.remove('hidden');
+              success?.classList.add('hidden');
+            }
+          });
+        </script>
       </div>
     </div>
   </section>
