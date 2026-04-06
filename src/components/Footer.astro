@@ -1,5 +1,51 @@
 ---
 // Footer.astro
+interface Props {
+  lang?: "nl" | "en";
+}
+const { lang = "en" } = Astro.props;
+
+const t = lang === "nl" ? {
+  tagline: "Personeelsplanning voor de Nederlandse horeca.",
+  madeIn: "Gemaakt in Nederland",
+  product: "Product",
+  features: "Functies",
+  pricing: "Prijzen",
+  howItWorks: "Hoe het werkt",
+  company: "Bedrijf",
+  about: "Over ons",
+  contact: "Contact",
+  support: "Support",
+  legal: "Juridisch",
+  privacy: "Privacy & AVG",
+  terms: "Algemene voorwaarden",
+  copyright: "© 2026 HorecaRooster. Alle rechten voorbehouden.",
+  featuresHref: "/functies",
+  pricingHref: "/prijzen",
+  howItWorksHref: "/hoe-het-werkt",
+  aboutHref: "/over-ons",
+  contactHref: "/contact",
+} : {
+  tagline: "Workforce scheduling for Dutch hospitality.",
+  madeIn: "Made in the Netherlands",
+  product: "Product",
+  features: "Features",
+  pricing: "Pricing",
+  howItWorks: "How It Works",
+  company: "Company",
+  about: "About",
+  contact: "Contact",
+  support: "Support",
+  legal: "Legal",
+  privacy: "Privacy & GDPR",
+  terms: "Terms of Service",
+  copyright: "© 2026 HorecaRooster. All rights reserved.",
+  featuresHref: "/en/features",
+  pricingHref: "/en/pricing",
+  howItWorksHref: "/en/how-it-works",
+  aboutHref: "/en/about",
+  contactHref: "/en/contact",
+};
 ---
 <footer class="bg-[var(--color-dark)] text-gray-400">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
@@ -15,48 +61,46 @@
           </svg>
           <span class="text-white font-display font-semibold text-lg">HorecaRooster</span>
         </a>
-        <p class="text-sm leading-relaxed mb-4">Workforce scheduling for Dutch hospitality.</p>
+        <p class="text-sm leading-relaxed mb-4">{t.tagline}</p>
         <p class="text-sm flex items-center gap-1.5">
           <span>🇳🇱</span>
-          <span>Made in the Netherlands</span>
+          <span>{t.madeIn}</span>
         </p>
       </div>
 
       <!-- Col 2: Product -->
       <div>
-        <h3 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Product</h3>
+        <h3 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">{t.product}</h3>
         <ul class="space-y-3 text-sm">
-          <li><a href="/features" class="hover:text-white transition-colors">Features</a></li>
-          <li><a href="/pricing" class="hover:text-white transition-colors">Pricing</a></li>
-          <li><a href="/how-it-works" class="hover:text-white transition-colors">How It Works</a></li>
-
+          <li><a href={t.featuresHref} class="hover:text-white transition-colors">{t.features}</a></li>
+          <li><a href={t.pricingHref} class="hover:text-white transition-colors">{t.pricing}</a></li>
+          <li><a href={t.howItWorksHref} class="hover:text-white transition-colors">{t.howItWorks}</a></li>
         </ul>
       </div>
 
       <!-- Col 3: Company -->
       <div>
-        <h3 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Company</h3>
+        <h3 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">{t.company}</h3>
         <ul class="space-y-3 text-sm">
-          <li><a href="/about" class="hover:text-white transition-colors">About</a></li>
-
-          <li><a href="/contact" class="hover:text-white transition-colors">Contact</a></li>
-          <li><a href="/contact" class="hover:text-white transition-colors">Support</a></li>
+          <li><a href={t.aboutHref} class="hover:text-white transition-colors">{t.about}</a></li>
+          <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.contact}</a></li>
+          <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.support}</a></li>
         </ul>
       </div>
 
       <!-- Col 4: Legal -->
       <div>
-        <h3 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">Legal</h3>
+        <h3 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">{t.legal}</h3>
         <ul class="space-y-3 text-sm">
-          <li><a href="/contact" class="hover:text-white transition-colors">Privacy & GDPR</a></li>
-          <li><a href="/contact" class="hover:text-white transition-colors">Terms of Service</a></li>
+          <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.privacy}</a></li>
+          <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.terms}</a></li>
         </ul>
       </div>
     </div>
 
     <!-- Bottom bar -->
     <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-      <p>© 2026 HorecaRooster. All rights reserved.</p>
+      <p>{t.copyright}</p>
       <div class="flex items-center gap-4">
         <!-- LinkedIn -->
         <a href="https://linkedin.com" aria-label="LinkedIn" class="hover:text-white transition-colors">
