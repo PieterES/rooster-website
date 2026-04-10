@@ -9,9 +9,9 @@ const features = [
     title: "Slimme Inplanmotor",
     hook: "Het enige planningssysteem dat weet wie wat kan doen — niet alleen wie er vrij is.",
     bullets: [
-      "Vult elke dienst in met de meest geschikte medewerker op basis van afdeling, rang en beschikbaarheid",
-      "Respecteert invulregels: een barmanager kan barteniderplekken opvullen; het systeem weet dit automatisch",
-      "Voorkomt ongeldige planning: geen zondagavondsluiters ook op maandagochtend, geen opeenvolgende nachtdiensten",
+      "Vult elke dienst in met de meest geschikte medewerker op basis van afdeling, rang, voorkeur en beschikbaarheid",
+      "Stel zelf invul regels vast: een barmanager kan barmedewerker diensten opvullen; niet andersom",
+      "Voorkomt ongeldige planning: geen zondagavondsluiters ook op maandagochtend",
     ],
   },
   {
@@ -26,10 +26,10 @@ const features = [
   },
   {
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l4 4 10-10"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`,
-    title: "Drag-and-drop Roosterbewerking",
+    title: "Online Roosterbewerking",
     hook: "Het systeem stelt voor; jij beslist. Volledig handmatig aanpassen zonder gedoe.",
     bullets: [
-      "Sleep elke medewerker naar een dienst — het systeem controleert en waarschuwt bij conflicten maar blokkeert niet",
+      "Het systeem controleert en waarschuwt bij conflicten maar blokkeert niet",
       "Vergrendelde toewijzingen blijven staan bij opnieuw genereren",
       "Live conflictindicatoren: rusttijdschendingen, dubbele boekingen en afdelingsmismatches direct zichtbaar",
     ],
@@ -41,7 +41,7 @@ const features = [
     bullets: [
       "Medewerker vraagt wisseling aan bij een collega; beiden bevestigen; manager keurt goed of af",
       "Open diensten: publiceer een onbezette plek; in aanmerking komende medewerkers kunnen hem claimen",
-      "Volledige audittrail — geen onduidelijkheid meer over 'ik dacht dat jij dat met Joost had afgesproken'",
+      "Duidelijke communicatie — geen onduidelijkheid meer over 'ik dacht dat jij dat met Joost had afgesproken'",
     ],
   },
   {
@@ -59,17 +59,17 @@ const features = [
     title: "In- en Uitklokken & Urenregistratie",
     hook: "Weet precies wie werkte, wanneer en hoeveel uur — zonder spreadsheets.",
     bullets: [
-      "Medewerkers klokken in/uit via hun telefoon; tijdstempels worden direct opgeslagen",
-      "Correctieverzoeken voor gemiste prikbeurten — manager keurt inline goed",
-      "Wekelijks urenoverzicht per medewerker, met automatische signalering van overschrijdingen",
+      "Medewerkers klokken via de app; tijdstempels worden direct opgeslagen",
+      "Correctieverzoeken voor gemiste diensten — manager keurt inline goed",
+      "Wekelijks urenoverzicht per medewerker, met automatische signalering van te veel of te weinig uren",
     ],
   },
   {
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`,
-    title: "Medewerker Self-Service (PWA + Android)",
+    title: "Medewerker Self-Service",
     hook: "Je medewerkers hebben geen training nodig. Ze checken diensten zoals ze alles checken — op hun telefoon.",
     bullets: [
-      "Installeerbare Progressive Web App werkt op elk apparaat; Android-wrapper beschikbaar",
+      "Installeerbare app werkt op elk apparaat",
       "Pushmeldingen voor nieuwe roosters, wisselgoedkeuringen en dienstwijzigingen",
       "Medewerkers zien hun week in één oogopslag, vragen wijzigingen aan, geven beschikbaarheid op — zonder inloggedoe",
     ],
@@ -81,7 +81,7 @@ const features = [
     bullets: [
       "Stel een vast tijdstip in waarop medewerkers automatisch een herinnering krijgen om hun beschikbaarheid in te vullen — wekelijks, op de dag en tijd die jij kiest",
       "Configureer een automatisch genereer- en publicatiemoment: het systeem maakt het rooster en stuurt iedereen een melding zonder dat jij er iets voor hoeft te doen",
-      "Medewerkers ontvangen een pushmelding en e-mail zodra het rooster live is — geen app hoeven te openen, geen aparte berichtjes sturen",
+      "Medewerkers ontvangen een pushmelding en e-mail zodra het rooster live is — geen aparte berichtjes sturen",
     ],
   },
   {
@@ -89,7 +89,7 @@ const features = [
     title: "Meerdere Afdelingen & Rolconfiguratie",
     hook: "Twee afdelingen of twaalf — de structuur past zich aan jouw locatie aan, niet andersom.",
     bullets: [
-      "Maak afdelingen aan (Bar, Keuken, Bediening, Gastvrouw) met eigen diensttypen per afdeling",
+      "Maak afdelingen aan (Bar, Keuken, Bediening, Bewaking) met eigen diensttypen per afdeling, compleet met eigen regels en beperkingen",
       "Definieer rangen binnen afdelingen met invulregels: wie kan wiens rol in noodgevallen overnemen",
       "Per-afdeling roosteren zodat bar- en keukenmanagers hun eigen overzicht hebben",
     ],
@@ -111,7 +111,7 @@ const features = [
         Elke functie gebouwd voor echte locaties.
       </h1>
       <p class="text-lg text-[var(--color-stone)] leading-relaxed">
-        HorecaRooster is geen generieke plantool met een horecalaagje. Elke functie is ontworpen rond hoe een echte horecalocatie daadwerkelijk werkt.
+        HorecaRooster is geen generieke plan-tool met een horecalaagje. Elke functie is ontworpen rond hoe een echte horecalocatie daadwerkelijk werkt.
       </p>
     </div>
   </section>

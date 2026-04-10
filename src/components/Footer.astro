@@ -16,9 +16,6 @@ const t = lang === "nl" ? {
   about: "Over ons",
   contact: "Contact",
   support: "Support",
-  legal: "Juridisch",
-  privacy: "Privacy & AVG",
-  terms: "Algemene voorwaarden",
   copyright: "© 2026 HorecaRooster. Alle rechten voorbehouden.",
   featuresHref: "/functies",
   pricingHref: "/prijzen",
@@ -36,9 +33,6 @@ const t = lang === "nl" ? {
   about: "About",
   contact: "Contact",
   support: "Support",
-  legal: "Legal",
-  privacy: "Privacy & GDPR",
-  terms: "Terms of Service",
   copyright: "© 2026 HorecaRooster. All rights reserved.",
   featuresHref: "/en/features",
   pricingHref: "/en/pricing",
@@ -49,75 +43,46 @@ const t = lang === "nl" ? {
 ---
 <footer class="bg-[var(--color-dark)] text-gray-400">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+    <div class="flex flex-wrap justify-center gap-x-16 gap-y-10">
 
-      <!-- Col 1: Brand -->
-      <div class="col-span-1 sm:col-span-2 lg:col-span-1">
+      <!-- Brand -->
+      <div>
         <a href="/" class="flex items-center gap-2 mb-4" aria-label="Home">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect width="28" height="28" rx="7" fill="#1B4332"/>
-            <path d="M7 9h14M7 14h14M7 19h9" stroke="#FAFAF7" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="22" cy="19" r="3" fill="#D97706"/>
-          </svg>
+          <img src="/favicon.png" alt="HorecaRooster logo" width="28" height="28" />
           <span class="text-white font-display font-semibold text-lg">HorecaRooster</span>
         </a>
         <p class="text-sm leading-relaxed mb-4">{t.tagline}</p>
         <p class="text-sm flex items-center gap-1.5">
-          <span>🇳🇱</span>
+          <span>&#127475;&#127473;</span>
           <span>{t.madeIn}</span>
         </p>
       </div>
 
-      <!-- Col 2: Product -->
-      <div>
-        <h3 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">{t.product}</h3>
-        <ul class="space-y-3 text-sm">
-          <li><a href={t.featuresHref} class="hover:text-white transition-colors">{t.features}</a></li>
-          <li><a href={t.pricingHref} class="hover:text-white transition-colors">{t.pricing}</a></li>
-          <li><a href={t.howItWorksHref} class="hover:text-white transition-colors">{t.howItWorks}</a></li>
-        </ul>
+      <!-- Nav links -->
+      <div class="flex flex-wrap justify-center gap-x-10 gap-y-6 text-sm">
+        <div>
+          <h3 class="text-white font-semibold mb-3 uppercase tracking-wider">{t.product}</h3>
+          <ul class="space-y-2">
+            <li><a href={t.featuresHref} class="hover:text-white transition-colors">{t.features}</a></li>
+            <li><a href={t.pricingHref} class="hover:text-white transition-colors">{t.pricing}</a></li>
+            <li><a href={t.howItWorksHref} class="hover:text-white transition-colors">{t.howItWorks}</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-3 uppercase tracking-wider">{t.company}</h3>
+          <ul class="space-y-2">
+            <li><a href={t.aboutHref} class="hover:text-white transition-colors">{t.about}</a></li>
+            <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.contact}</a></li>
+            <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.support}</a></li>
+          </ul>
+        </div>
       </div>
 
-      <!-- Col 3: Company -->
-      <div>
-        <h3 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">{t.company}</h3>
-        <ul class="space-y-3 text-sm">
-          <li><a href={t.aboutHref} class="hover:text-white transition-colors">{t.about}</a></li>
-          <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.contact}</a></li>
-          <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.support}</a></li>
-        </ul>
-      </div>
-
-      <!-- Col 4: Legal -->
-      <div>
-        <h3 class="text-white font-semibold text-sm mb-4 uppercase tracking-wider">{t.legal}</h3>
-        <ul class="space-y-3 text-sm">
-          <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.privacy}</a></li>
-          <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.terms}</a></li>
-        </ul>
-      </div>
     </div>
 
     <!-- Bottom bar -->
-    <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+    <div class="mt-12 pt-8 border-t border-gray-800 text-center text-sm">
       <p>{t.copyright}</p>
-      <div class="flex items-center gap-4">
-        <!-- LinkedIn -->
-        <a href="https://linkedin.com" aria-label="LinkedIn" class="hover:text-white transition-colors">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
-            <circle cx="4" cy="4" r="2"/>
-          </svg>
-        </a>
-        <!-- Instagram -->
-        <a href="https://instagram.com" aria-label="Instagram" class="hover:text-white transition-colors">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-            <circle cx="12" cy="12" r="4"/>
-            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-      </div>
     </div>
   </div>
 </footer>
