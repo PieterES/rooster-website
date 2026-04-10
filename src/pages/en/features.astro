@@ -9,9 +9,9 @@ const features = [
     title: "Smart Fill Engine",
     hook: "The only scheduling tool that knows who can cover what — not just who's free.",
     bullets: [
-      "Fills each shift with the most eligible employee based on department, rank, and availability",
-      "Respects fill rules: a Bar Manager can fill Bartender slots; the engine knows this automatically",
-      "Prevents illegal scheduling: no Sunday closer working Monday open, no back-to-back overnight shifts",
+      "Fills each shift with the most eligible employee based on department, rank, preference, and availability",
+      "Set your own fill rules: a Bar Manager can fill Bartender shifts; not the other way around",
+      "Prevents illegal scheduling: no Sunday closer working Monday open",
     ],
   },
   {
@@ -26,10 +26,10 @@ const features = [
   },
   {
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l4 4 10-10"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`,
-    title: "Drag-and-Drop Schedule Editing",
+    title: "Online Schedule Editing",
     hook: "The engine suggests; you decide. Full manual override with zero friction.",
     bullets: [
-      "Drag any employee to any slot — the system validates and warns on conflicts but doesn't block",
+      "The system validates and warns on conflicts but doesn't block",
       "Locked assignments survive re-generation so the engine works around them",
       "Live conflict indicators: rest time violations, double-bookings, cross-department mismatches shown inline",
     ],
@@ -41,7 +41,7 @@ const features = [
     bullets: [
       "Employee requests swap with a specific colleague; both must confirm; manager approves or denies",
       "Open shift claiming: publish an uncovered slot; eligible staff can claim it",
-      "Full audit trail — no more 'I thought you sorted that with Joost'",
+      "Clear communication — no more 'I thought you sorted that with Joost'",
     ],
   },
   {
@@ -59,17 +59,17 @@ const features = [
     title: "Clock In/Out & Hours Tracking",
     hook: "Know exactly who worked, when, and how many hours — without spreadsheets.",
     bullets: [
-      "Employees clock in/out from their phone; timestamps recorded instantly",
-      "Correction requests for missed punches — manager approves inline",
-      "Weekly hours summary per employee, with overages flagged automatically",
+      "Employees clock in via the app; timestamps recorded instantly",
+      "Correction requests for missed shifts — manager approves inline",
+      "Weekly hours summary per employee, with automatic flagging of too many or too few hours",
     ],
   },
   {
     icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`,
-    title: "Employee Self-Service (PWA + Android)",
+    title: "Employee Self-Service",
     hook: "Your staff don't need training. They check shifts the way they check everything — on their phone.",
     bullets: [
-      "Installable Progressive Web App works on any device; Android wrapper available",
+      "Installable app works on any device",
       "Push notifications for new schedules, swap approvals, and shift changes",
       "Employees see their week at a glance, request changes, submit availability — no login friction",
     ],
@@ -81,7 +81,7 @@ const features = [
     bullets: [
       "Set a fixed time for staff to automatically receive a reminder to submit their availability — weekly, on the day and time you choose",
       "Configure an automated generate-and-publish moment: the system builds the schedule and notifies everyone without you lifting a finger",
-      "Employees receive a push notification and email the moment the schedule goes live — no prompting, no group messages",
+      "Employees receive a push notification and email the moment the schedule goes live — no group messages",
     ],
   },
   {
@@ -89,7 +89,7 @@ const features = [
     title: "Multi-Department & Role Configuration",
     hook: "Two departments or twelve — the structure adapts to your venue, not the other way around.",
     bullets: [
-      "Create departments (Bar, Kitchen, Floor, Host) with custom shift types per department",
+      "Create departments (Bar, Kitchen, Floor, Security) with custom shift types per department, complete with their own rules and restrictions",
       "Define ranks within departments with fill rules: who can cover whose role in a pinch",
       "Per-department scheduling so kitchen and bar managers own their own view",
     ],
