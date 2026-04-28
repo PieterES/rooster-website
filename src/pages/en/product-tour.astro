@@ -1,0 +1,421 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Button from "../../components/Button.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+---
+
+<BaseLayout
+  title="The app in action — HorecaRooster"
+  description="See how HorecaRooster looks for staff and managers. From schedule planning to leave requests — live screenshots of the app."
+  lang="en"
+>
+
+  <!-- HERO -->
+  <section class="bg-[var(--color-forest)] pt-32 pb-24 px-6 lg:px-8 text-center text-white">
+    <div class="max-w-3xl mx-auto">
+      <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-4">Product tour</p>
+      <h1 class="font-display font-bold text-4xl md:text-5xl mb-6 leading-tight">
+        See it for yourself.
+      </h1>
+      <p class="text-white/80 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+        From staff app to manager dashboard — this is what HorecaRooster looks like in practice.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="#staff" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-6 py-3 rounded-xl transition-colors">
+          Staff App ↓
+        </a>
+        <a href="#manager" class="bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] text-white font-semibold px-6 py-3 rounded-xl transition-colors">
+          Manager Dashboard ↓
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- STAFF APP -->
+  <section id="staff" class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <SectionHeading
+        title="For your team: everything in their pocket"
+        subtitle="Staff manage their availability, view their schedule, and submit swap requests — directly from the app."
+        align="center"
+      />
+      <div class="grid grid-cols-2 gap-8 lg:gap-12 mt-14 max-w-3xl mx-auto">
+        {[
+          { src: "/screenshots/employee-dashboard.png", label: "Dashboard", desc: "Upcoming shifts, pending requests and notifications in one overview." },
+          { src: "/screenshots/employee-availability.png", label: "Availability", desc: "Weekly template plus day-specific overrides." },
+          { src: "/screenshots/employee-schedule.png", label: "Schedule", desc: "Month and week view of the full team schedule." },
+          { src: "/screenshots/employee-shifts.png", label: "Shifts", desc: "Claim open shifts and track time registrations." },
+        ].map((screen) => (
+          <div class="flex flex-col items-center gap-4">
+            <div class="relative w-full max-w-[360px] mx-auto">
+              <div class="bg-[#1C1C1E] rounded-[2.5rem] px-[8px] pt-3 pb-5 shadow-2xl ring-1 ring-white/5">
+                <div class="rounded-[1.5rem] overflow-hidden bg-gray-200">
+                  <img
+                    src={screen.src}
+                    alt={screen.label}
+                    class="w-full block"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+              <div class="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-[14px] bg-[#1C1C1E] rounded-b-xl z-10"></div>
+            </div>
+            <div class="text-center">
+              <p class="font-display font-semibold text-[var(--color-charcoal)] text-sm">{screen.label}</p>
+              <p class="text-[var(--color-stone)] text-xs mt-1 leading-relaxed max-w-[160px] mx-auto">{screen.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MANAGER: SCHEDULE PLANNER -->
+  <section id="manager" class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="max-w-2xl mb-12">
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Manager dashboard</p>
+        <h2 class="font-display font-bold text-3xl md:text-4xl text-[var(--color-charcoal)] mb-4 leading-tight">
+          Your schedule. Fully in control.
+        </h2>
+        <p class="text-[var(--color-stone)] text-lg leading-relaxed mb-6">
+          The schedule planner gives you a complete weekly overview per department. Drag staff onto shifts, see who's available, and publish with one click.
+        </p>
+        <ul class="space-y-3">
+          {[
+            "Color-coded by department — Bar, Kitchen, Service",
+            "Available staff visible directly below the schedule grid",
+            "Live cost, hours, and coverage tracked in the footer",
+            "Locked shifts are never changed by the auto-planner",
+          ].map((item) => (
+            <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
+              <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-xl overflow-hidden shadow-2xl border border-gray-200">
+        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          </div>
+          <div class="flex-1 mx-4">
+            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.rooster-maker.app/schedule</div>
+          </div>
+        </div>
+        <div class="bg-gray-100 min-h-[300px]">
+          <img
+            src="/screenshots/admin-schedule.png"
+            alt="HorecaRooster schedule planner"
+            class="w-full"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MANAGER: TEMPLATES (alternating) -->
+  <section class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200 order-2 lg:order-1">
+        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          </div>
+          <div class="flex-1 mx-4">
+            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.rooster-maker.app/templates</div>
+          </div>
+        </div>
+        <div class="bg-gray-100 min-h-[200px]">
+          <img src="/screenshots/admin-templates.png" alt="Schedule templates" class="w-full" loading="lazy" />
+        </div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Schedule templates</p>
+        <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
+          Build it once.<br/>Reuse it every week.
+        </h2>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-6">
+          Create reusable weekly templates per season and department. The planner uses the template as a starting point and auto-fills open slots based on availability.
+        </p>
+        <ul class="space-y-3">
+          {[
+            "Multiple templates per department (e.g. summer/winter)",
+            "Assign fixed staff to specific shifts in advance",
+            "Planner fills remaining open slots automatically",
+          ].map((item) => (
+            <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
+              <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MANAGER: DASHBOARD -->
+  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div>
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Dashboard</p>
+        <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
+          Everything at a glance.
+        </h2>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-6">
+          See at a glance how many pending actions there are, who's working today, and daily coverage for the week. Staff birthdays are shown too.
+        </p>
+        <ul class="space-y-3">
+          {[
+            "Pending claims, swap requests and corrections at the top",
+            "Clock-in overview per day with departments",
+            "Weekly coverage shown as a bar per day",
+          ].map((item) => (
+            <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
+              <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200">
+        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          </div>
+          <div class="flex-1 mx-4">
+            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.rooster-maker.app/dashboard</div>
+          </div>
+        </div>
+        <div class="bg-gray-100">
+          <img src="/screenshots/admin-dashboard.png" alt="Manager dashboard" class="w-full" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MANAGER: HOURS -->
+  <section class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200 order-2 lg:order-1">
+        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          </div>
+          <div class="flex-1 mx-4">
+            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.rooster-maker.app/hours</div>
+          </div>
+        </div>
+        <div class="bg-gray-100">
+          <img src="/screenshots/admin-hours.png" alt="Hours and corrections" class="w-full" loading="lazy" />
+        </div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Hours & Corrections</p>
+        <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
+          Hours that add up.<br/>Every time.
+        </h2>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-6">
+          Manage worked hours per day and department. Staff can submit correction requests if they forgot to clock in or out — you approve or decline with one click.
+        </p>
+        <ul class="space-y-3">
+          {[
+            "Pending corrections shown at the top per day",
+            "Clock-in and clock-out times per employee",
+            "Break, staff lunch and dinner tracked automatically",
+          ].map((item) => (
+            <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
+              <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MANAGER: REPORTS -->
+  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div>
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Reports</p>
+        <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
+          Insight into your labour costs.
+        </h2>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-6">
+          View monthly or custom reports of labour costs, net hours, and no-shows per employee. Filter by location and export for your administration.
+        </p>
+        <ul class="space-y-3">
+          {[
+            "Total hours, break and net hours per employee",
+            "Labour costs including staff dinner deductions",
+            "No-shows and contract deviations immediately visible",
+          ].map((item) => (
+            <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
+              <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200">
+        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          </div>
+          <div class="flex-1 mx-4">
+            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.rooster-maker.app/reports</div>
+          </div>
+        </div>
+        <div class="bg-gray-100">
+          <img src="/screenshots/admin-reports.png" alt="Reports" class="w-full" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MANAGER: REQUESTS -->
+  <section class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <SectionHeading
+        title="Requests without the messaging"
+        subtitle="Staff submit everything through the app. You approve with one click."
+        align="center"
+      />
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+        {[
+          {
+            src: "/screenshots/admin-swaps.png",
+            title: "Swap Requests",
+            desc: "Staff request shift swaps between each other. You see both sides, add a note if needed, and approve or decline.",
+          },
+          {
+            src: "/screenshots/admin-leave.png",
+            title: "Leave Requests",
+            desc: "On approval, the employee is automatically marked unavailable for those dates and any scheduled shifts are removed.",
+          },
+        ].map((item) => (
+          <div class="bg-[var(--color-cream)] rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+            <div class="bg-[#f8fafc] border-b border-gray-100 px-3 py-2 flex items-center gap-1.5">
+              <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+            </div>
+            <div class="bg-gray-50 min-h-[100px] overflow-hidden">
+              <img src={item.src} alt={item.title} class="w-full" loading="lazy" />
+            </div>
+            <div class="p-6">
+              <h3 class="font-display font-semibold text-[var(--color-charcoal)] mb-2">{item.title}</h3>
+              <p class="text-[var(--color-stone)] text-sm leading-relaxed">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MANAGER: CHECKLISTS + ANNOUNCEMENTS -->
+  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto space-y-20">
+
+      <!-- Checklists -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Checklists</p>
+          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
+            Opening done?<br/>You'll see it instantly.
+          </h2>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Staff tick off their checklist in the app. You see per day who completed what, when, and whether everything is done. Add a manager note if something is missing or needs follow-up.
+          </p>
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200">
+          <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
+            <div class="flex gap-1.5">
+              <div class="w-3 h-3 rounded-full bg-red-400"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+              <div class="w-3 h-3 rounded-full bg-green-400"></div>
+            </div>
+          </div>
+          <div class="bg-gray-100 min-h-[120px]">
+            <img src="/screenshots/admin-checklists.png" alt="Checklists management" class="w-full" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Announcements -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200 order-2 lg:order-1">
+          <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
+            <div class="flex gap-1.5">
+              <div class="w-3 h-3 rounded-full bg-red-400"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+              <div class="w-3 h-3 rounded-full bg-green-400"></div>
+            </div>
+          </div>
+          <div class="bg-gray-100 min-h-[120px]">
+            <img src="/screenshots/admin-announcements.png" alt="Send announcements" class="w-full" loading="lazy" />
+          </div>
+        </div>
+        <div class="order-1 lg:order-2">
+          <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Announcements</p>
+          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
+            Keep everyone informed.<br/>Instantly.
+          </h2>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Send an announcement to all staff, a specific department, or a specific rank. Perfect for staff meetings, menu changes, or any other update. All sent messages are stored in history.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- CTA -->
+  <section class="bg-[var(--color-dark)] py-28 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-4xl md:text-5xl leading-tight mb-4">
+        Ready to try it yourself?
+      </h2>
+      <p class="text-white/70 text-lg mb-10">
+        Start today — your team set up in 15 minutes, your first schedule generated the same day.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button href="/en/contact" variant="secondary" size="lg">Book a demo →</Button>
+        <Button href="/en/pricing" variant="ghost" size="lg">View pricing →</Button>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

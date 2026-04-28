@@ -107,6 +107,66 @@ import SectionHeading from "../components/SectionHeading.astro";
   </section>
 
 
+  <!-- SECTIE: APP PREVIEW -->
+  <section class="bg-[var(--color-dark)] py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">De app in actie</p>
+        <h2 class="font-display font-bold text-3xl md:text-4xl text-white mb-4">
+          Gebouwd voor beheerders én medewerkers.
+        </h2>
+        <p class="text-white/70 text-lg max-w-2xl mx-auto">
+          Eén platform — een intuïtieve app voor je team, een krachtig dashboard voor jou.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-end">
+        <!-- Phone mockup -->
+        <div class="flex flex-col items-center gap-6">
+          <div class="relative w-52">
+            <div class="bg-[#1C1C1E] rounded-[2.5rem] p-[7px] shadow-[0_30px_80px_rgba(0,0,0,0.6)] ring-1 ring-white/10">
+              <div class="rounded-[2rem] overflow-hidden bg-gray-800">
+                <img src="/screenshots/employee-dashboard.png" alt="Medewerkers app dashboard" class="w-full block" loading="lazy" />
+              </div>
+            </div>
+            <div class="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-[14px] bg-[#1C1C1E] rounded-b-xl z-10"></div>
+          </div>
+          <div class="text-center">
+            <p class="text-white font-display font-semibold text-lg mb-1">Medewerkers App</p>
+            <p class="text-white/60 text-sm">Rooster, beschikbaarheid, diensten & meldingen</p>
+          </div>
+        </div>
+        <!-- Browser mockup -->
+        <div class="flex flex-col gap-5">
+          <div class="rounded-xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
+            <div class="bg-[#1e2533] px-4 py-2.5 flex items-center gap-2 border-b border-white/10">
+              <div class="flex gap-1.5">
+                <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              </div>
+              <div class="flex-1 mx-3">
+                <div class="bg-white/10 rounded px-3 py-1 text-xs text-white/40 font-mono">app.rooster-maker.app</div>
+              </div>
+            </div>
+            <div class="bg-gray-800 overflow-hidden aspect-video">
+              <img src="/screenshots/admin-schedule.png" alt="Beheerder roosterplanner" class="w-full h-full object-cover object-top" loading="lazy" />
+            </div>
+          </div>
+          <div class="text-center md:text-left">
+            <p class="text-white font-display font-semibold text-lg mb-1">Beheerder Dashboard</p>
+            <p class="text-white/60 text-sm">Inplanning, uren, aanvragen & rapporten</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-16">
+        <a href="/product-tour" class="inline-flex items-center gap-2 text-[var(--color-amber)] font-semibold hover:text-[var(--color-amber-light)] transition-colors text-lg">
+          Bekijk de volledige product tour →
+        </a>
+      </div>
+    </div>
+  </section>
+
+
   <!-- SECTIE 4: FUNCTIONALITEITEN HIGHLIGHTS -->
   <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
     <div class="max-w-5xl mx-auto">

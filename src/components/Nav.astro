@@ -9,19 +9,21 @@ const isNL = !currentPath.startsWith("/en");
 
 // Page slug mapping NL (root) <-> EN (/en/)
 const langMap: Record<string, string> = {
-  "/":                "/en/",
-  "/functies":        "/en/features",
-  "/prijzen":         "/en/pricing",
-  "/hoe-het-werkt":   "/en/how-it-works",
-  "/over-ons":        "/en/about",
-  "/contact":         "/en/contact",
-  "/en/":             "/",
-  "/en":              "/",
-  "/en/features":     "/functies",
-  "/en/pricing":      "/prijzen",
-  "/en/how-it-works": "/hoe-het-werkt",
-  "/en/about":        "/over-ons",
-  "/en/contact":      "/contact",
+  "/":                    "/en/",
+  "/functies":            "/en/features",
+  "/prijzen":             "/en/pricing",
+  "/hoe-het-werkt":       "/en/how-it-works",
+  "/product-tour":        "/en/product-tour",
+  "/over-ons":            "/en/about",
+  "/contact":             "/en/contact",
+  "/en/":                 "/",
+  "/en":                  "/",
+  "/en/features":         "/functies",
+  "/en/pricing":          "/prijzen",
+  "/en/how-it-works":     "/hoe-het-werkt",
+  "/en/product-tour":     "/product-tour",
+  "/en/about":            "/over-ons",
+  "/en/contact":          "/contact",
 };
 
 const normalised = currentPath === "/" ? "/" : currentPath.replace(/\/$/, "");
@@ -30,17 +32,17 @@ const alternatePath = langMap[normalised] ?? (isNL ? "/en/" : "/");
 const links = isNL
   ? [
       { href: "/functies",      label: "Functies" },
+      { href: "/product-tour",  label: "Product" },
       { href: "/prijzen",       label: "Prijzen" },
       { href: "/hoe-het-werkt", label: "Hoe het werkt" },
-      { href: "/over-ons",      label: "Over ons" },
       { href: "/contact",       label: "Contact" },
     ]
   : [
-      { href: "/en/features",    label: "Features" },
-      { href: "/en/pricing",     label: "Pricing" },
-      { href: "/en/how-it-works",label: "How It Works" },
-      { href: "/en/about",       label: "About" },
-      { href: "/en/contact",     label: "Contact" },
+      { href: "/en/features",      label: "Features" },
+      { href: "/en/product-tour",  label: "Product" },
+      { href: "/en/pricing",       label: "Pricing" },
+      { href: "/en/how-it-works",  label: "How It Works" },
+      { href: "/en/contact",       label: "Contact" },
     ];
 
 const ctaLabel = isNL ? "Aan de slag →" : "Get started →";
