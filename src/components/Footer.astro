@@ -16,12 +16,14 @@ const t = lang === "nl" ? {
   about: "Over ons",
   contact: "Contact",
   support: "Support",
+  manual: "Handleiding",
   copyright: "© 2026 HorecaRooster. Alle rechten voorbehouden.",
   featuresHref: "/functies",
   pricingHref: "/prijzen",
   howItWorksHref: "/hoe-het-werkt",
   aboutHref: "/over-ons",
   contactHref: "/contact",
+  manualHref: "/handleiding",
 } : {
   tagline: "Workforce scheduling for Dutch hospitality.",
   madeIn: "Made in the Netherlands",
@@ -33,12 +35,14 @@ const t = lang === "nl" ? {
   about: "About",
   contact: "Contact",
   support: "Support",
+  manual: "User manual",
   copyright: "© 2026 HorecaRooster. All rights reserved.",
   featuresHref: "/en/features",
   pricingHref: "/en/pricing",
   howItWorksHref: "/en/how-it-works",
   aboutHref: "/en/about",
   contactHref: "/en/contact",
+  manualHref: "/en/manual",
 };
 ---
 <footer class="bg-[var(--color-dark)] text-gray-400">
@@ -74,6 +78,7 @@ const t = lang === "nl" ? {
             <li><a href={t.aboutHref} class="hover:text-white transition-colors">{t.about}</a></li>
             <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.contact}</a></li>
             <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.support}</a></li>
+            <li><a href={t.manualHref} class="hover:text-white transition-colors">{t.manual}</a></li>
           </ul>
         </div>
       </div>

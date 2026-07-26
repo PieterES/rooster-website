@@ -1,0 +1,558 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const adminToc = [
+  { group: null, items: [
+    { href: "#admin-start", label: "Quick start" },
+    { href: "#admin-dashboard", label: "Dashboard" },
+  ]},
+  { group: "Staff", items: [
+    { href: "#admin-medewerkers", label: "Employees" },
+    { href: "#admin-afdelingen", label: "Departments & roles" },
+  ]},
+  { group: "Overview", items: [
+    { href: "#admin-uren", label: "Hours" },
+    { href: "#admin-klok", label: "Clock & kiosk" },
+    { href: "#admin-checklists", label: "Checklists" },
+    { href: "#admin-rapporten", label: "Reports" },
+  ]},
+  { group: "Schedule", items: [
+    { href: "#admin-rooster", label: "Building the schedule" },
+    { href: "#admin-templates", label: "Recurring shifts" },
+    { href: "#admin-diensten", label: "Shifts" },
+    { href: "#admin-motor", label: "Schedule engine" },
+  ]},
+  { group: "Communication", items: [
+    { href: "#admin-communicatie", label: "Announcements, chat & logbook" },
+  ]},
+  { group: "Requests", items: [
+    { href: "#admin-verzoeken", label: "Claims, swaps, hours & leave" },
+  ]},
+  { group: "Administration", items: [
+    { href: "#admin-instellingen", label: "Settings" },
+    { href: "#admin-support", label: "Support" },
+  ]},
+];
+
+const employeeToc = [
+  { group: null, items: [
+    { href: "#me-start", label: "Quick start" },
+    { href: "#me-vandaag", label: "Today" },
+    { href: "#me-rooster", label: "Schedule" },
+    { href: "#me-beschikbaar", label: "Availability" },
+    { href: "#me-checklist", label: "Checklist" },
+    { href: "#me-meer", label: "More" },
+    { href: "#me-klok", label: "Clocking in" },
+  ]},
+];
+
+const quickStart = [
+  { n: "01", t: "Create departments & roles", d: "Without this structure you can't add employees or shifts." },
+  { n: "02", t: "Add employees", d: "Link every employee to a department + role, with contract hours and hourly wage." },
+  { n: "03", t: "Define shifts", d: "E.g. Morning, Evening, Closing — with times per department." },
+  { n: "04", t: "Build a recurring shift schedule", d: "So you don't start from scratch every week." },
+  { n: "05", t: "Build and publish your first schedule", d: "Optionally with help from the schedule engine." },
+  { n: "06", t: "Generate a kiosk token", d: "In Settings, so employees can clock in/out." },
+];
+
+const empQuickStart = [
+  { n: "01", t: "Set your password", d: "Via the activation email — required on first login." },
+  { n: "02", t: "Fill in your availability", d: "So you get scheduled for shifts." },
+  { n: "03", t: "Add the app to your home screen", d: "Turn on push notifications so you're notified when something changes for you." },
+  { n: "04", t: "View the schedule", d: "Optionally sync it with your own calendar." },
+];
+---
+
+<BaseLayout
+  title="User Manual"
+  description="One overview of how HorecaRooster works — for admins who run the team and employees who use it day to day."
+  lang="en"
+>
+  <!-- Hero -->
+  <section class="bg-[var(--color-forest)] pt-32 pb-16 px-6 lg:px-8 text-white">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="inline-block text-xs font-semibold tracking-wider uppercase text-[var(--color-amber-light)] bg-white/10 rounded-full px-3 py-1 mb-4">
+        Internal documentation
+      </span>
+      <h1 class="font-display font-bold text-4xl md:text-5xl leading-tight mb-4">User Manual</h1>
+      <p class="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto">
+        How scheduling, hours and communication work in HorecaRooster — for admins who run the team
+        and for employees who use it day to day.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[220px_1fr] gap-12 py-16">
+
+      <!-- TOC -->
+      <aside class="md:sticky md:top-24 md:self-start">
+        <details class="md:hidden mb-6 rounded-xl border border-gray-100 bg-[var(--color-cream)]">
+          <summary class="cursor-pointer px-4 py-3 font-display font-semibold text-[var(--color-charcoal)]">
+            Table of contents
+          </summary>
+          <div class="px-4 pb-4">
+            <nav class="space-y-6">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-2">For admins</p>
+                {adminToc.map((g) => (
+                  <div class="mb-3">
+                    {g.group && <p class="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-stone)] mb-1">{g.group}</p>}
+                    <ul class="space-y-1">
+                      {g.items.map((i) => (
+                        <li><a href={i.href} class="text-sm text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">{i.label}</a></li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-2">For employees</p>
+                {employeeToc.map((g) => (
+                  <ul class="space-y-1">
+                    {g.items.map((i) => (
+                      <li><a href={i.href} class="text-sm text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">{i.label}</a></li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
+            </nav>
+          </div>
+        </details>
+
+        <nav class="hidden md:block space-y-6 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-2">For admins</p>
+            {adminToc.map((g) => (
+              <div class="mb-3">
+                {g.group && <p class="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-stone)] mb-1">{g.group}</p>}
+                <ul class="space-y-1">
+                  {g.items.map((i) => (
+                    <li><a href={i.href} class="text-sm text-[var(--color-stone)] hover:text-[var(--color-forest)] border-l-2 border-transparent hover:border-[var(--color-forest)] pl-2 -ml-[2px] block py-0.5">{i.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-2">For employees</p>
+            {employeeToc.map((g) => (
+              <ul class="space-y-1">
+                {g.items.map((i) => (
+                  <li><a href={i.href} class="text-sm text-[var(--color-stone)] hover:text-[var(--color-forest)] border-l-2 border-transparent hover:border-[var(--color-forest)] pl-2 -ml-[2px] block py-0.5">{i.label}</a></li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <div class="min-w-0 max-w-3xl">
+
+        <!-- PART 1: ADMIN -->
+        <div class="flex items-baseline gap-3 mb-2">
+          <span class="text-xs font-semibold text-[var(--color-forest)] bg-[var(--color-forest)]/10 rounded-md px-2 py-1">Part 1</span>
+          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)]">For admins</h2>
+        </div>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-10">
+          As an admin you set up the team, the schedule and the rules. The menu groups below follow exactly
+          the left-hand menu you see when logged in as an admin.
+        </p>
+
+        <section id="admin-start" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Quick start (new company)</h3>
+          <p class="text-[var(--color-stone)] mb-6">First-time setup goes in this order — each step builds on the previous one:</p>
+          <div class="space-y-5">
+            {quickStart.map((s) => (
+              <div class="flex gap-4 items-start">
+                <div class="font-display font-bold text-2xl text-[var(--color-amber)] opacity-40 leading-none w-10 shrink-0 text-right">{s.n}</div>
+                <div>
+                  <p class="font-semibold text-[var(--color-charcoal)]">{s.t}</p>
+                  <p class="text-sm text-[var(--color-stone)]">{s.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="admin-dashboard" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Dashboard</h3>
+          <p class="path-pill">Admin → Dashboard</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Your landing page after logging in. Gives an overview of today: who's working, open announcements
+            and shortcuts to the most important tasks. Colored badges on menu items (e.g. on
+            <strong class="text-[var(--color-charcoal)]">Clock</strong>, <strong class="text-[var(--color-charcoal)]">Claims</strong>,
+            <strong class="text-[var(--color-charcoal)]">Swap requests</strong>) mean something is waiting on your action —
+            that's always the fastest way to see what needs attention.
+          </p>
+        </section>
+
+        <section id="admin-medewerkers" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Employees</h3>
+          <p class="path-pill">Staff → Employees</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Manage everyone who works for the company here: name, contact details, staff number + PIN
+            (for the clock), hourly wage, weekly contract hours, date of birth and which department(s) and role(s)
+            they're linked to. An employee can be linked to multiple departments.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            You also open the account from this page: when creating an employee, they receive an email to
+            activate their account and set a password.
+          </p>
+          <div class="callout callout-tip">
+            <span class="callout-tag text-[var(--color-forest)]">Tip</span>
+            <p>If sending activation emails isn't configured, the screen shows the temporary password
+              directly so you can hand it over manually.</p>
+          </div>
+        </section>
+
+        <section id="admin-afdelingen" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Departments & roles</h3>
+          <p class="path-pill">Staff → Departments</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            A <em>department</em> is, for example, Floor, Kitchen or Bar. Within each department you create
+            <em>roles</em> (e.g. Manager, Experienced, New) with an order from senior to junior. That
+            order determines the default role for new employees and is used by the schedule engine.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            You can set <strong class="text-[var(--color-charcoal)]">fallback rules</strong>: which role may
+            cover a shift from another role if nobody with the required role is available
+            (e.g. a Bar Manager may cover a Bartender shift). This prevents shifts from staying unfilled
+            purely because the exact role is missing.
+          </p>
+        </section>
+
+        <section id="admin-uren" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Hours</h3>
+          <p class="path-pill">Overview → Hours</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            A daily overview of the clock status per scheduled shift: who's clocked in, who's late, who hasn't
+            clocked out yet. You also see <em>extra</em> (unscheduled) clock entries here and can manually add
+            or correct a time record.
+          </p>
+        </section>
+
+        <section id="admin-klok" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Clock & kiosk</h3>
+          <p class="path-pill">Overview → Clock · Administration → Settings → Kiosk</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">
+            Employees clock in and out on a shared device (tablet/PC at the entrance) using their staff number +
+            PIN — this is called the <strong class="text-[var(--color-charcoal)]">kiosk</strong>. To pair the kiosk:
+          </p>
+          <ol class="list-decimal list-inside space-y-1.5 text-[var(--color-stone)] mb-3">
+            <li>Go to <span class="label">Settings → Kiosk</span> and copy the kiosk token.</li>
+            <li>Open <span class="label">/clock</span> on the kiosk device and paste the token during setup.</li>
+            <li>The device remembers the token; employees then only need to enter their staff number + PIN.</li>
+          </ol>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            If you've allowed certain employees to clock colleagues in/out from their own account
+            (without the kiosk), configure that via the employee's permissions.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Optionally set up <strong class="text-[var(--color-charcoal)]">clock-out fields</strong> (e.g.
+            break duration, meal allowance with a price) — these appear as short questions when someone
+            clocks out, and the answers show up in reports and exports.
+          </p>
+        </section>
+
+        <section id="admin-checklists" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Checklists</h3>
+          <p class="path-pill">Overview → Checklists</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Create recurring tasks (opening, closing, HACCP rounds) and assign them to employees or roles.
+            Completion is visible per employee, so you can see what has and hasn't been checked off.
+          </p>
+        </section>
+
+        <section id="admin-rapporten" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Reports</h3>
+          <p class="path-pill">Overview → Reports</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Pick a month or a custom period for an overview of worked vs. scheduled hours, labor costs
+            and no-shows, plus a per-employee table showing deviation from contract hours. Export as PDF or
+            Excel, or use the <strong class="text-[var(--color-charcoal)]">Dutch payroll export</strong>
+            (staff number, gross pay, meal allowance, etc.) to hand over to your payroll administration.
+          </p>
+        </section>
+
+        <section id="admin-rooster" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Building the schedule</h3>
+          <p class="path-pill">Schedule → Schedule</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">
+            The week view where you build the schedule: drag employees onto shifts, or leave a shift
+            unassigned to fill in later. Practical buttons in the action bar:
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Copy previous week</strong> — quickly lay down a base for a new week.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Publish</strong> — makes the schedule visible to employees (only then do they get a notification).</li>
+            <li><strong class="text-[var(--color-charcoal)]">Shift briefing</strong> — a short note on a specific shift, visible to the employee(s) scheduled on it.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Export</strong> — as PDF (to print/post) or Excel.</li>
+          </ul>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Published weeks can be found under <span class="label">Schedule → Published</span>.
+          </p>
+        </section>
+
+        <section id="admin-templates" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Recurring shifts (templates)</h3>
+          <p class="path-pill">Schedule → Recurring shifts</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            A template is a reusable weekly layout — which shifts recur on which day with which staffing.
+            Apply the template to a week to fill it instantly with the standard structure.
+            On a higher plan you can manage multiple template groups (e.g. "Summer" and "Winter") and
+            switch between seasons.
+          </p>
+        </section>
+
+        <section id="admin-diensten" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Shifts</h3>
+          <p class="path-pill">Schedule → Shifts</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            This is where you define the shift types themselves: name, start and end time, and which
+            department it belongs to. A shift that ends after midnight (e.g. a closing shift) is automatically
+            recognized as a "night shift" so the rest-time rule accounts for it correctly.
+          </p>
+        </section>
+
+        <section id="admin-motor" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Schedule engine (auto-fill)</h3>
+          <p class="path-pill">Schedule → Schedule engine</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Let the system automatically fill empty shifts based on availability, contract hours,
+            fair distribution of hours and the fallback rules between roles. The page itself explains
+            the order of trade-offs (who gets priority for a shift) in detail.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            In Settings you can optionally turn on <strong class="text-[var(--color-charcoal)]">automatic scheduling</strong>:
+            the system then generates a draft schedule itself at a fixed time each week, which you
+            then review and publish.
+          </p>
+          <div class="callout callout-warn">
+            <span class="callout-tag text-[var(--color-amber)]">Note</span>
+            <p>The schedule engine isn't available on the entry-level plan; automatic scheduling and
+              automatically offering open shifts require a higher plan.</p>
+          </div>
+        </section>
+
+        <section id="admin-communicatie" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Announcements, chat & logbook</h3>
+          <p class="path-pill">Communication → Announcements · Chat · Logbook</p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Announcements</strong> — a company-wide message on every employee's dashboard.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Chat</strong> — channels between employees and admins; can be turned off per company.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Logbook</strong> — an ongoing log for daily notes (e.g. handover between shifts).</li>
+          </ul>
+        </section>
+
+        <section id="admin-verzoeken" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Claims, swap requests, hour corrections & leave</h3>
+          <p class="path-pill">Requests → Claims · Swap requests · Hour corrections · Leave requests</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">
+            Everything an employee submits that needs a decision from you (or an authorized team lead)
+            comes together here — with badges on the menu as soon as something is open:
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Claims</strong> — an employee signs up for an open, published shift.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Swap requests</strong> — a shift swap between two employees, or an open swap/takeover anyone can respond to.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Hour corrections</strong> — an employee requests an adjustment to a clock record.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Leave requests</strong> — approve or reject, with an optional note.</li>
+          </ul>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Under <span class="label">Settings → Swap requests</span> you set who can approve swap
+            requests — this can also be delegated to team leads (they then see an <span class="label">Approvals</span> tab
+            in their own account).
+          </p>
+        </section>
+
+        <section id="admin-instellingen" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Settings</h3>
+          <p class="path-pill">Administration → Settings</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">The central place for company-wide configuration, split into sections:</p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Notifications</strong> — which automatic emails/push notifications are active.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Schedule engine</strong> — parameters for auto-fill.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Schedule rhythm</strong> — the default rhythm you schedule in.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Availability reminder</strong> — weekly reminder to employees.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Shift reminder</strong> — daily reminder about that day's shift.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Automatic scheduling</strong> — draft schedule on a fixed day/time.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Auto-offer</strong> — automatically alert employees to an unfilled published shift.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Features</strong> — turn chat and the leave module on or off per company.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Swap requests</strong> — who has approval rights.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Kiosk</strong> — the token for the kiosk device.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Account & Language</strong> — your own details and NL/EN display.</li>
+          </ul>
+        </section>
+
+        <section id="admin-support" class="scroll-mt-24 mb-16">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Support</h3>
+          <p class="path-pill">Administration → Support</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Questions or issues? Submit them here. If the admin chatbot assistant is enabled for
+            your company, you'll find it as a separate widget in the bottom-right corner — it can look
+            up answers directly in your own data (employees, schedule, hours).
+          </p>
+        </section>
+
+        <hr class="border-gray-100 my-16" />
+
+        <!-- PART 2: EMPLOYEE -->
+        <div class="flex items-baseline gap-3 mb-2">
+          <span class="text-xs font-semibold text-[var(--color-forest)] bg-[var(--color-forest)]/10 rounded-md px-2 py-1">Part 2</span>
+          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)]">For employees</h2>
+        </div>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-10">
+          As an employee you mainly use the app on your phone. At the bottom you'll see five fixed tabs:
+          <span class="label">Today</span>, <span class="label">Schedule</span>, <span class="label">Availability</span>,
+          <span class="label">Checklist</span> and <span class="label">More</span>.
+        </p>
+
+        <section id="me-start" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Quick start</h3>
+          <div class="space-y-5 mt-4">
+            {empQuickStart.map((s) => (
+              <div class="flex gap-4 items-start">
+                <div class="font-display font-bold text-2xl text-[var(--color-amber)] opacity-40 leading-none w-10 shrink-0 text-right">{s.n}</div>
+                <div>
+                  <p class="font-semibold text-[var(--color-charcoal)]">{s.t}</p>
+                  <p class="text-sm text-[var(--color-stone)]">{s.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="me-vandaag" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Today</h3>
+          <p class="path-pill">Tab: Today</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Your home screen: your next shift, current announcements and any open
+            checklist tasks at a glance.
+          </p>
+        </section>
+
+        <section id="me-rooster" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Schedule</h3>
+          <p class="path-pill">Tab: Schedule</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Your own (published) shifts per week. Schedules that haven't been published yet are not shown —
+            a shift only becomes visible and counts once the admin publishes it.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Under the schedule settings you can copy a <strong class="text-[var(--color-charcoal)]">personal calendar link (iCal)</strong>
+            and add it to Google Calendar, Apple Calendar or Outlook — your schedule then appears
+            automatically in your own calendar app and stays up to date whenever something changes.
+          </p>
+        </section>
+
+        <section id="me-beschikbaar" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Availability</h3>
+          <p class="path-pill">Tab: Availability</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">
+            Indicate per week when you can work. There is a <strong class="text-[var(--color-charcoal)]">default availability</strong>
+            that recurs every week, and you can override it for a specific week (e.g. around a
+            dentist appointment or vacation) without losing your default pattern.
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li>The <strong class="text-[var(--color-charcoal)]">star</strong> on a day marks a preferred day.</li>
+            <li>The <strong class="text-[var(--color-charcoal)]">pencil</strong> opens a note field and/or a preferred shift for that day.</li>
+          </ul>
+          <div class="callout callout-warn">
+            <span class="callout-tag text-[var(--color-amber)]">Note</span>
+            <p>The earlier and more completely you fill in your availability, the better the schedule
+              (manual or automatic) can take it into account.</p>
+          </div>
+        </section>
+
+        <section id="me-checklist" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Checklist</h3>
+          <p class="path-pill">Tab: Checklist</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Tasks assigned to you (or your role), for example for opening or closing the venue.
+            Check them off as soon as they're done.
+          </p>
+        </section>
+
+        <section id="me-meer" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">More</h3>
+          <p class="path-pill">Tab: More</p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Chat</strong> — messages with colleagues and admins (if enabled).</li>
+            <li><strong class="text-[var(--color-charcoal)]">Leave</strong> — request leave and view the status of past requests.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Requests</strong> — swap a shift with a colleague, offer an open swap, or take over an open shift.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Hours</strong> — your worked hours per period, and submitting a correction.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Approvals</strong> — only visible if you're authorized to approve others' requests.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Clock colleagues in/out</strong> — only visible with the right permissions.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Settings</strong> — notification preferences, push notifications on/off, and the app language.</li>
+          </ul>
+        </section>
+
+        <section id="me-klok" class="scroll-mt-24 mb-8">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Clocking in</h3>
+          <p class="path-pill">Shared device: /clock</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            You don't clock in through the app on your own phone, but on the shared kiosk device at
+            the venue: enter your staff number and PIN to clock in or out. Ask your admin for your
+            staff number/PIN if you don't have one yet. If your venue has a clock-out question set up
+            (e.g. break duration or meal allowance), answer it briefly on screen when clocking out.
+          </p>
+          <div class="callout callout-tip">
+            <span class="callout-tag text-[var(--color-forest)]">Tip</span>
+            <p>Add the app to your home screen ("Add to Home Screen" / "Install") — it then works
+              like a regular app and you can receive push notifications even when the app isn't open.</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .path-pill {
+    display: inline-flex;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.72rem;
+    color: var(--color-stone);
+    background: var(--color-cream);
+    border: 1px solid #f0f0ee;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    margin-bottom: 0.65rem;
+  }
+  .label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.85em;
+    background: var(--color-cream);
+    border: 1px solid #f0f0ee;
+    padding: 0.05em 0.4em;
+    border-radius: 4px;
+    color: var(--color-charcoal);
+  }
+  .callout {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-top: 0.85rem;
+    font-size: 0.92rem;
+  }
+  .callout p { margin: 0; color: var(--color-stone); }
+  .callout-tag {
+    flex-shrink: 0;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 0.1rem;
+  }
+  .callout-tip {
+    background: var(--color-cream);
+    border: 1px solid #f0f0ee;
+  }
+  .callout-warn {
+    background: color-mix(in srgb, var(--color-amber) 8%, white);
+    border: 1px solid color-mix(in srgb, var(--color-amber) 25%, white);
+  }
+</style>
