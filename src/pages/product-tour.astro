@@ -45,7 +45,7 @@ import SectionHeading from "../components/SectionHeading.astro";
           { src: "/screenshots/employee-dashboard.png", label: "Dashboard", desc: "Aankomende diensten, openstaande aanvragen en meldingen in één overzicht." },
           { src: "/screenshots/employee-availability.png", label: "Beschikbaarheid", desc: "Wekelijkse template plus losse uitzonderingen per dag instellen." },
           { src: "/screenshots/employee-schedule.png", label: "Rooster", desc: "Maand- en weekoverzicht van het volledige teamrooster." },
-          { src: "/screenshots/employee-shifts.png", label: "Diensten", desc: "Open diensten claimen en urenregistratie bijhouden." },
+          { src: "/screenshots/employee-checklist.png", label: "Checklist", desc: "Terugkerende taken afvinken, per medewerker bijgehouden." },
         ].map((screen) => (
           <div class="flex flex-col items-center gap-4">
             <div class="w-full max-w-[360px] mx-auto rounded-2xl overflow-hidden border-4 border-gray-900 shadow-md">
@@ -118,7 +118,7 @@ import SectionHeading from "../components/SectionHeading.astro";
   </section>
 
 
-  <!-- ADMIN: TEMPLATES (alternating) -->
+  <!-- ADMIN: MEDEWERKERS (alternating) -->
   <section class="bg-white py-24 px-6 lg:px-8">
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200 order-2 lg:order-1">
@@ -129,26 +129,26 @@ import SectionHeading from "../components/SectionHeading.astro";
             <div class="w-3 h-3 rounded-full bg-green-400"></div>
           </div>
           <div class="flex-1 mx-4">
-            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.rooster-maker.app/templates</div>
+            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.rooster-maker.app/medewerkers</div>
           </div>
         </div>
         <div class="bg-gray-100 min-h-[200px]">
-          <img src="/screenshots/admin-templates.png" alt="Roostertemplates" class="w-full" loading="lazy" />
+          <img src="/screenshots/admin-employees.png" alt="Medewerkersoverzicht" class="w-full" loading="lazy" />
         </div>
       </div>
       <div class="order-1 lg:order-2">
-        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Roostertemplates</p>
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Medewerkers</p>
         <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
-          Eén keer bouwen.<br/>Elke week hergebruiken.
+          Je hele team.<br/>Eén overzicht.
         </h2>
         <p class="text-[var(--color-stone)] leading-relaxed mb-6">
-          Maak herbruikbare weeksjablonen per seizoen en afdeling. De planner gebruikt de template als startpunt en vult lege plekken automatisch in op basis van beschikbaarheid.
+          Naam, afdeling, functie en contracturen van iedereen op één plek. Zoek direct op naam of filter op afdeling om snel te vinden wie je zoekt.
         </p>
         <ul class="space-y-3">
           {[
-            "Meerdere templates per afdeling (bijv. zomer/winter)",
-            "Vaste medewerkers per dienst vooraf instellen",
-            "Planner vult openstaande plekken automatisch in",
+            "Contracturen en uurloon per medewerker in één oogopslag",
+            "Koppel medewerkers aan meerdere afdelingen en functies",
+            "Nieuwe medewerker toevoegen met één klik",
           ].map((item) => (
             <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
               <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
@@ -306,17 +306,12 @@ import SectionHeading from "../components/SectionHeading.astro";
         subtitle="Medewerkers dienen alles in via de app. Jij keurt goed met één klik."
         align="center"
       />
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+      <div class="max-w-md mx-auto mt-12">
         {[
           {
             src: "/screenshots/admin-swaps.png",
             title: "Ruilverzoeken",
             desc: "Medewerkers vragen onderling om diensten te ruilen. Jij ziet beide kanten, voegt eventueel een opmerking toe en keurt goed of af.",
-          },
-          {
-            src: "/screenshots/admin-leave.png",
-            title: "Verlofverzoeken",
-            desc: "Bij goedkeuring wordt de medewerker automatisch onbeschikbaar gemarkeerd en worden ingeroosterde diensten verwijderd.",
           },
         ].map((item) => (
           <div class="bg-[var(--color-cream)] rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
@@ -335,64 +330,6 @@ import SectionHeading from "../components/SectionHeading.astro";
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-
-  <!-- ADMIN: CHECKLISTS + MEDEDELINGEN -->
-  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
-    <div class="max-w-6xl mx-auto space-y-20">
-
-      <!-- Checklists -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div>
-          <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Checklists</p>
-          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
-            Opening gedaan?<br/>Je ziet het meteen.
-          </h2>
-          <p class="text-[var(--color-stone)] leading-relaxed">
-            Medewerkers vinken hun checklist af via de app. Jij ziet per dag wie wat heeft gedaan, wanneer, en of alles compleet is. Voeg een beheerdernotitie toe als iets mist of opvalt.
-          </p>
-        </div>
-        <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200">
-          <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
-            <div class="flex gap-1.5">
-              <div class="w-3 h-3 rounded-full bg-red-400"></div>
-              <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-              <div class="w-3 h-3 rounded-full bg-green-400"></div>
-            </div>
-          </div>
-          <div class="bg-gray-100 min-h-[120px]">
-            <img src="/screenshots/admin-checklists.png" alt="Checklists beheer" class="w-full" loading="lazy" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Mededelingen -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200 order-2 lg:order-1">
-          <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
-            <div class="flex gap-1.5">
-              <div class="w-3 h-3 rounded-full bg-red-400"></div>
-              <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-              <div class="w-3 h-3 rounded-full bg-green-400"></div>
-            </div>
-          </div>
-          <div class="bg-gray-100 min-h-[120px]">
-            <img src="/screenshots/admin-announcements.png" alt="Mededelingen versturen" class="w-full" loading="lazy" />
-          </div>
-        </div>
-        <div class="order-1 lg:order-2">
-          <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Mededelingen</p>
-          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
-            Iedereen op de hoogte.<br/>Meteen.
-          </h2>
-          <p class="text-[var(--color-stone)] leading-relaxed">
-            Stuur een mededeling naar alle medewerkers, een specifieke afdeling of rang. Ideaal voor personeelsvergaderingen, menuwijzigingen of andere aankondigingen. Verstuurde berichten zijn altijd terug te vinden in de geschiedenis.
-          </p>
-        </div>
-      </div>
-
     </div>
   </section>
 

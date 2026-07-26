@@ -45,7 +45,7 @@ import SectionHeading from "../../components/SectionHeading.astro";
           { src: "/screenshots/employee-dashboard.png", label: "Dashboard", desc: "Upcoming shifts, pending requests and notifications in one overview." },
           { src: "/screenshots/employee-availability.png", label: "Availability", desc: "Weekly template plus day-specific overrides." },
           { src: "/screenshots/employee-schedule.png", label: "Schedule", desc: "Month and week view of the full team schedule." },
-          { src: "/screenshots/employee-shifts.png", label: "Shifts", desc: "Claim open shifts and track time registrations." },
+          { src: "/screenshots/employee-checklist.png", label: "Checklist", desc: "Check off recurring tasks, tracked per employee." },
         ].map((screen) => (
           <div class="flex flex-col items-center gap-4">
             <div class="relative w-full max-w-[360px] mx-auto">
@@ -123,7 +123,7 @@ import SectionHeading from "../../components/SectionHeading.astro";
   </section>
 
 
-  <!-- MANAGER: TEMPLATES (alternating) -->
+  <!-- MANAGER: EMPLOYEES (alternating) -->
   <section class="bg-white py-24 px-6 lg:px-8">
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200 order-2 lg:order-1">
@@ -134,26 +134,26 @@ import SectionHeading from "../../components/SectionHeading.astro";
             <div class="w-3 h-3 rounded-full bg-green-400"></div>
           </div>
           <div class="flex-1 mx-4">
-            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.rooster-maker.app/templates</div>
+            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.rooster-maker.app/employees</div>
           </div>
         </div>
         <div class="bg-gray-100 min-h-[200px]">
-          <img src="/screenshots/admin-templates.png" alt="Schedule templates" class="w-full" loading="lazy" />
+          <img src="/screenshots/admin-employees.png" alt="Employee overview" class="w-full" loading="lazy" />
         </div>
       </div>
       <div class="order-1 lg:order-2">
-        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Schedule templates</p>
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Employees</p>
         <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
-          Build it once.<br/>Reuse it every week.
+          Your whole team.<br/>One overview.
         </h2>
         <p class="text-[var(--color-stone)] leading-relaxed mb-6">
-          Create reusable weekly templates per season and department. The planner uses the template as a starting point and auto-fills open slots based on availability.
+          Name, department, role and contract hours for everyone in one place. Search by name or filter by department to find who you're looking for in seconds.
         </p>
         <ul class="space-y-3">
           {[
-            "Multiple templates per department (e.g. summer/winter)",
-            "Assign fixed staff to specific shifts in advance",
-            "Planner fills remaining open slots automatically",
+            "Contract hours and hourly wage per employee at a glance",
+            "Link employees to multiple departments and roles",
+            "Add a new employee in one click",
           ].map((item) => (
             <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
               <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
@@ -311,17 +311,12 @@ import SectionHeading from "../../components/SectionHeading.astro";
         subtitle="Staff submit everything through the app. You approve with one click."
         align="center"
       />
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+      <div class="max-w-md mx-auto mt-12">
         {[
           {
             src: "/screenshots/admin-swaps.png",
             title: "Swap Requests",
             desc: "Staff request shift swaps between each other. You see both sides, add a note if needed, and approve or decline.",
-          },
-          {
-            src: "/screenshots/admin-leave.png",
-            title: "Leave Requests",
-            desc: "On approval, the employee is automatically marked unavailable for those dates and any scheduled shifts are removed.",
           },
         ].map((item) => (
           <div class="bg-[var(--color-cream)] rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
@@ -340,64 +335,6 @@ import SectionHeading from "../../components/SectionHeading.astro";
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-
-  <!-- MANAGER: CHECKLISTS + ANNOUNCEMENTS -->
-  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
-    <div class="max-w-6xl mx-auto space-y-20">
-
-      <!-- Checklists -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div>
-          <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Checklists</p>
-          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
-            Opening done?<br/>You'll see it instantly.
-          </h2>
-          <p class="text-[var(--color-stone)] leading-relaxed">
-            Staff tick off their checklist in the app. You see per day who completed what, when, and whether everything is done. Add a manager note if something is missing or needs follow-up.
-          </p>
-        </div>
-        <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200">
-          <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
-            <div class="flex gap-1.5">
-              <div class="w-3 h-3 rounded-full bg-red-400"></div>
-              <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-              <div class="w-3 h-3 rounded-full bg-green-400"></div>
-            </div>
-          </div>
-          <div class="bg-gray-100 min-h-[120px]">
-            <img src="/screenshots/admin-checklists.png" alt="Checklists management" class="w-full" loading="lazy" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Announcements -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200 order-2 lg:order-1">
-          <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
-            <div class="flex gap-1.5">
-              <div class="w-3 h-3 rounded-full bg-red-400"></div>
-              <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-              <div class="w-3 h-3 rounded-full bg-green-400"></div>
-            </div>
-          </div>
-          <div class="bg-gray-100 min-h-[120px]">
-            <img src="/screenshots/admin-announcements.png" alt="Send announcements" class="w-full" loading="lazy" />
-          </div>
-        </div>
-        <div class="order-1 lg:order-2">
-          <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Announcements</p>
-          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
-            Keep everyone informed.<br/>Instantly.
-          </h2>
-          <p class="text-[var(--color-stone)] leading-relaxed">
-            Send an announcement to all staff, a specific department, or a specific rank. Perfect for staff meetings, menu changes, or any other update. All sent messages are stored in history.
-          </p>
-        </div>
-      </div>
-
     </div>
   </section>
 
