@@ -1,0 +1,558 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const adminToc = [
+  { group: null, items: [
+    { href: "#admin-start", label: "Snel starten" },
+    { href: "#admin-dashboard", label: "Dashboard" },
+  ]},
+  { group: "Personeel", items: [
+    { href: "#admin-medewerkers", label: "Medewerkers" },
+    { href: "#admin-afdelingen", label: "Afdelingen & functies" },
+  ]},
+  { group: "Overzicht", items: [
+    { href: "#admin-uren", label: "Uren" },
+    { href: "#admin-klok", label: "Klok & kiosk" },
+    { href: "#admin-checklists", label: "Checklists" },
+    { href: "#admin-rapporten", label: "Rapporten" },
+  ]},
+  { group: "Rooster", items: [
+    { href: "#admin-rooster", label: "Rooster bouwen" },
+    { href: "#admin-templates", label: "Vaste diensten" },
+    { href: "#admin-diensten", label: "Diensten" },
+    { href: "#admin-motor", label: "Roostermotor" },
+  ]},
+  { group: "Communicatie", items: [
+    { href: "#admin-communicatie", label: "Mededelingen, chat & logboek" },
+  ]},
+  { group: "Verzoeken", items: [
+    { href: "#admin-verzoeken", label: "Claims, ruil, uren & vakantie" },
+  ]},
+  { group: "Beheer", items: [
+    { href: "#admin-instellingen", label: "Instellingen" },
+    { href: "#admin-support", label: "Ondersteuning" },
+  ]},
+];
+
+const employeeToc = [
+  { group: null, items: [
+    { href: "#me-start", label: "Snel starten" },
+    { href: "#me-vandaag", label: "Vandaag" },
+    { href: "#me-rooster", label: "Rooster" },
+    { href: "#me-beschikbaar", label: "Beschikbaarheid" },
+    { href: "#me-checklist", label: "Checklist" },
+    { href: "#me-meer", label: "Meer" },
+    { href: "#me-klok", label: "Inklokken" },
+  ]},
+];
+
+const quickStart = [
+  { n: "01", t: "Afdelingen & functies aanmaken", d: "Zonder deze structuur kun je geen medewerkers of diensten toevoegen." },
+  { n: "02", t: "Medewerkers toevoegen", d: "Koppel elke medewerker aan een afdeling + functie, met contracturen en uurloon." },
+  { n: "03", t: "Diensten definiëren", d: "Bijv. Ochtend, Avond, Sluiting — met tijden per afdeling." },
+  { n: "04", t: "Een vast dienstenrooster bouwen", d: "Zodat je niet elke week from scratch begint." },
+  { n: "05", t: "Eerste rooster samenstellen en publiceren", d: "Eventueel met hulp van de roostermotor." },
+  { n: "06", t: "Klokpaal-token genereren", d: "In Instellingen, zodat medewerkers kunnen in-/uitklokken." },
+];
+
+const empQuickStart = [
+  { n: "01", t: "Wachtwoord instellen", d: "Via de activatie-e-mail — bij de eerste keer inloggen afgedwongen." },
+  { n: "02", t: "Beschikbaarheid invullen", d: "Zodat je voor diensten wordt ingepland." },
+  { n: "03", t: "App op je beginscherm zetten", d: "Zet pushmeldingen aan zodat je een melding krijgt als er iets voor jou verandert." },
+  { n: "04", t: "Rooster bekijken", d: "Koppel het eventueel aan je eigen agenda." },
+];
+---
+
+<BaseLayout
+  title="Gebruikershandleiding"
+  description="Eén overzicht van hoe HorecaRooster werkt — voor beheerders die het team aansturen en medewerkers die er dagelijks in werken."
+  lang="nl"
+>
+  <!-- Hero -->
+  <section class="bg-[var(--color-forest)] pt-32 pb-16 px-6 lg:px-8 text-white">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="inline-block text-xs font-semibold tracking-wider uppercase text-[var(--color-amber-light)] bg-white/10 rounded-full px-3 py-1 mb-4">
+        Interne documentatie
+      </span>
+      <h1 class="font-display font-bold text-4xl md:text-5xl leading-tight mb-4">Gebruikershandleiding</h1>
+      <p class="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto">
+        Hoe rooster, uren en communicatie werken in HorecaRooster — voor beheerders die het team aansturen
+        en voor medewerkers die er dagelijks in werken.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[220px_1fr] gap-12 py-16">
+
+      <!-- TOC -->
+      <aside class="md:sticky md:top-24 md:self-start">
+        <details class="md:hidden mb-6 rounded-xl border border-gray-100 bg-[var(--color-cream)]">
+          <summary class="cursor-pointer px-4 py-3 font-display font-semibold text-[var(--color-charcoal)]">
+            Inhoudsopgave
+          </summary>
+          <div class="px-4 pb-4">
+            <nav class="space-y-6">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-2">Voor beheerders</p>
+                {adminToc.map((g) => (
+                  <div class="mb-3">
+                    {g.group && <p class="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-stone)] mb-1">{g.group}</p>}
+                    <ul class="space-y-1">
+                      {g.items.map((i) => (
+                        <li><a href={i.href} class="text-sm text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">{i.label}</a></li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-2">Voor medewerkers</p>
+                {employeeToc.map((g) => (
+                  <ul class="space-y-1">
+                    {g.items.map((i) => (
+                      <li><a href={i.href} class="text-sm text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">{i.label}</a></li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
+            </nav>
+          </div>
+        </details>
+
+        <nav class="hidden md:block space-y-6 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-2">Voor beheerders</p>
+            {adminToc.map((g) => (
+              <div class="mb-3">
+                {g.group && <p class="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-stone)] mb-1">{g.group}</p>}
+                <ul class="space-y-1">
+                  {g.items.map((i) => (
+                    <li><a href={i.href} class="text-sm text-[var(--color-stone)] hover:text-[var(--color-forest)] border-l-2 border-transparent hover:border-[var(--color-forest)] pl-2 -ml-[2px] block py-0.5">{i.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-2">Voor medewerkers</p>
+            {employeeToc.map((g) => (
+              <ul class="space-y-1">
+                {g.items.map((i) => (
+                  <li><a href={i.href} class="text-sm text-[var(--color-stone)] hover:text-[var(--color-forest)] border-l-2 border-transparent hover:border-[var(--color-forest)] pl-2 -ml-[2px] block py-0.5">{i.label}</a></li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <div class="min-w-0 max-w-3xl">
+
+        <!-- DEEL 1: ADMIN -->
+        <div class="flex items-baseline gap-3 mb-2">
+          <span class="text-xs font-semibold text-[var(--color-forest)] bg-[var(--color-forest)]/10 rounded-md px-2 py-1">Deel 1</span>
+          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)]">Voor beheerders</h2>
+        </div>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-10">
+          Als beheerder stel je het team, het rooster en de regels in. De menugroepen hieronder volgen precies
+          het linkermenu dat je ziet als je bent ingelogd als beheerder.
+        </p>
+
+        <section id="admin-start" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Snel starten (nieuw bedrijf)</h3>
+          <p class="text-[var(--color-stone)] mb-6">De eerste keer inrichten gaat in deze volgorde — elke stap bouwt voort op de vorige:</p>
+          <div class="space-y-5">
+            {quickStart.map((s) => (
+              <div class="flex gap-4 items-start">
+                <div class="font-display font-bold text-2xl text-[var(--color-amber)] opacity-40 leading-none w-10 shrink-0 text-right">{s.n}</div>
+                <div>
+                  <p class="font-semibold text-[var(--color-charcoal)]">{s.t}</p>
+                  <p class="text-sm text-[var(--color-stone)]">{s.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="admin-dashboard" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Dashboard</h3>
+          <p class="path-pill">Beheerder → Dashboard</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Je startpagina na inloggen. Geeft een overzicht van vandaag: wie er werkt, openstaande mededelingen
+            en snelkoppelingen naar de belangrijkste taken. Gekleurde badges op menu-items (bijv. bij
+            <strong class="text-[var(--color-charcoal)]">Klok</strong>, <strong class="text-[var(--color-charcoal)]">Claims</strong>,
+            <strong class="text-[var(--color-charcoal)]">Ruilverzoeken</strong>) betekenen dat er iets op je actie wacht —
+            dat is altijd de snelste manier om te zien wat aandacht nodig heeft.
+          </p>
+        </section>
+
+        <section id="admin-medewerkers" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Medewerkers</h3>
+          <p class="path-pill">Personeel → Medewerkers</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Hier beheer je iedereen die voor het bedrijf werkt: naam, contactgegevens, personeelsnummer + pincode
+            (voor de klok), uurloon, contracturen per week, geboortedatum en aan welke afdeling(en) en functie(s)
+            iemand gekoppeld is. Een medewerker kan aan meerdere afdelingen gekoppeld zijn.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Vanuit deze pagina open je ook het account: bij het aanmaken krijgt een medewerker een e-mail om zijn/haar
+            account te activeren en een wachtwoord in te stellen.
+          </p>
+          <div class="callout callout-tip">
+            <span class="callout-tag text-[var(--color-forest)]">Tip</span>
+            <p>Als het verzenden van activatiemails niet is ingesteld, toont het scherm het tijdelijke wachtwoord
+              direct op je scherm zodat je het handmatig kunt doorgeven.</p>
+          </div>
+        </section>
+
+        <section id="admin-afdelingen" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Afdelingen & functies</h3>
+          <p class="path-pill">Personeel → Afdelingen</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Een <em>afdeling</em> is bijvoorbeeld Bediening, Keuken of Bar. Binnen elke afdeling maak je
+            <em>functies</em> aan (bijv. Manager, Ervaren, Nieuw) met een volgorde van senior naar junior. Die
+            volgorde bepaalt de standaardfunctie voor nieuwe medewerkers en wordt gebruikt door de roostermotor.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Je kunt <strong class="text-[var(--color-charcoal)]">opvulregels</strong> instellen: welke functie een
+            dienst van een andere functie mag overnemen als er niemand van de vereiste functie beschikbaar is
+            (bijv. een Bar Manager mag een Bartender-dienst opvullen). Dit voorkomt dat diensten onbezet blijven
+            puur omdat de exacte functie ontbreekt.
+          </p>
+        </section>
+
+        <section id="admin-uren" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Uren</h3>
+          <p class="path-pill">Overzicht → Uren</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Dagoverzicht met de klokstatus per geplande dienst: wie is ingeklokt, wie te laat, wie nog niet
+            uitgeklokt. Je ziet hier ook <em>extra</em> (ongeplande) klokregistraties en kunt handmatig een
+            urenregistratie toevoegen of corrigeren.
+          </p>
+        </section>
+
+        <section id="admin-klok" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Klok & kiosk</h3>
+          <p class="path-pill">Overzicht → Klok · Beheer → Instellingen → Klokpaal</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">
+            Medewerkers klokken in en uit op een gedeeld toestel (tablet/pc bij de ingang) via personeelsnummer +
+            pincode — dit heet de <strong class="text-[var(--color-charcoal)]">kiosk</strong>. Om de kiosk te koppelen:
+          </p>
+          <ol class="list-decimal list-inside space-y-1.5 text-[var(--color-stone)] mb-3">
+            <li>Ga naar <span class="label">Instellingen → Klokpaal (kiosk)</span> en kopieer de kiosk-token.</li>
+            <li>Open <span class="label">/clock</span> op het kioskapparaat en plak de token bij het instellen.</li>
+            <li>Het toestel onthoudt de token; medewerkers hoeven daarna alleen nog hun personeelsnummer + pincode in te voeren.</li>
+          </ol>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Als je hebt toegestaan dat bepaalde medewerkers collega's mogen in-/uitklokken vanaf hun eigen account
+            (zonder kiosk), regel je dat via de rechten op de medewerker.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Optioneel stel je <strong class="text-[var(--color-charcoal)]">uitklok-velden</strong> in (bijv.
+            pauzeduur, maaltijdvergoeding met prijs) — die verschijnen als korte vragen op het moment dat iemand
+            uitklokt, en de antwoorden komen terug in de rapporten en exports.
+          </p>
+        </section>
+
+        <section id="admin-checklists" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Checklists</h3>
+          <p class="path-pill">Overzicht → Checklists</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Maak terugkerende taken (openen, sluiten, HACCP-rondes) en wijs ze toe aan medewerkers of functies.
+            Voltooiing is zichtbaar per medewerker, zodat je kunt zien wat wel en niet is afgevinkt.
+          </p>
+        </section>
+
+        <section id="admin-rapporten" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Rapporten</h3>
+          <p class="path-pill">Overzicht → Rapporten</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Kies een maand of een eigen periode voor een overzicht van gewerkte vs. geroosterde uren, loonkosten
+            en no-shows, plus een tabel per medewerker met afwijking t.o.v. contracturen. Exporteer als PDF of
+            Excel, of gebruik de <strong class="text-[var(--color-charcoal)]">Nederlandse loonexport</strong>
+            (personeelsnummer, brutoloon, maaltijdvergoeding e.d.) om over te dragen aan je loonadministratie.
+          </p>
+        </section>
+
+        <section id="admin-rooster" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Rooster bouwen</h3>
+          <p class="path-pill">Rooster → Rooster</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">
+            De weekweergave waarin je het rooster samenstelt: sleep medewerkers naar diensten, of laat een dienst
+            leeg staan om later in te vullen. Praktische knoppen in de actiebalk:
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Kopieer vorige week</strong> — snel een basis neerzetten voor een nieuwe week.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Publiceren</strong> — maakt het rooster zichtbaar voor medewerkers (pas dan krijgen zij een melding).</li>
+            <li><strong class="text-[var(--color-charcoal)]">Briefing per dienst</strong> — een korte notitie bij een specifieke dienst, zichtbaar voor de ingeroosterde medewerker(en).</li>
+            <li><strong class="text-[var(--color-charcoal)]">Exporteren</strong> — als PDF (om op te hangen/printen) of Excel.</li>
+          </ul>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Gepubliceerde weken vind je terug onder <span class="label">Rooster → Gepubliceerd</span>.
+          </p>
+        </section>
+
+        <section id="admin-templates" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Vaste diensten (templates)</h3>
+          <p class="path-pill">Rooster → Vaste diensten</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Een sjabloon is een herbruikbare weekindeling — welke diensten er op welke dag met welke bezetting
+            terugkomen. Pas het sjabloon toe op een week om die week direct te vullen met de standaardstructuur.
+            Met een hoger abonnement kun je meerdere sjabloongroepen (bijv. "Zomer" en "Winter") beheren en
+            tussen seizoenen wisselen.
+          </p>
+        </section>
+
+        <section id="admin-diensten" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Diensten</h3>
+          <p class="path-pill">Rooster → Diensten</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Hier definieer je de diensttypes zelf: naam, start- en eindtijd, en welke afdeling erbij hoort. Een
+            dienst die na middernacht eindigt (bijv. een sluitdienst) wordt automatisch als "nachtdienst" herkend
+            zodat de rusttijdregel er correct mee rekent.
+          </p>
+        </section>
+
+        <section id="admin-motor" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Roostermotor (automatisch invullen)</h3>
+          <p class="path-pill">Rooster → Roostermotor</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Laat het systeem lege diensten automatisch invullen op basis van beschikbaarheid, contracturen,
+            eerlijke verdeling van uren en de opvulregels tussen functies. De pagina zelf legt de volgorde van
+            afwegingen (wie krijgt voorrang bij een dienst) in detail uit.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            In Instellingen kun je optioneel <strong class="text-[var(--color-charcoal)]">automatisch rooster</strong>
+            aanzetten: dan genereert het systeem zelf een concept-rooster op een vast moment per week, dat je
+            vervolgens controleert en publiceert.
+          </p>
+          <div class="callout callout-warn">
+            <span class="callout-tag text-[var(--color-amber)]">Let op</span>
+            <p>De roostermotor is niet beschikbaar op het instapabonnement; automatisch rooster en automatisch
+              aanbieden van open diensten vereisen een hoger abonnement.</p>
+          </div>
+        </section>
+
+        <section id="admin-communicatie" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Mededelingen, chat & logboek</h3>
+          <p class="path-pill">Communicatie → Mededelingen · Chat · Logboek</p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Mededelingen</strong> — bedrijfsbreed bericht op het dashboard van elke medewerker.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Chat</strong> — kanalen tussen medewerkers en beheerders; uit te zetten per bedrijf.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Logboek</strong> — een doorlopend logboek voor dagelijkse aantekeningen (bijv. overdracht tussen shifts).</li>
+          </ul>
+        </section>
+
+        <section id="admin-verzoeken" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Claims, ruilverzoeken, urencorrecties & vakantie</h3>
+          <p class="path-pill">Verzoeken → Claims · Ruilverzoeken · Uren correcties · Vakantieverzoeken</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">
+            Alles wat een medewerker indient en waar een beslissing van jou (of een gemachtigde teamleider) voor
+            nodig is, komt hier samen — met badges op het menu zodra er iets openstaat:
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Claims</strong> — een medewerker meldt zich voor een openstaande, gepubliceerde dienst.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Ruilverzoeken</strong> — dienstruil tussen twee medewerkers, of een open ruil/overname waar iedereen op kan reageren.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Uren correcties</strong> — een medewerker vraagt een aanpassing van een klokregistratie aan.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Vakantieverzoeken</strong> — goedkeuren of afwijzen, met optionele notitie.</li>
+          </ul>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Onder <span class="label">Instellingen → Ruilverzoeken</span> stel je in wie ruilverzoeken mag
+            goedkeuren — dat kun je ook aan teamleiders delegeren (zij zien dan een <span class="label">Goedkeuringen</span>-tab
+            in hun eigen account).
+          </p>
+        </section>
+
+        <section id="admin-instellingen" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Instellingen</h3>
+          <p class="path-pill">Beheer → Instellingen</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">De centrale plek voor bedrijfsbrede configuratie, opgedeeld in secties:</p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Meldingen</strong> — welke automatische e-mails/pushmeldingen actief staan.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Roostermotor</strong> — parameters voor automatisch invullen.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Roosterritme</strong> — het standaardritme waarin je roostert.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Beschikbaarheidsherinnering</strong> — wekelijkse herinnering aan medewerkers.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Dienstherinnering</strong> — dagelijkse herinnering over de dienst die dag.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Automatisch rooster</strong> — concept-rooster op een vaste dag/tijd.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Automatisch aanbieden</strong> — medewerkers automatisch waarschuwen bij een onbezette gepubliceerde dienst.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Functies</strong> — chat en vakantiemodule per bedrijf aan- of uitzetten.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Ruilverzoeken</strong> — wie goedkeuringsrechten heeft.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Klokpaal (kiosk)</strong> — de token voor het kioskapparaat.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Account & Taal</strong> — eigen gegevens en NL/EN-weergave.</li>
+          </ul>
+        </section>
+
+        <section id="admin-support" class="scroll-mt-24 mb-16">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Ondersteuning</h3>
+          <p class="path-pill">Beheer → Ondersteuning</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Vragen of problemen? Dien ze hier in. Als de chatbot-assistent voor beheerders is ingeschakeld voor
+            je bedrijf, vind je die als los widgetje rechtsonder in beeld — hij kan meteen in je eigen gegevens
+            (medewerkers, rooster, uren) opzoeken wat je vraagt.
+          </p>
+        </section>
+
+        <hr class="border-gray-100 my-16" />
+
+        <!-- DEEL 2: EMPLOYEE -->
+        <div class="flex items-baseline gap-3 mb-2">
+          <span class="text-xs font-semibold text-[var(--color-forest)] bg-[var(--color-forest)]/10 rounded-md px-2 py-1">Deel 2</span>
+          <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)]">Voor medewerkers</h2>
+        </div>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-10">
+          Als medewerker gebruik je de app vooral op je telefoon. Onderin zie je vijf vaste tabjes:
+          <span class="label">Vandaag</span>, <span class="label">Rooster</span>, <span class="label">Beschikbaar</span>,
+          <span class="label">Checklist</span> en <span class="label">Meer</span>.
+        </p>
+
+        <section id="me-start" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Snel starten</h3>
+          <div class="space-y-5 mt-4">
+            {empQuickStart.map((s) => (
+              <div class="flex gap-4 items-start">
+                <div class="font-display font-bold text-2xl text-[var(--color-amber)] opacity-40 leading-none w-10 shrink-0 text-right">{s.n}</div>
+                <div>
+                  <p class="font-semibold text-[var(--color-charcoal)]">{s.t}</p>
+                  <p class="text-sm text-[var(--color-stone)]">{s.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="me-vandaag" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Vandaag</h3>
+          <p class="path-pill">Tab: Vandaag</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Je startscherm: je eerstvolgende dienst, actuele mededelingen en eventueel openstaande
+            checklist-taken in één oogopslag.
+          </p>
+        </section>
+
+        <section id="me-rooster" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Rooster</h3>
+          <p class="path-pill">Tab: Rooster</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Je eigen (gepubliceerde) diensten per week. Nog niet-gepubliceerde roosters zie je niet — pas na
+            publicatie door de beheerder wordt een dienst zichtbaar en telt hij mee.
+          </p>
+          <p class="text-[var(--color-stone)] leading-relaxed mt-3">
+            Onder de rooster-instellingen kun je een <strong class="text-[var(--color-charcoal)]">persoonlijke kalenderlink (iCal)</strong>
+            kopiëren en toevoegen aan Google Agenda, Apple Agenda of Outlook — je rooster verschijnt dan
+            automatisch in je eigen agenda-app en werkt bij zodra er iets wijzigt.
+          </p>
+        </section>
+
+        <section id="me-beschikbaar" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Beschikbaarheid</h3>
+          <p class="path-pill">Tab: Beschikbaar</p>
+          <p class="text-[var(--color-stone)] leading-relaxed mb-3">
+            Geef per week aan wanneer je kunt werken. Er is een <strong class="text-[var(--color-charcoal)]">standaardbeschikbaarheid</strong>
+            die elke week terugkomt, en je kunt die per specifieke week overschrijven (bijv. rond een
+            tandartsafspraak of vakantie) zonder je standaardpatroon kwijt te raken.
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li>Het <strong class="text-[var(--color-charcoal)]">sterretje</strong> op een dag geeft een voorkeursdag aan.</li>
+            <li>Het <strong class="text-[var(--color-charcoal)]">potloodje</strong> opent een notitieveld en/of een voorkeursdienst voor die dag.</li>
+          </ul>
+          <div class="callout callout-warn">
+            <span class="callout-tag text-[var(--color-amber)]">Let op</span>
+            <p>Hoe eerder en vollediger je je beschikbaarheid invult, hoe beter het rooster (handmatig of
+              automatisch) rekening met je kan houden.</p>
+          </div>
+        </section>
+
+        <section id="me-checklist" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Checklist</h3>
+          <p class="path-pill">Tab: Checklist</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Taken die aan jou (of jouw functie) zijn toegewezen, bijvoorbeeld voor het openen of sluiten van de
+            zaak. Vink af zodra iets is gedaan.
+          </p>
+        </section>
+
+        <section id="me-meer" class="scroll-mt-24 mb-14">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Meer</h3>
+          <p class="path-pill">Tab: Meer</p>
+          <ul class="list-disc list-inside space-y-1.5 text-[var(--color-stone)]">
+            <li><strong class="text-[var(--color-charcoal)]">Chat</strong> — berichten met collega's en beheerders (indien ingeschakeld).</li>
+            <li><strong class="text-[var(--color-charcoal)]">Vakantie</strong> — vakantie aanvragen en de status van eerdere aanvragen bekijken.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Aanvragen</strong> — dienst ruilen met een collega, een open ruil aanbieden, of een openstaande dienst overnemen.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Uren</strong> — je gewerkte uren per periode, en het indienen van een correctie.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Goedkeuringen</strong> — alleen zichtbaar als je gemachtigd bent verzoeken van anderen goed te keuren.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Collega's in-/uitklokken</strong> — alleen zichtbaar met de juiste rechten.</li>
+            <li><strong class="text-[var(--color-charcoal)]">Instellingen</strong> — meldingsvoorkeuren, pushmeldingen aan/uit, en de taal van de app.</li>
+          </ul>
+        </section>
+
+        <section id="me-klok" class="scroll-mt-24 mb-8">
+          <h3 class="font-display font-bold text-xl text-[var(--color-charcoal)] mb-1">Inklokken</h3>
+          <p class="path-pill">Gedeeld toestel: /clock</p>
+          <p class="text-[var(--color-stone)] leading-relaxed">
+            Klokken doe je niet in de app op je eigen telefoon, maar op het gedeelde kioskapparaat bij de zaak:
+            voer je personeelsnummer en pincode in om in of uit te klokken. Vraag je beheerder naar je
+            personeelsnummer/pincode als je die nog niet hebt. Heeft je zaak een uitklok-vraag ingesteld (bijv.
+            pauzeduur of maaltijdvergoeding), beantwoord die dan kort op het scherm bij het uitklokken.
+          </p>
+          <div class="callout callout-tip">
+            <span class="callout-tag text-[var(--color-forest)]">Tip</span>
+            <p>Voeg de app toe aan je beginscherm ("Toevoegen aan beginscherm" / "Installeren") — dan werkt hij
+              als een gewone app en kun je pushmeldingen ontvangen, ook wanneer de app niet open staat.</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .path-pill {
+    display: inline-flex;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.72rem;
+    color: var(--color-stone);
+    background: var(--color-cream);
+    border: 1px solid #f0f0ee;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    margin-bottom: 0.65rem;
+  }
+  .label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.85em;
+    background: var(--color-cream);
+    border: 1px solid #f0f0ee;
+    padding: 0.05em 0.4em;
+    border-radius: 4px;
+    color: var(--color-charcoal);
+  }
+  .callout {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    margin-top: 0.85rem;
+    font-size: 0.92rem;
+  }
+  .callout p { margin: 0; color: var(--color-stone); }
+  .callout-tag {
+    flex-shrink: 0;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 0.1rem;
+  }
+  .callout-tip {
+    background: var(--color-cream);
+    border: 1px solid #f0f0ee;
+  }
+  .callout-warn {
+    background: color-mix(in srgb, var(--color-amber) 8%, white);
+    border: 1px solid color-mix(in srgb, var(--color-amber) 25%, white);
+  }
+</style>
