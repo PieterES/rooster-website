@@ -1,6 +1,6 @@
 {
   // Static site: Cloudflare serves the Astro build output directly, no adapter needed.
-  "name": "rooster-website",
+  "name": "gedekt-website",
   "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "./dist"
