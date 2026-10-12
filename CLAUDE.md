@@ -31,4 +31,4 @@ Use `var(--color-*)` in Tailwind classes (e.g., `text-[var(--color-forest)]`) ra
 
 **i18n pattern in components:** Components that appear on both NL and EN pages (Nav, Footer) accept a `lang` prop and define a `t` object with both translations inline — no external i18n library.
 
-**App URL:** The live app is at `https://app.rooster-maker.app`. CTAs and login links point there.
+**App URL:** The live app is at `https://app.gedekt.com`. CTAs and login links point there.
