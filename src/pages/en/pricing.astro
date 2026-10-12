@@ -2,9 +2,9 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PricingCard from "../../components/PricingCard.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
+import Button from "../../components/Button.astro";
 
 const starterFeatures = [
-  { text: "Up to 5 staff, 1 location", included: true },
   { text: "Manual schedule builder", included: true },
   { text: "Availability management", included: true },
   { text: "Shift swaps & leave requests", included: true },
@@ -17,23 +17,17 @@ const starterFeatures = [
 ];
 
 const proFeatures = [
-  { text: "Up to 25 staff, 1 location", included: true },
   { text: "Everything in Starter", included: true },
   { text: "Auto-generate scheduling", included: true },
-  { text: "Clock in/out & hours tracking", included: true },
-  { text: "Email support (1 business day)", included: true },
+  { text: "Multiple locations", included: true },
   { text: "Shift swap audit log", included: true },
   { text: "Leave approval workflow", included: true },
-  { text: "Generate multiple schedules, pick the best", included: false },
-  { text: "Multi-location (up to 3)", included: false },
-  { text: "Priority support", included: false },
+  { text: "Email support (1 business day)", included: true },
 ];
 
 const businessFeatures = [
-  { text: "Up to 75 staff, 3 locations", included: true },
   { text: "Everything in Pro", included: true },
   { text: "Generate multiple schedules, pick the best", included: true },
-  { text: "Multi-location management", included: true },
   { text: "Priority support", included: true },
   { text: "Dedicated onboarding", included: true },
 ];
@@ -68,7 +62,7 @@ const faq = [
 
 <BaseLayout
   title="Pricing"
-  description="Flat pricing, no per-employee surprises. Free forever for small teams. Paid plans from €29/month."
+  description="Flat pricing, no per-employee surprises. Plans from €10/month. No annual contract."
 >
 
   <!-- Hero -->
@@ -115,21 +109,20 @@ const faq = [
           priceAnnual="\u20ac100"
           periodLabel="/month"
           yearLabel="/year"
-          staffLimit="Up to 5 staff \u00b7 1 location"
+          staffLimit="Up to 15 staff \u00b7 1 location"
           features={starterFeatures}
           cta="Get started \u2192"
           ctaHref="/en/contact"
-          note="6\u201310 staff? +\u20ac1.50/extra/month"
         />
 
         <PricingCard
           tier="Pro"
-          priceMonthly="\u20ac29"
-          priceAnnualMonthly="\u20ac24"
-          priceAnnual="\u20ac290"
+          priceMonthly="\u20ac20"
+          priceAnnualMonthly="\u20ac16.67"
+          priceAnnual="\u20ac200"
           periodLabel="/month"
           yearLabel="/year"
-          staffLimit="Up to 25 staff \u00b7 1 location"
+          staffLimit="Up to 25 staff \u00b7 multiple locations"
           features={proFeatures}
           cta="Start Pro trial \u2192"
           ctaHref="/en/contact"
@@ -139,12 +132,12 @@ const faq = [
 
         <PricingCard
           tier="Business"
-          priceMonthly="\u20ac59"
-          priceAnnualMonthly="\u20ac49"
-          priceAnnual="\u20ac590"
+          priceMonthly="\u20ac50"
+          priceAnnualMonthly="\u20ac41.67"
+          priceAnnual="\u20ac500"
           periodLabel="/month"
           yearLabel="/year"
-          staffLimit="Up to 75 staff \u00b7 3 locations"
+          staffLimit="25+ staff \u00b7 multiple locations"
           features={businessFeatures}
           cta="Start Business trial \u2192"
           ctaHref="/en/contact"
@@ -164,7 +157,7 @@ const faq = [
         </div>
         <h3 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-3">Everything in Starter — for €10/month</h3>
         <p class="text-[var(--color-charcoal)] leading-relaxed">
-          <strong>Starter is not a trial.</strong> No per-employee pricing, no seat fees, no surprise invoices. €10 flat, up to 5 staff, cancel any time. No credit card until you're ready.
+          <strong>Starter is not a trial.</strong> No per-employee pricing, no seat fees, no surprise invoices. €10 flat, up to 15 staff, cancel any time. No credit card until you're ready.
         </p>
       </div>
     </div>
@@ -179,7 +172,7 @@ const faq = [
           Most scheduling software charges <strong>€2.50–€4 per staff member per month.</strong>
         </p>
         <p class="text-[var(--color-charcoal)] text-lg leading-relaxed">
-          With Gedekt, a team of 25 pays a total of <strong class="text-[var(--color-forest)]">€29/month</strong> — that's <strong class="text-[var(--color-forest)]">€1.16 per person.</strong>
+          With Gedekt, a team of 25 pays a total of <strong class="text-[var(--color-forest)]">€20/month</strong> — that's <strong class="text-[var(--color-forest)]">€0.80 per person.</strong>
         </p>
       </div>
     </div>
@@ -190,9 +183,9 @@ const faq = [
     <div class="max-w-2xl mx-auto">
       <SectionHeading title="Pricing questions" align="center" />
       <div class="bg-[var(--color-amber)]/10 border border-[var(--color-amber)]/30 rounded-xl px-6 py-4 mb-6">
-        <p class="font-semibold text-[var(--color-charcoal)] text-sm mb-1">Running a seasonal business?</p>
+        <p class="font-semibold text-[var(--color-charcoal)] text-sm mb-1">None of the plans quite fit?</p>
           <p class="text-[var(--color-stone)] text-sm leading-relaxed">
-            We offer pause options and seasonal pricing — pay only for the months you're active.<br /><a href="/en/contact" class="text-[var(--color-forest)] font-semibold hover:underline">Get in touch →</a>
+            Seasonal business, just over a limit, or something else? Let us know — we'll work out a rate that works for you.<br /><a href="/en/contact" class="text-[var(--color-forest)] font-semibold hover:underline">Get in touch →</a>
           </p>
       </div>
       <div class="space-y-3" id="faq-list">
@@ -222,9 +215,7 @@ const faq = [
     <div class="max-w-2xl mx-auto text-center text-white">
       <h2 class="font-display font-bold text-3xl mb-4">Ready to try it?</h2>
       <p class="text-white/80 mb-8">€10/month. No long-term contract. Set up your first schedule today.</p>
-      <a
-        href="/en/contact"
-      </a>
+      <Button href="/en/contact" variant="secondary" size="lg">Get started →</Button>
     </div>
   </section>
 

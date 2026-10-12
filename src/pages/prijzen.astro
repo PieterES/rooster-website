@@ -2,9 +2,9 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PricingCard from "../components/PricingCard.astro";
 import SectionHeading from "../components/SectionHeading.astro";
+import Button from "../components/Button.astro";
 
 const starterFeatures = [
-  { text: "Tot 5 medewerkers, 1 locatie", included: true },
   { text: "Handmatige roosterbouwer", included: true },
   { text: "Beschikbaarheidsbeheer", included: true },
   { text: "Dienstwisselingen & verlofaanvragen", included: true },
@@ -17,22 +17,17 @@ const starterFeatures = [
 ];
 
 const proFeatures = [
-  { text: "Tot 25 medewerkers, 1 locatie", included: true },
   { text: "Alles in Starter", included: true },
   { text: "Automatisch rooster genereren", included: true },
-  { text: "E-mailondersteuning (1 werkdag)", included: true },
+  { text: "Meerdere locaties", included: true },
   { text: "Wissel-auditlog", included: true },
   { text: "Verlofgoedkeuringsworkflow", included: true },
-  { text: "Meerdere roosters genereren, beste kiezen", included: false },
-  { text: "Meerdere locaties (tot 3)", included: false },
-  { text: "Prioriteitsondersteuning", included: false },
+  { text: "E-mailondersteuning (1 werkdag)", included: true },
 ];
 
 const businessFeatures = [
-  { text: "Tot 75 medewerkers, 3 locaties", included: true },
   { text: "Alles in Pro", included: true },
   { text: "Meerdere roosters genereren, beste kiezen", included: true },
-  { text: "Beheer van meerdere locaties", included: true },
   { text: "Prioriteitsondersteuning", included: true },
   { text: "Persoonlijke onboarding", included: true },
 ];
@@ -109,19 +104,18 @@ const faq = [
           priceMonthly="\u20ac10"
           priceAnnualMonthly="\u20ac8,33"
           priceAnnual="\u20ac100"
-          staffLimit="Tot 5 medewerkers \u00b7 1 locatie"
+          staffLimit="Tot 15 medewerkers \u00b7 1 locatie"
           features={starterFeatures}
           cta="Aan de slag \u2192"
           ctaHref="/contact"
-          note="6\u201310 medewerkers? +\u20ac1,50/extra/maand"
         />
 
         <PricingCard
           tier="Pro"
-          priceMonthly="\u20ac29"
-          priceAnnualMonthly="\u20ac24"
-          priceAnnual="\u20ac290"
-          staffLimit="Tot 25 medewerkers \u00b7 1 locatie"
+          priceMonthly="\u20ac20"
+          priceAnnualMonthly="\u20ac16,67"
+          priceAnnual="\u20ac200"
+          staffLimit="Tot 25 medewerkers \u00b7 meerdere locaties"
           features={proFeatures}
           cta="Start Pro-proefperiode \u2192"
           ctaHref="/contact"
@@ -131,10 +125,10 @@ const faq = [
 
         <PricingCard
           tier="Business"
-          priceMonthly="\u20ac59"
-          priceAnnualMonthly="\u20ac49"
-          priceAnnual="\u20ac590"
-          staffLimit="Tot 75 medewerkers \u00b7 3 locaties"
+          priceMonthly="\u20ac50"
+          priceAnnualMonthly="\u20ac41,67"
+          priceAnnual="\u20ac500"
+          staffLimit="25+ medewerkers \u00b7 meerdere locaties"
           features={businessFeatures}
           cta="Start Business-proefperiode \u2192"
           ctaHref="/contact"
@@ -154,7 +148,7 @@ const faq = [
         </div>
         <h3 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-3">Alles in Starter — voor €10/maand</h3>
         <p class="text-[var(--color-charcoal)] leading-relaxed">
-          <strong>Starter is geen proefperiode.</strong> Geen kosten per medewerker, geen extra vergoedingen, geen verassingen op de factuur. €10 vast, tot 5 medewerkers, op elk moment opzegbaar.
+          <strong>Starter is geen proefperiode.</strong> Geen kosten per medewerker, geen extra vergoedingen, geen verassingen op de factuur. €10 vast, tot 15 medewerkers, op elk moment opzegbaar.
         </p>
       </div>
     </div>
@@ -169,7 +163,7 @@ const faq = [
           De meeste planningssoftware rekent <strong>€2,50–€4 per medewerker per maand.</strong>
         </p>
         <p class="text-[var(--color-charcoal)] text-lg leading-relaxed">
-          Bij Gedekt betaalt een team van 25 personen in totaal <strong class="text-[var(--color-forest)]">€29/maand</strong> — dat is <strong class="text-[var(--color-forest)]">€1,16 per persoon.</strong>
+          Bij Gedekt betaalt een team van 25 personen in totaal <strong class="text-[var(--color-forest)]">€20/maand</strong> — dat is <strong class="text-[var(--color-forest)]">€0,80 per persoon.</strong>
         </p>
       </div>
     </div>
@@ -180,9 +174,9 @@ const faq = [
     <div class="max-w-2xl mx-auto">
       <SectionHeading title="Veelgestelde vragen over prijzen" align="center" />
       <div class="bg-[var(--color-amber)]/10 border border-[var(--color-amber)]/30 rounded-xl px-6 py-4 mb-6">
-        <p class="font-semibold text-[var(--color-charcoal)] text-sm mb-1">Seizoensgebonden bedrijf?</p>
+        <p class="font-semibold text-[var(--color-charcoal)] text-sm mb-1">Past geen van de plannen precies?</p>
           <p class="text-[var(--color-stone)] text-sm leading-relaxed">
-            We bieden pauzeoptie en seizoenstarieven aan — je betaalt alleen de maanden dat je actief bent.<br /><a href="/contact" class="text-[var(--color-forest)] font-semibold hover:underline">Neem contact op →</a>
+            Seizoensbedrijf, net boven een limiet of een andere situatie? Laat het ons weten — we zoeken samen naar een tarief dat werkt.<br /><a href="/contact" class="text-[var(--color-forest)] font-semibold hover:underline">Neem contact op →</a>
           </p>
       </div>
       <div class="space-y-3" id="faq-list">
@@ -212,9 +206,7 @@ const faq = [
     <div class="max-w-2xl mx-auto text-center text-white">
       <h2 class="font-display font-bold text-3xl mb-4">Klaar om te beginnen?</h2>
       <p class="text-white/80 mb-8">€10/maand. Geen jaarcontract. Maak vandaag je eerste rooster.</p>
-      <a
-        href="/contact"
-      </a>
+      <Button href="/contact" variant="secondary" size="lg">Aan de slag →</Button>
     </div>
   </section>
 
