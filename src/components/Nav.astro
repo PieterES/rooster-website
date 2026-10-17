@@ -1,4 +1,6 @@
 ---
+import { demos, demoHref } from "../data/demos";
+
 interface Props {
   currentPath?: string;
 }
@@ -27,6 +29,10 @@ const langMap: Record<string, string> = {
   "/en/contact":          "/contact",
   "/en/manual":           "/handleiding",
 };
+for (const demo of demos) {
+  langMap[demoHref(demo, "nl")] = demoHref(demo, "en");
+  langMap[demoHref(demo, "en")] = demoHref(demo, "nl");
+}
 
 const normalised = currentPath === "/" ? "/" : currentPath.replace(/\/$/, "");
 const alternatePath = langMap[normalised] ?? (isNL ? "/en/" : "/");
@@ -49,6 +55,18 @@ const links = isNL
       { href: "/en/contact",       label: "Contact" },
     ];
 
+// Demo pages shown in the dropdown under the features link
+const featuresHref = links[0].href;
+const demoLinks = demos.map((d) => ({ href: demoHref(d, isNL ? "nl" : "en"), label: d.menuLabel[isNL ? "nl" : "en"] }));
+const allFeaturesLabel = isNL ? "Alle functies" : "All features";
+const seeItLabel = isNL ? "Zie hoe het werkt" : "See how it works";
+const linkClass = (href: string) => [
+  "text-sm font-medium transition-colors duration-200 hover:text-[var(--color-amber)]",
+  normalised === href || normalised.startsWith(href + "/")
+    ? "text-[var(--color-forest)] font-semibold"
+    : "text-[var(--color-charcoal)]",
+];
+
 const ctaLabel = isNL ? "Aan de slag →" : "Get started →";
 const loginLabel = isNL ? "Inloggen" : "Log in";
 ---
@@ -66,16 +84,35 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
 
     <!-- Desktop nav -->
     <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
-      {links.map((l) => (
-        <a
-          href={l.href}
-          class:list={[
-            "text-sm font-medium transition-colors duration-200 hover:text-[var(--color-amber)]",
-            normalised === l.href || normalised.startsWith(l.href + "/")
-              ? "text-[var(--color-forest)] font-semibold"
-              : "text-[var(--color-charcoal)]",
-          ]}
-        >{l.label}</a>
+      {links.map((l) => l.href === featuresHref ? (
+        <div class="relative group">
+          <a href={l.href} class:list={[...linkClass(l.href), "inline-flex items-center gap-1"]} aria-haspopup="true">
+            {l.label}
+            <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+          <div class="absolute left-1/2 -translate-x-1/2 top-full pt-3 invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-all duration-150">
+            <div class="w-64 bg-white rounded-xl border border-gray-100 shadow-xl p-2">
+              <p class="px-3 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-amber)]">{seeItLabel}</p>
+              {demoLinks.map((d) => (
+                <a
+                  href={d.href}
+                  class:list={[
+                    "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors hover:bg-[var(--color-cream)]",
+                    normalised === d.href ? "text-[var(--color-forest)] font-semibold" : "text-[var(--color-charcoal)]",
+                  ]}
+                >
+                  <svg class="w-3.5 h-3.5 text-[var(--color-forest)] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                  {d.label}
+                </a>
+              ))}
+              <a href={l.href} class="block mt-1 px-3 py-2 rounded-lg text-sm font-medium text-[var(--color-stone)] border-t border-gray-100 hover:text-[var(--color-forest)] transition-colors">
+                {allFeaturesLabel} →
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <a href={l.href} class:list={linkClass(l.href)}>{l.label}</a>
       ))}
     </nav>
 
@@ -133,14 +170,23 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
 <!-- Mobile drawer -->
 <div
   id="mobile-drawer"
-  class="fixed inset-0 z-40 bg-white transform translate-x-full transition-transform duration-300 md:hidden flex flex-col pt-20 px-8 pb-8"
+  class="fixed inset-0 z-40 bg-white transform translate-x-full transition-transform duration-300 md:hidden flex flex-col pt-20 px-8 pb-8 overflow-y-auto"
   aria-hidden="true"
 >
   <nav class="flex flex-col gap-6" aria-label="Mobile navigation">
     {links.map((l) => (
-      <a href={l.href} class="text-2xl font-display font-semibold text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">
-        {l.label}
-      </a>
+      <div>
+        <a href={l.href} class="text-2xl font-display font-semibold text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">
+          {l.label}
+        </a>
+        {l.href === featuresHref && (
+          <div class="flex flex-col gap-2.5 mt-3 pl-4 border-l-2 border-[#E8F5EE]">
+            {demoLinks.map((d) => (
+              <a href={d.href} class="text-base text-[var(--color-stone)] hover:text-[var(--color-forest)]">{d.label}</a>
+            ))}
+          </div>
+        )}
+      </div>
     ))}
     <div class="flex items-center gap-3 pt-2">
       <a

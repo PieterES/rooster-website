@@ -1,0 +1,122 @@
+---
+// Clean single-demo page: title, one line of context, the clip, three steps.
+import { existsSync } from "node:fs";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DemoVideo from "./DemoVideo.astro";
+import { demos, demoHref, type Demo } from "../data/demos";
+
+interface Props {
+  demo: Demo;
+  lang: "nl" | "en";
+}
+
+const { demo, lang } = Astro.props;
+const t = (nl: string, en: string) => (lang === "nl" ? nl : en);
+
+// Background music is optional: drop a track at public/audio/demo-music.mp3 to enable the toggle.
+const musicSrc = existsSync("public/audio/demo-music.mp3") ? "/audio/demo-music.mp3" : null;
+
+const index = demos.indexOf(demo);
+const next = demos[(index + 1) % demos.length];
+const featuresHref = lang === "nl" ? "/functies" : "/en/features";
+---
+
+<BaseLayout title={demo.menuLabel[lang]} description={demo.lede[lang]} lang={lang}>
+  <section class="bg-white pt-32 pb-20 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <a href={featuresHref} class="inline-flex items-center gap-1.5 text-sm text-[var(--color-stone)] hover:text-[var(--color-forest)] transition-colors mb-6">
+          ← {t("Alle functies", "All features")}
+        </a>
+        <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-5">
+          {demo.title[lang]}
+        </h1>
+        <p class="text-lg text-[var(--color-stone)] leading-relaxed">{demo.lede[lang]}</p>
+      </div>
+
+      {demo.device === "desktop" ? (
+        <DemoVideo name={demo.clips[0].name} lang={lang} label={demo.menuLabel[lang]} url={demo.url?.[lang]} class="shadow-2xl" />
+      ) : (
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-8 max-w-4xl mx-auto">
+          {demo.clips.map((clip) => (
+            <div class="flex flex-col items-center gap-4">
+              <DemoVideo name={clip.name} lang={lang} label={clip.caption?.[lang] ?? demo.menuLabel[lang]} device="phone" />
+              {clip.caption && <p class="font-display font-semibold text-sm text-[var(--color-charcoal)]">{clip.caption[lang]}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div class="flex items-center justify-center gap-3 mt-6 text-sm text-[var(--color-stone)]">
+        <span>{t(`± ${demo.seconds} seconden, zonder knippen`, `± ${demo.seconds} seconds, no cuts`)}</span>
+        {musicSrc && (
+          <>
+            <span class="text-gray-300">·</span>
+            <button
+              id="music-toggle"
+              type="button"
+              aria-pressed="false"
+              class="inline-flex items-center gap-1.5 font-medium text-[var(--color-forest)] hover:text-[var(--color-amber)] transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              <span data-off>{t("Muziek aan", "Music on")}</span>
+              <span data-on hidden>{t("Muziek uit", "Music off")}</span>
+            </button>
+            <audio id="demo-music" src={musicSrc} loop preload="none"></audio>
+          </>
+        )}
+      </div>
+
+      <ol class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mt-14">
+        {demo.steps.map((step, i) => (
+          <li class="flex sm:flex-col items-center sm:text-center gap-3">
+            <span class="w-8 h-8 rounded-full bg-[#E8F5EE] text-[var(--color-forest)] font-display font-semibold text-sm flex items-center justify-center shrink-0">{i + 1}</span>
+            <span class="text-[var(--color-charcoal)] text-sm leading-snug">{step[lang]}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-cream)] py-14 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <a href={demoHref(next, lang)} class="group text-center sm:text-left">
+        <span class="block text-xs font-semibold uppercase tracking-widest text-[var(--color-amber)] mb-1">{t("Volgende", "Next")}</span>
+        <span class="font-display font-semibold text-xl text-[var(--color-charcoal)] group-hover:text-[var(--color-forest)] transition-colors">{next.menuLabel[lang]} →</span>
+      </a>
+      <a
+        href={lang === "nl" ? "/contact" : "/en/contact"}
+        class="bg-[var(--color-forest)] text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[var(--color-forest-light)] transition-colors"
+      >
+        {t("Probeer het zelf →", "Try it yourself →")}
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const toggle = document.getElementById("music-toggle");
+  const audio = document.getElementById("demo-music") as HTMLAudioElement | null;
+  const KEY = "gedekt-demo-music";
+
+  if (toggle && audio) {
+    audio.volume = 0.35;
+    const set = (on: boolean) => {
+      toggle.setAttribute("aria-pressed", String(on));
+      toggle.querySelector("[data-on]")!.toggleAttribute("hidden", !on);
+      toggle.querySelector("[data-off]")!.toggleAttribute("hidden", on);
+      try { localStorage.setItem(KEY, on ? "1" : "0"); } catch {}
+    };
+    toggle.addEventListener("click", () => {
+      if (audio.paused) audio.play().then(() => set(true)).catch(() => set(false));
+      else { audio.pause(); set(false); }
+    });
+    // Browsers only allow sound after a click, so a remembered "on" resumes on the first interaction.
+    let remembered = false;
+    try { remembered = localStorage.getItem(KEY) === "1"; } catch {}
+    if (remembered) {
+      const resume = () => audio.play().then(() => set(true)).catch(() => {});
+      document.addEventListener("pointerdown", resume, { once: true });
+    }
+  }
+</script>

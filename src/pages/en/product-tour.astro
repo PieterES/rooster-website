@@ -2,11 +2,12 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Button from "../../components/Button.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
+import DemoVideo from "../../components/DemoVideo.astro";
 ---
 
 <BaseLayout
   title="The app in action"
-  description="See how Gedekt looks for staff and managers. From schedule planning to leave requests — live screenshots of the app."
+  description="See how Gedekt looks for staff and managers. From schedule planning to leave requests — short videos of the real app."
   lang="en"
 >
 
@@ -40,30 +41,17 @@ import SectionHeading from "../../components/SectionHeading.astro";
         subtitle="Staff manage their availability, view their schedule, and submit swap requests — directly from the app."
         align="center"
       />
-      <div class="grid grid-cols-2 gap-8 lg:gap-12 mt-14 max-w-3xl mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-8 lg:gap-12 mt-14 max-w-5xl mx-auto">
         {[
-          { src: "/screenshots/employee-dashboard.png", label: "Dashboard", desc: "Upcoming shifts, pending requests and notifications in one overview." },
-          { src: "/screenshots/employee-availability.png", label: "Availability", desc: "Weekly template plus day-specific overrides." },
-          { src: "/screenshots/employee-schedule.png", label: "Schedule", desc: "Month and week view of the full team schedule." },
-          { src: "/screenshots/employee-checklist.png", label: "Checklist", desc: "Check off recurring tasks, tracked per employee." },
-        ].map((screen) => (
-          <div class="flex flex-col items-center gap-4">
-            <div class="relative w-full max-w-[360px] mx-auto">
-              <div class="bg-[#1C1C1E] rounded-[2.5rem] px-[8px] pt-3 pb-5 shadow-2xl ring-1 ring-white/5">
-                <div class="rounded-[1.5rem] overflow-hidden bg-gray-200">
-                  <img
-                    src={screen.src}
-                    alt={screen.label}
-                    class="w-full block"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-              <div class="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-[14px] bg-[#1C1C1E] rounded-b-xl z-10"></div>
-            </div>
+          { name: "staff-schedule", label: "Schedule", desc: "Upcoming shifts, the team schedule and open shifts to pick up." },
+          { name: "staff-availability", label: "Availability", desc: "Tick the shifts you can work each day — or prefer to." },
+          { name: "staff-requests", label: "Swap & claim", desc: "Swap a shift with a colleague or pick up an open shift." },
+        ].map((clip) => (
+          <div class="flex flex-col items-center gap-5">
+            <DemoVideo name={clip.name} lang="en" label={clip.label} device="phone" />
             <div class="text-center">
-              <p class="font-display font-semibold text-[var(--color-charcoal)] text-sm">{screen.label}</p>
-              <p class="text-[var(--color-stone)] text-xs mt-1 leading-relaxed max-w-[160px] mx-auto">{screen.desc}</p>
+              <p class="font-display font-semibold text-[var(--color-charcoal)] text-sm">{clip.label}</p>
+              <p class="text-[var(--color-stone)] text-xs mt-1 leading-relaxed max-w-[220px] mx-auto">{clip.desc}</p>
             </div>
           </div>
         ))}
@@ -78,17 +66,17 @@ import SectionHeading from "../../components/SectionHeading.astro";
       <div class="max-w-2xl mb-12">
         <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Manager dashboard</p>
         <h2 class="font-display font-bold text-3xl md:text-4xl text-[var(--color-charcoal)] mb-4 leading-tight">
-          Your schedule. Fully in control.
+          A complete schedule. In a few clicks.
         </h2>
         <p class="text-[var(--color-stone)] text-lg leading-relaxed mb-6">
-          The schedule planner gives you a complete weekly overview per department. Drag staff onto shifts, see who's available, and publish with one click.
+          Apply your fixed assignments, let the scheduling engine fill the rest based on availability and contract hours, and publish with one click. Your team is notified right away.
         </p>
         <ul class="space-y-3">
           {[
-            "Color-coded by department — Bar, Kitchen, Service",
-            "Available staff visible directly below the schedule grid",
-            "Live cost, hours, and coverage tracked in the footer",
+            "Auto-generate based on availability and functions",
+            "Live cost, hours and coverage at the top of the schedule",
             "Locked shifts are never changed by the auto-planner",
+            "Publishing notifies everyone instantly",
           ].map((item) => (
             <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
               <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
@@ -99,61 +87,90 @@ import SectionHeading from "../../components/SectionHeading.astro";
           ))}
         </ul>
       </div>
-      <div class="rounded-xl overflow-hidden shadow-2xl border border-gray-200">
-        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
-          <div class="flex gap-1.5">
-            <div class="w-3 h-3 rounded-full bg-red-400"></div>
-            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div class="w-3 h-3 rounded-full bg-green-400"></div>
-          </div>
-          <div class="flex-1 mx-4">
-            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.gedekt.com/schedule</div>
-          </div>
-        </div>
-        <div class="bg-gray-100 min-h-[300px]">
-          <img
-            src="/screenshots/admin-schedule.png"
-            alt="Gedekt schedule planner"
-            class="w-full"
-            loading="lazy"
-          />
-        </div>
+      <DemoVideo name="schedule" lang="en" label="Generating and publishing a weekly schedule" url="app.gedekt.com/schedule" class="shadow-2xl" />
+    </div>
+  </section>
+
+
+  <!-- MANAGER: DEPARTMENTS -->
+  <section class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <DemoVideo name="departments" lang="en" label="Creating a department with functions" url="app.gedekt.com/departments" class="order-2 lg:order-1" />
+      <div class="order-1 lg:order-2">
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Departments & functions</p>
+        <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
+          Set up your business.<br/>In a minute.
+        </h2>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-6">
+          Create departments such as Bar, Kitchen and Service, and give each one its own functions. The planner then knows exactly who can work which shift.
+        </p>
+        <ul class="space-y-3">
+          {[
+            "Unlimited departments and functions",
+            "Link a department to a location",
+            "Permissions per function, such as approving swaps",
+          ].map((item) => (
+            <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
+              <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </section>
 
 
-  <!-- MANAGER: EMPLOYEES (alternating) -->
-  <section class="bg-white py-24 px-6 lg:px-8">
+  <!-- MANAGER: EMPLOYEES -->
+  <section class="bg-[var(--color-cream)] py-24 px-6 lg:px-8">
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-      <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200 order-2 lg:order-1">
-        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
-          <div class="flex gap-1.5">
-            <div class="w-3 h-3 rounded-full bg-red-400"></div>
-            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div class="w-3 h-3 rounded-full bg-green-400"></div>
-          </div>
-          <div class="flex-1 mx-4">
-            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.gedekt.com/employees</div>
-          </div>
-        </div>
-        <div class="bg-gray-100 min-h-[200px]">
-          <img src="/screenshots/admin-employees.png" alt="Employee overview" class="w-full" loading="lazy" />
-        </div>
-      </div>
-      <div class="order-1 lg:order-2">
+      <div>
         <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Employees</p>
         <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
           Your whole team.<br/>One overview.
         </h2>
         <p class="text-[var(--color-stone)] leading-relaxed mb-6">
-          Name, department, role and contract hours for everyone in one place. Search by name or filter by department to find who you're looking for in seconds.
+          Add an employee, pick their department and function, and set contract hours and hourly rate. They get an invite to the app straight away.
         </p>
         <ul class="space-y-3">
           {[
-            "Contract hours and hourly wage per employee at a glance",
-            "Link employees to multiple departments and roles",
-            "Add a new employee in one click",
+            "Contract hours and hourly rate per employee at a glance",
+            "Assign staff to multiple departments and functions",
+            "Add a new employee in half a minute",
+          ].map((item) => (
+            <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
+              <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <DemoVideo name="employee" lang="en" label="Adding an employee" url="app.gedekt.com/employees" />
+    </div>
+  </section>
+
+
+  <!-- MANAGER: FIXED SHIFTS -->
+  <section class="bg-white py-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <DemoVideo name="shifts" lang="en" label="Setting up shift types and fixed shifts" url="app.gedekt.com/fixed-shifts" class="order-2 lg:order-1" />
+      <div class="order-1 lg:order-2">
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Shift types & fixed shifts</p>
+        <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
+          Set it up once.<br/>Use it every week.
+        </h2>
+        <p class="text-[var(--color-stone)] leading-relaxed mb-6">
+          Define your shifts with times and a minimum function. Drag regular staff into your weekly template — the planner puts them on the schedule every week.
+        </p>
+        <ul class="space-y-3">
+          {[
+            "Shift times and minimum function per department",
+            "Seasonal templates, for example summer and winter",
+            "Drag and drop — eligible slots light up",
           ].map((item) => (
             <li class="flex items-start gap-3 text-[var(--color-charcoal)] text-sm">
               <span class="w-5 h-5 rounded-full bg-[#E8F5EE] flex items-center justify-center text-[var(--color-forest)] shrink-0 mt-0.5">
@@ -284,21 +301,7 @@ import SectionHeading from "../../components/SectionHeading.astro";
           ))}
         </ul>
       </div>
-      <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200">
-        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
-          <div class="flex gap-1.5">
-            <div class="w-3 h-3 rounded-full bg-red-400"></div>
-            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div class="w-3 h-3 rounded-full bg-green-400"></div>
-          </div>
-          <div class="flex-1 mx-4">
-            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.gedekt.com/reports</div>
-          </div>
-        </div>
-        <div class="bg-gray-100">
-          <img src="/screenshots/admin-reports.png" alt="Reports" class="w-full" loading="lazy" />
-        </div>
-      </div>
+      <DemoVideo name="hours" lang="en" label="Reviewing monthly hours and labor cost" url="app.gedekt.com/reports" />
     </div>
   </section>
 
@@ -311,29 +314,11 @@ import SectionHeading from "../../components/SectionHeading.astro";
         subtitle="Staff submit everything through the app. You approve with one click."
         align="center"
       />
-      <div class="max-w-md mx-auto mt-12">
-        {[
-          {
-            src: "/screenshots/admin-swaps.png",
-            title: "Swap Requests",
-            desc: "Staff request shift swaps between each other. You see both sides, add a note if needed, and approve or decline.",
-          },
-        ].map((item) => (
-          <div class="bg-[var(--color-cream)] rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-            <div class="bg-[#f8fafc] border-b border-gray-100 px-3 py-2 flex items-center gap-1.5">
-              <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
-              <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
-              <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
-            </div>
-            <div class="bg-gray-50 min-h-[100px] overflow-hidden">
-              <img src={item.src} alt={item.title} class="w-full" loading="lazy" />
-            </div>
-            <div class="p-6">
-              <h3 class="font-display font-semibold text-[var(--color-charcoal)] mb-2">{item.title}</h3>
-              <p class="text-[var(--color-stone)] text-sm leading-relaxed">{item.desc}</p>
-            </div>
-          </div>
-        ))}
+      <div class="max-w-4xl mx-auto mt-12">
+        <DemoVideo name="requests" lang="en" label="Approving shift claims and swap requests" url="app.gedekt.com/swap-requests" />
+        <p class="text-[var(--color-stone)] text-sm leading-relaxed text-center max-w-xl mx-auto mt-6">
+          Staff claim open shifts or swap with each other. You see both sides, get a warning when a function doesn't match, and approve or decline.
+        </p>
       </div>
     </div>
   </section>
