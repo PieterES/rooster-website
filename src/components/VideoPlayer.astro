@@ -32,7 +32,7 @@ const t = (nl: string, en: string) => (lang === "nl" ? nl : en);
     data-label-pause={t("Video pauzeren", "Pause video")}
     data-label-replay={t("Opnieuw afspelen", "Replay video")}
   >
-    <span class="demo-icon flex items-center justify-center w-16 h-16 rounded-full bg-[var(--color-forest)]/90 text-white shadow-xl transition-all duration-200 group-hover:scale-105 group-focus-within:ring-4 group-focus-within:ring-[var(--color-amber)]/50">
+    <span class="demo-icon flex items-center justify-center w-16 h-16 rounded-full bg-[var(--color-forest)]/90 text-white shadow-xl transition-all duration-200 group-hover:scale-105">
       <svg data-icon="play" class="w-7 h-7 ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
       <svg data-icon="pause" class="w-7 h-7 hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
       <svg data-icon="replay" class="w-7 h-7 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 9 9 9"/></svg>
@@ -45,15 +45,18 @@ const t = (nl: string, en: string) => (lang === "nl" ? nl : en);
 </div>
 
 <style>
-  /* While playing, the icon only shows on hover/focus so it doesn't cover the app. */
+  /* While playing, the icon only shows briefly after the mouse moves (or for keyboard focus). */
   .demo-player[data-state="playing"] .demo-icon {
     opacity: 0;
     transform: scale(0.9);
   }
-  .demo-player[data-state="playing"]:hover .demo-icon,
-  .demo-player[data-state="playing"]:focus-within .demo-icon {
+  .demo-player[data-state="playing"][data-active] .demo-icon,
+  .demo-player[data-state="playing"]:has(.demo-toggle:focus-visible) .demo-icon {
     opacity: 0.85;
     transform: scale(1);
+  }
+  .demo-toggle:focus-visible .demo-icon {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-amber) 50%, transparent);
   }
 </style>
 
@@ -79,7 +82,22 @@ const t = (nl: string, en: string) => (lang === "nl" ? nl : en);
       button.setAttribute("aria-label", button.dataset[`label${icon[0].toUpperCase()}${icon.slice(1)}`]!);
     };
 
+    // show the pause icon on mouse movement, hide it again after a moment of stillness
+    let idle: number | undefined;
+    const wake = () => {
+      player.dataset.active = "";
+      clearTimeout(idle);
+      idle = window.setTimeout(() => delete player.dataset.active, 1500);
+    };
+    player.addEventListener("mousemove", wake);
+    player.addEventListener("mouseleave", () => {
+      clearTimeout(idle);
+      delete player.dataset.active;
+    });
+
     button.addEventListener("click", () => {
+      clearTimeout(idle);
+      delete player.dataset.active;
       if (video.paused || video.ended) {
         allVideos().forEach((other) => other !== video && other.pause());
         video.play().catch(() => {});

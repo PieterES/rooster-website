@@ -35,15 +35,16 @@ export default {
     await h.sleep(500);
     await h.scroll(420, 900);
     await h.click(page.locator('main').getByText('Lunch').last(), 900);
-    await h.click(page.getByText(t('Ruil met collega', 'Swap with colleague')), 900);
+    await h.click(page.getByText(t('Ruil met collega', 'Swap with colleague')).first(), 900);
 
-    const colleague = page.locator('select').filter({ hasText: COLLEAGUE });
-    await h.select(colleague, { label: COLLEAGUE }, 1000);
-    const theirShift = page.locator('select').filter({ hasText: /\d{2}:\d{2}/ });
-    const options = await theirShift.locator('option').allTextContents();
-    const pick = options.find((o) => /Middag|Afternoon/i.test(o) && !/oktober|October/i.test(o)) ?? options[1];
-    await h.select(theirShift, { label: pick }, 900);
-    await h.click(page.getByRole('button', { name: t('Bevestigen', 'Confirm'), exact: true }), 1800);
+    // search the colleague, then pick one of their shifts in the demo week (Thursday's Middag)
+    const sheet = page.locator('div.fixed').filter({ has: page.getByRole('button', { name: t('Bevestigen', 'Confirm'), exact: true }) }).last();
+    await h.type(sheet.locator('input').first(), COLLEAGUE.split(' ')[0], 500);
+    await h.click(sheet.getByText(COLLEAGUE, { exact: true }).last(), 1000);
+    const day = String(+DEMO_WEEK.slice(8) + 3);
+    await h.click(sheet.getByRole('button').filter({ hasText: new RegExp(`\\b${day}\\b`) }).filter({ hasText: 'Middag' }).first(), 700);
+    await h.type(sheet.getByPlaceholder(t('Notitie (optioneel)', 'Note (optional)')), t('Kun jij maandag? Dan neem ik jouw donderdag.', 'Could you take Monday? I’ll do your Thursday.'), 500);
+    await h.click(sheet.getByRole('button', { name: t('Bevestigen', 'Confirm'), exact: true }), 1800);
   },
 
   async cleanup({ page, t }) {
