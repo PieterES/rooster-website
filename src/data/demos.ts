@@ -1,4 +1,4 @@
-// Demo pages under /functies/<slug> and /en/features/<slug>.
+// Demo pages under /hoe-het-werkt/<slug> and /en/how-it-works/<slug>.
 // Each page shows one or more clips from public/videos (see scripts/demo-videos).
 
 type Text = { nl: string; en: string };
@@ -149,6 +149,6 @@ export const demos: Demo[] = [
 ];
 
 export const demoHref = (demo: Demo, lang: "nl" | "en") =>
-  lang === "nl" ? `/functies/${demo.slug.nl}` : `/en/features/${demo.slug.en}`;
+  lang === "nl" ? `/hoe-het-werkt/${demo.slug.nl}` : `/en/how-it-works/${demo.slug.en}`;
 
 export const demoBySlug = (slug: string, lang: "nl" | "en") => demos.find((d) => d.slug[lang] === slug);

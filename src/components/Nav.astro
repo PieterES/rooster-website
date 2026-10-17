@@ -12,7 +12,6 @@ const isNL = !currentPath.startsWith("/en");
 // Page slug mapping NL (root) <-> EN (/en/)
 const langMap: Record<string, string> = {
   "/":                    "/en/",
-  "/functies":            "/en/features",
   "/prijzen":             "/en/pricing",
   "/hoe-het-werkt":       "/en/how-it-works",
   "/product-tour":        "/en/product-tour",
@@ -21,7 +20,6 @@ const langMap: Record<string, string> = {
   "/handleiding":         "/en/manual",
   "/en/":                 "/",
   "/en":                  "/",
-  "/en/features":         "/functies",
   "/en/pricing":          "/prijzen",
   "/en/how-it-works":     "/hoe-het-werkt",
   "/en/product-tour":     "/product-tour",
@@ -39,26 +37,24 @@ const alternatePath = langMap[normalised] ?? (isNL ? "/en/" : "/");
 
 const links = isNL
   ? [
-      { href: "/functies",      label: "Functies" },
       { href: "/product-tour",  label: "Product" },
-      { href: "/prijzen",       label: "Prijzen" },
       { href: "/hoe-het-werkt", label: "Hoe het werkt" },
-      { href: "/over-ons",      label: "Over ons" },
+      { href: "/prijzen",       label: "Prijzen" },
       { href: "/contact",       label: "Contact" },
+      { href: "/over-ons",      label: "Over ons" },
     ]
   : [
-      { href: "/en/features",      label: "Features" },
       { href: "/en/product-tour",  label: "Product" },
-      { href: "/en/pricing",       label: "Pricing" },
       { href: "/en/how-it-works",  label: "How It Works" },
-      { href: "/en/about",         label: "About" },
+      { href: "/en/pricing",       label: "Pricing" },
       { href: "/en/contact",       label: "Contact" },
+      { href: "/en/about",         label: "About" },
     ];
 
-// Demo pages shown in the dropdown under the features link
-const featuresHref = links[0].href;
+// Demo pages shown in the dropdown under the "how it works" link
+const featuresHref = isNL ? "/hoe-het-werkt" : "/en/how-it-works";
 const demoLinks = demos.map((d) => ({ href: demoHref(d, isNL ? "nl" : "en"), label: d.menuLabel[isNL ? "nl" : "en"] }));
-const allFeaturesLabel = isNL ? "Alle functies" : "All features";
+const allFeaturesLabel = isNL ? "Alles over hoe het werkt" : "Everything about how it works";
 const seeItLabel = isNL ? "Zie hoe het werkt" : "See how it works";
 const linkClass = (href: string) => [
   "text-sm font-medium transition-colors duration-200 hover:text-[var(--color-amber)]",

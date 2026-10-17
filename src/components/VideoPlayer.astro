@@ -1,0 +1,105 @@
+---
+// Click-to-play video with a play/pause overlay, replay at the end and a progress bar.
+interface Props {
+  base: string;
+  label: string;
+  aspect: string;
+  lang: "nl" | "en";
+}
+
+const { base, label, aspect, lang } = Astro.props;
+const t = (nl: string, en: string) => (lang === "nl" ? nl : en);
+---
+
+<div class="demo-player group relative bg-gray-100" data-state="idle">
+  <video
+    class={`demo-video w-full block ${aspect}`}
+    poster={`${base}.jpg`}
+    muted
+    playsinline
+    preload="none"
+    aria-label={label}
+  >
+    <source src={`${base}.webm`} type="video/webm" />
+    <source src={`${base}.mp4`} type="video/mp4" />
+  </video>
+
+  <button
+    type="button"
+    class="demo-toggle absolute inset-0 w-full h-full flex items-center justify-center cursor-pointer focus-visible:outline-none"
+    aria-label={t("Video afspelen", "Play video")}
+    data-label-play={t("Video afspelen", "Play video")}
+    data-label-pause={t("Video pauzeren", "Pause video")}
+    data-label-replay={t("Opnieuw afspelen", "Replay video")}
+  >
+    <span class="demo-icon flex items-center justify-center w-16 h-16 rounded-full bg-[var(--color-forest)]/90 text-white shadow-xl transition-all duration-200 group-hover:scale-105 group-focus-within:ring-4 group-focus-within:ring-[var(--color-amber)]/50">
+      <svg data-icon="play" class="w-7 h-7 ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+      <svg data-icon="pause" class="w-7 h-7 hidden" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+      <svg data-icon="replay" class="w-7 h-7 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 9 9 9"/></svg>
+    </span>
+  </button>
+
+  <div class="absolute left-0 right-0 bottom-0 h-1 bg-black/10 pointer-events-none">
+    <div class="demo-progress h-full w-0 bg-[var(--color-amber)]"></div>
+  </div>
+</div>
+
+<style>
+  /* While playing, the icon only shows on hover/focus so it doesn't cover the app. */
+  .demo-player[data-state="playing"] .demo-icon {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  .demo-player[data-state="playing"]:hover .demo-icon,
+  .demo-player[data-state="playing"]:focus-within .demo-icon {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+</style>
+
+<script>
+  const players = document.querySelectorAll<HTMLElement>(".demo-player:not([data-ready])");
+  const allVideos = () => document.querySelectorAll<HTMLVideoElement>("video.demo-video");
+
+  players.forEach((player) => {
+    player.dataset.ready = "";
+    const video = player.querySelector("video")!;
+    const button = player.querySelector<HTMLButtonElement>(".demo-toggle")!;
+    const progress = player.querySelector<HTMLElement>(".demo-progress")!;
+    const icons = {
+      play: player.querySelector('[data-icon="play"]')!,
+      pause: player.querySelector('[data-icon="pause"]')!,
+      replay: player.querySelector('[data-icon="replay"]')!,
+    };
+
+    const show = (state: "idle" | "playing" | "paused" | "ended") => {
+      player.dataset.state = state;
+      const icon = state === "playing" ? "pause" : state === "ended" ? "replay" : "play";
+      for (const [name, el] of Object.entries(icons)) el.classList.toggle("hidden", name !== icon);
+      button.setAttribute("aria-label", button.dataset[`label${icon[0].toUpperCase()}${icon.slice(1)}`]!);
+    };
+
+    button.addEventListener("click", () => {
+      if (video.paused || video.ended) {
+        allVideos().forEach((other) => other !== video && other.pause());
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+
+    video.addEventListener("play", () => show("playing"));
+    video.addEventListener("pause", () => !video.ended && show("paused"));
+    video.addEventListener("ended", () => show("ended"));
+    video.addEventListener("timeupdate", () => {
+      if (video.duration) progress.style.width = `${(video.currentTime / video.duration) * 100}%`;
+    });
+  });
+
+  // Pause a playing clip once it scrolls out of view.
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(({ target, isIntersecting }) => !isIntersecting && (target as HTMLVideoElement).pause()),
+    { threshold: 0.2 },
+  );
+  allVideos().forEach((v) => observer.observe(v));
+</script>

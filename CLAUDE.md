@@ -17,10 +17,10 @@ No test suite or linter is configured.
 **Stack:** Astro 6 + Tailwind CSS v4 (via `@tailwindcss/vite` plugin). No JS framework — all components are `.astro` files with vanilla script blocks where interactivity is needed.
 
 **Bilingual routing (NL / EN):**
-- Dutch pages live at the root: `/`, `/functies`, `/prijzen`, `/hoe-het-werkt`, `/product-tour`, `/over-ons`, `/contact`
-- English equivalents are under `/en/`: `/en/`, `/en/features`, `/en/pricing`, etc.
+- Dutch pages live at the root: `/`, `/hoe-het-werkt`, `/prijzen`, `/product-tour`, `/over-ons`, `/contact` (`/functies` redirects to `/hoe-het-werkt`)
+- English equivalents are under `/en/`: `/en/`, `/en/how-it-works`, `/en/pricing`, etc.
 - The slug mapping is maintained in [src/components/Nav.astro](src/components/Nav.astro) (`langMap`). When adding a new page, add both the NL and EN route to `langMap` and to the `links` arrays for both languages.
-- Demo video pages (`/functies/<slug>`, `/en/features/<slug>`) are generated from [src/data/demos.ts](src/data/demos.ts); adding an entry there creates both pages, the nav dropdown item and the `langMap` entries. Clips are recorded with `npm run record:demos` (see [scripts/demo-videos/README.md](scripts/demo-videos/README.md)).
+- Demo video pages (`/hoe-het-werkt/<slug>`, `/en/how-it-works/<slug>`) are generated from [src/data/demos.ts](src/data/demos.ts); adding an entry there creates both pages, the nav dropdown item and the `langMap` entries. Clips are recorded with `npm run record:demos` (see [scripts/demo-videos/README.md](scripts/demo-videos/README.md)).
 
 **Page layout:** Every page wraps in `BaseLayout` ([src/layouts/BaseLayout.astro](src/layouts/BaseLayout.astro)), which accepts `title`, `description`, and `lang` props. `lang` defaults to `"en"` — NL pages must pass `lang="nl"` explicitly.
 

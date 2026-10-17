@@ -18,21 +18,30 @@ const musicSrc = existsSync("public/audio/demo-music.mp3") ? "/audio/demo-music.
 
 const index = demos.indexOf(demo);
 const next = demos[(index + 1) % demos.length];
-const featuresHref = lang === "nl" ? "/functies" : "/en/features";
+const overviewHref = lang === "nl" ? "/hoe-het-werkt" : "/en/how-it-works";
 ---
 
 <BaseLayout title={demo.menuLabel[lang]} description={demo.lede[lang]} lang={lang}>
   <section class="bg-white pt-32 pb-20 px-6 lg:px-8">
     <div class="max-w-5xl mx-auto">
-      <div class="max-w-2xl mx-auto text-center mb-12">
-        <a href={featuresHref} class="inline-flex items-center gap-1.5 text-sm text-[var(--color-stone)] hover:text-[var(--color-forest)] transition-colors mb-6">
-          ← {t("Alle functies", "All features")}
+      <div class="max-w-2xl mx-auto text-center mb-10">
+        <a href={overviewHref} class="inline-flex items-center gap-1.5 text-sm text-[var(--color-stone)] hover:text-[var(--color-forest)] transition-colors mb-6">
+          ← {t("Hoe het werkt", "How it works")}
         </a>
         <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-5">
           {demo.title[lang]}
         </h1>
         <p class="text-lg text-[var(--color-stone)] leading-relaxed">{demo.lede[lang]}</p>
       </div>
+
+      <ol class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mb-12">
+        {demo.steps.map((step, i) => (
+          <li class="flex sm:flex-col items-center sm:text-center gap-3">
+            <span class="w-8 h-8 rounded-full bg-[#E8F5EE] text-[var(--color-forest)] font-display font-semibold text-sm flex items-center justify-center shrink-0">{i + 1}</span>
+            <span class="text-[var(--color-charcoal)] text-sm leading-snug">{step[lang]}</span>
+          </li>
+        ))}
+      </ol>
 
       {demo.device === "desktop" ? (
         <DemoVideo name={demo.clips[0].name} lang={lang} label={demo.menuLabel[lang]} url={demo.url?.[lang]} class="shadow-2xl" />
@@ -48,7 +57,7 @@ const featuresHref = lang === "nl" ? "/functies" : "/en/features";
       )}
 
       <div class="flex items-center justify-center gap-3 mt-6 text-sm text-[var(--color-stone)]">
-        <span>{t(`± ${demo.seconds} seconden, zonder knippen`, `± ${demo.seconds} seconds, no cuts`)}</span>
+        <span>{t(`± ${demo.seconds} seconden, zonder knippen — klik om af te spelen`, `± ${demo.seconds} seconds, no cuts — click to play`)}</span>
         {musicSrc && (
           <>
             <span class="text-gray-300">·</span>
@@ -66,15 +75,6 @@ const featuresHref = lang === "nl" ? "/functies" : "/en/features";
           </>
         )}
       </div>
-
-      <ol class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mt-14">
-        {demo.steps.map((step, i) => (
-          <li class="flex sm:flex-col items-center sm:text-center gap-3">
-            <span class="w-8 h-8 rounded-full bg-[#E8F5EE] text-[var(--color-forest)] font-display font-semibold text-sm flex items-center justify-center shrink-0">{i + 1}</span>
-            <span class="text-[var(--color-charcoal)] text-sm leading-snug">{step[lang]}</span>
-          </li>
-        ))}
-      </ol>
     </div>
   </section>
 
@@ -99,24 +99,55 @@ const featuresHref = lang === "nl" ? "/functies" : "/en/features";
   const audio = document.getElementById("demo-music") as HTMLAudioElement | null;
   const KEY = "gedekt-demo-music";
 
+  // The music follows the video: it plays while a clip plays (if switched on) and fades out on pause/end.
   if (toggle && audio) {
-    audio.volume = 0.35;
-    const set = (on: boolean) => {
-      toggle.setAttribute("aria-pressed", String(on));
-      toggle.querySelector("[data-on]")!.toggleAttribute("hidden", !on);
-      toggle.querySelector("[data-off]")!.toggleAttribute("hidden", on);
-      try { localStorage.setItem(KEY, on ? "1" : "0"); } catch {}
+    const VOLUME = 0.35;
+    const videos = [...document.querySelectorAll<HTMLVideoElement>("video.demo-video")];
+    const playing = () => videos.some((v) => !v.paused && !v.ended);
+    let enabled = false;
+    try { enabled = localStorage.getItem(KEY) === "1"; } catch {}
+
+    let fade: number | undefined;
+    const fadeTo = (target: number, then?: () => void) => {
+      clearInterval(fade);
+      fade = window.setInterval(() => {
+        const step = target > audio.volume ? 0.05 : -0.05;
+        audio.volume = Math.min(1, Math.max(0, audio.volume + step));
+        if (Math.abs(audio.volume - target) < 0.05) {
+          audio.volume = target;
+          clearInterval(fade);
+          then?.();
+        }
+      }, 40);
     };
+    const start = () => {
+      audio.volume = 0;
+      audio.play().then(() => fadeTo(VOLUME)).catch(() => {});
+    };
+    const stop = () => fadeTo(0, () => audio.pause());
+
+    const render = () => {
+      toggle.setAttribute("aria-pressed", String(enabled));
+      toggle.querySelector("[data-on]")!.toggleAttribute("hidden", !enabled);
+      toggle.querySelector("[data-off]")!.toggleAttribute("hidden", enabled);
+    };
+    render();
+
     toggle.addEventListener("click", () => {
-      if (audio.paused) audio.play().then(() => set(true)).catch(() => set(false));
-      else { audio.pause(); set(false); }
+      enabled = !enabled;
+      try { localStorage.setItem(KEY, enabled ? "1" : "0"); } catch {}
+      render();
+      if (enabled && playing()) start();
+      if (!enabled) stop();
     });
-    // Browsers only allow sound after a click, so a remembered "on" resumes on the first interaction.
-    let remembered = false;
-    try { remembered = localStorage.getItem(KEY) === "1"; } catch {}
-    if (remembered) {
-      const resume = () => audio.play().then(() => set(true)).catch(() => {});
-      document.addEventListener("pointerdown", resume, { once: true });
+
+    for (const video of videos) {
+      video.addEventListener("play", () => {
+        if (video.currentTime < 0.3) audio.currentTime = 0;
+        if (enabled) start();
+      });
+      video.addEventListener("pause", () => !playing() && stop());
+      video.addEventListener("ended", () => !playing() && stop());
     }
   }
 </script>

@@ -1,7 +1,9 @@
 ---
-// Looping product demo clip in a browser or phone frame.
+// Product demo clip in a browser or phone frame, played on click.
 // Clips live in public/videos/<name>-<lang>.{webm,mp4,jpg} and are recorded with
-// scripts/demo-videos/record.mjs. They only load once scrolled into view.
+// scripts/demo-videos/record.mjs.
+import VideoPlayer from "./VideoPlayer.astro";
+
 interface Props {
   name: string;
   lang: "nl" | "en";
@@ -29,64 +31,15 @@ const base = `/videos/${name}-${lang}`;
         </div>
       )}
     </div>
-    <video
-      class="demo-video w-full block aspect-[8/5] bg-gray-100"
-      poster={`${base}.jpg`}
-      muted
-      loop
-      playsinline
-      preload="none"
-      aria-label={label}
-    >
-      <source src={`${base}.webm`} type="video/webm" />
-      <source src={`${base}.mp4`} type="video/mp4" />
-    </video>
+    <VideoPlayer base={base} label={label} aspect="aspect-[8/5]" lang={lang} />
   </div>
 ) : (
   <div class={`relative w-full max-w-[300px] mx-auto ${className}`}>
     <div class="bg-[#1C1C1E] rounded-[2.5rem] px-[8px] pt-3 pb-5 shadow-2xl ring-1 ring-white/5">
       <div class="rounded-[1.5rem] overflow-hidden bg-gray-200">
-        <video
-          class="demo-video w-full block aspect-[390/844]"
-          poster={`${base}.jpg`}
-          muted
-          loop
-          playsinline
-          preload="none"
-          aria-label={label}
-        >
-          <source src={`${base}.webm`} type="video/webm" />
-          <source src={`${base}.mp4`} type="video/mp4" />
-        </video>
+        <VideoPlayer base={base} label={label} aspect="aspect-[390/844]" lang={lang} />
       </div>
     </div>
-    <div class="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-[14px] bg-[#1C1C1E] rounded-b-xl z-10"></div>
+    <div class="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-[14px] bg-[#1C1C1E] rounded-b-xl z-10 pointer-events-none"></div>
   </div>
 )}
-
-<script>
-  // Play clips only while visible; respect reduced-motion by showing controls instead.
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const videos = document.querySelectorAll<HTMLVideoElement>("video.demo-video:not([data-ready])");
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const { target, isIntersecting } of entries) {
-        const video = target as HTMLVideoElement;
-        if (isIntersecting) video.play().catch(() => {});
-        else video.pause();
-      }
-    },
-    { threshold: 0.35 },
-  );
-
-  videos.forEach((video) => {
-    video.dataset.ready = "";
-    if (reduceMotion) {
-      video.controls = true;
-      video.preload = "metadata";
-    } else {
-      observer.observe(video);
-    }
-  });
-</script>
