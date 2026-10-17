@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PricingCard from "../../components/PricingCard.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
 import Button from "../../components/Button.astro";
+import { faqPage, softwareApplication } from "../../data/seo";
 
 const starterFeatures = [
   { text: "Manual schedule builder", included: true },
@@ -61,8 +62,9 @@ const faq = [
 ---
 
 <BaseLayout
-  title="Pricing"
+  title="Pricing – hospitality scheduling app from €10/month"
   description="Flat pricing, no per-employee surprises. Plans from €10/month. No annual contract."
+  jsonLd={[softwareApplication("en"), faqPage(faq)]}
 >
 
   <!-- Hero -->

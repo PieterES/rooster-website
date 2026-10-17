@@ -1,4 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import adminDashboard from "../assets/screenshots/admin-dashboard.png";
+import adminHours from "../assets/screenshots/admin-hours.png";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import SectionHeading from "../components/SectionHeading.astro";
@@ -6,7 +9,7 @@ import DemoVideo from "../components/DemoVideo.astro";
 ---
 
 <BaseLayout
-  title="De app in actie"
+  title="Product tour: de rooster app in actie"
   description="Bekijk hoe Gedekt eruitziet voor medewerkers en beheerders. Van roosterplanning tot verlofaanvragen — korte video's van de echte app."
   lang="nl"
 >
@@ -223,7 +226,7 @@ import DemoVideo from "../components/DemoVideo.astro";
           </div>
         </div>
         <div class="bg-gray-100">
-          <img src="/screenshots/admin-dashboard.png" alt="Beheerder dashboard" class="w-full" loading="lazy" />
+          <Image src={adminDashboard} alt="Beheerder dashboard" class="w-full" loading="lazy" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 600px, 100vw" />
         </div>
       </div>
     </div>
@@ -245,7 +248,7 @@ import DemoVideo from "../components/DemoVideo.astro";
           </div>
         </div>
         <div class="bg-gray-100">
-          <img src="/screenshots/admin-hours.png" alt="Uren en correcties" class="w-full" loading="lazy" />
+          <Image src={adminHours} alt="Uren en correcties" class="w-full" loading="lazy" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 600px, 100vw" />
         </div>
       </div>
       <div class="order-1 lg:order-2">

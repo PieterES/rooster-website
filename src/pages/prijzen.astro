@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PricingCard from "../components/PricingCard.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Button from "../components/Button.astro";
+import { faqPage, softwareApplication } from "../data/seo";
 
 const starterFeatures = [
   { text: "Handmatige roosterbouwer", included: true },
@@ -57,9 +58,10 @@ const faq = [
 ---
 
 <BaseLayout
-  title="Prijzen"
+  title="Prijzen rooster app horeca – vanaf €10/maand"
   description="Vaste prijzen, geen verrassingen per medewerker. Plannen vanaf €10/maand. Geen jaarcontract."
   lang="nl"
+  jsonLd={[softwareApplication("nl"), faqPage(faq)]}
 >
 
   <!-- Hero -->

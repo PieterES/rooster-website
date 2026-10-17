@@ -1,5 +1,7 @@
 ---
 // Footer.astro
+import { guides, guideHref } from "../data/guides";
+
 interface Props {
   lang?: "nl" | "en";
 }
@@ -24,6 +26,10 @@ const t = lang === "nl" ? {
   aboutHref: "/over-ons",
   contactHref: "/contact",
   manualHref: "/handleiding",
+  guides: "Gidsen",
+  allGuides: "Alle gidsen",
+  guidesHref: "/gidsen",
+  guideLabels: { schedule: "Rooster maken", "working-time-act": "Arbeidstijdenwet", "on-call": "Oproepkrachten", "labour-cost": "Loonkosten" },
 } : {
   tagline: "Workforce scheduling for Dutch hospitality.",
   madeIn: "Made in the Netherlands",
@@ -43,7 +49,16 @@ const t = lang === "nl" ? {
   aboutHref: "/en/about",
   contactHref: "/en/contact",
   manualHref: "/en/manual",
+  guides: "Guides",
+  allGuides: "All guides",
+  guidesHref: "/en/guides",
+  guideLabels: { schedule: "Making a rota", "working-time-act": "Working Hours Act", "on-call": "On-call workers", "labour-cost": "Labour cost" },
 };
+
+// A few popular guides, linked from every page.
+const footerGuides = Object.entries(t.guideLabels)
+  .map(([id, label]) => ({ label, guide: guides.find((g) => g.id === id && g.lang === lang) }))
+  .filter((l) => l.guide !== undefined);
 ---
 <footer class="bg-[var(--color-dark)] text-gray-400">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
@@ -79,6 +94,15 @@ const t = lang === "nl" ? {
             <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.contact}</a></li>
             <li><a href={t.contactHref} class="hover:text-white transition-colors">{t.support}</a></li>
             <li><a href={t.manualHref} class="hover:text-white transition-colors">{t.manual}</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-3 uppercase tracking-wider">{t.guides}</h3>
+          <ul class="space-y-2">
+            {footerGuides.map(({ label, guide }) => (
+              <li><a href={guideHref(guide!)} class="hover:text-white transition-colors">{label}</a></li>
+            ))}
+            <li><a href={t.guidesHref} class="hover:text-white transition-colors">{t.allGuides} →</a></li>
           </ul>
         </div>
       </div>

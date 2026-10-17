@@ -1,0 +1,140 @@
+---
+// A single guide article: breadcrumb, title, sections, FAQ, related guides and a CTA.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { guideHref, relatedGuides, type Guide } from "../data/guides";
+import { absoluteUrl, SITE } from "../data/routes";
+import { breadcrumbs, faqPage } from "../data/seo";
+
+interface Props {
+  guide: Guide;
+}
+
+const { guide } = Astro.props;
+const lang = guide.lang;
+const t = (nl: string, en: string) => (lang === "nl" ? nl : en);
+
+const homeHref = lang === "nl" ? "/" : "/en/";
+const overviewHref = lang === "nl" ? "/gidsen" : "/en/guides";
+const overviewLabel = t("Gidsen", "Guides");
+const url = absoluteUrl(guideHref(guide));
+const related = relatedGuides(guide);
+const updatedLabel = new Date(guide.updated).toLocaleDateString(lang === "nl" ? "nl-NL" : "en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+
+const jsonLd = [
+  {
+    "@type": "Article",
+    headline: guide.title,
+    description: guide.description,
+    inLanguage: lang === "nl" ? "nl-NL" : "en",
+    dateModified: guide.updated,
+    datePublished: guide.updated,
+    mainEntityOfPage: url,
+    image: `${SITE}/og-image.png`,
+    author: { "@id": `${SITE}/#organization` },
+    publisher: { "@id": `${SITE}/#organization` },
+  },
+  breadcrumbs([
+    { name: "Gedekt", url: absoluteUrl(homeHref) },
+    { name: overviewLabel, url: absoluteUrl(overviewHref) },
+    { name: guide.title, url },
+  ]),
+  ...(guide.faq?.length ? [faqPage(guide.faq)] : []),
+];
+---
+
+<BaseLayout title={guide.metaTitle} description={guide.description} lang={lang} ogType="article" jsonLd={jsonLd}>
+  <article class="bg-white pt-32 pb-16 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <nav aria-label={t("Kruimelpad", "Breadcrumb")} class="text-sm text-[var(--color-stone)] mb-6">
+        <a href={homeHref} class="hover:text-[var(--color-forest)] transition-colors">Gedekt</a>
+        <span class="mx-1.5 text-gray-300">/</span>
+        <a href={overviewHref} class="hover:text-[var(--color-forest)] transition-colors">{overviewLabel}</a>
+      </nav>
+
+      <h1 class="font-display font-bold text-3xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-5">
+        {guide.title}
+      </h1>
+      <p class="text-sm text-[var(--color-stone)] mb-8">
+        {t("Bijgewerkt op", "Updated")} <time datetime={guide.updated}>{updatedLabel}</time>
+      </p>
+      <p class="text-lg md:text-xl text-[var(--color-charcoal)] leading-relaxed mb-12">{guide.intro}</p>
+
+      <div class="guide-body">
+        {guide.sections.map((s) => (
+          <section>
+            <h2>{s.heading}</h2>
+            <Fragment set:html={s.html} />
+          </section>
+        ))}
+      </div>
+
+      {guide.faq && guide.faq.length > 0 && (
+        <section class="mt-16">
+          <h2 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-6">
+            {t("Veelgestelde vragen", "Frequently asked questions")}
+          </h2>
+          <div class="divide-y divide-gray-100 border-y border-gray-100">
+            {guide.faq.map((f) => (
+              <details class="group py-4">
+                <summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-semibold text-[var(--color-charcoal)]">
+                  {f.q}
+                  <span class="text-[var(--color-forest)] transition-transform group-open:rotate-45 text-xl leading-none" aria-hidden="true">+</span>
+                </summary>
+                <p class="mt-3 text-[var(--color-stone)] leading-relaxed">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <aside class="mt-16 rounded-2xl bg-[var(--color-forest)] text-white p-8 md:p-10">
+        <h2 class="font-display font-bold text-2xl mb-3">
+          {t("Elke dienst gedekt, zonder het gedoe.", "Every shift covered, without the hassle.")}
+        </h2>
+        <p class="text-white/80 mb-6 leading-relaxed">
+          {t(
+            "Gedekt maakt automatisch je weekrooster op basis van beschikbaarheid, functie en contracturen. Gemaakt voor de Nederlandse horeca, vanaf €10 per maand.",
+            "Gedekt builds your weekly rota from availability, function and contract hours. Made for Dutch hospitality, from €10 a month."
+          )}
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href={lang === "nl" ? "/hoe-het-werkt" : "/en/how-it-works"} class="bg-white text-[var(--color-forest)] text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[var(--color-cream)] transition-colors">
+            {t("Bekijk hoe het werkt →", "See how it works →")}
+          </a>
+          <a href={lang === "nl" ? "/prijzen" : "/en/pricing"} class="border border-white/40 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-white/10 transition-colors">
+            {t("Prijzen", "Pricing")}
+          </a>
+        </div>
+      </aside>
+
+      <p class="mt-8 text-xs text-[var(--color-stone)] leading-relaxed">
+        {t(
+          "Deze gids is bedoeld als algemene informatie en is geen juridisch advies. Regels kunnen veranderen en je cao kan afwijkende afspraken bevatten.",
+          "This guide is general information, not legal advice. Rules can change and your collective agreement may contain different terms."
+        )}
+      </p>
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="bg-[var(--color-cream)] py-16 px-6 lg:px-8">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-8 text-center">
+          {t("Lees ook", "Read next")}
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {related.map((r) => (
+            <a href={guideHref(r)} class="group block bg-white rounded-xl border border-gray-100 p-6 hover:shadow-md transition-shadow">
+              <h3 class="font-display font-semibold text-lg text-[var(--color-charcoal)] group-hover:text-[var(--color-forest)] transition-colors mb-2">{r.title}</h3>
+              <p class="text-sm text-[var(--color-stone)] leading-relaxed">{r.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>

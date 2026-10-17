@@ -1,5 +1,6 @@
 ---
 import { demos, demoHref } from "../data/demos";
+import { isEnglishPath, normalisePath, translatedPath } from "../data/routes";
 
 interface Props {
   currentPath?: string;
@@ -7,39 +8,18 @@ interface Props {
 
 const { currentPath = "/" } = Astro.props;
 
-const isNL = !currentPath.startsWith("/en");
+const isNL = !isEnglishPath(currentPath);
 
-// Page slug mapping NL (root) <-> EN (/en/)
-const langMap: Record<string, string> = {
-  "/":                    "/en/",
-  "/prijzen":             "/en/pricing",
-  "/hoe-het-werkt":       "/en/how-it-works",
-  "/product-tour":        "/en/product-tour",
-  "/over-ons":            "/en/about",
-  "/contact":             "/en/contact",
-  "/handleiding":         "/en/manual",
-  "/en/":                 "/",
-  "/en":                  "/",
-  "/en/pricing":          "/prijzen",
-  "/en/how-it-works":     "/hoe-het-werkt",
-  "/en/product-tour":     "/product-tour",
-  "/en/about":            "/over-ons",
-  "/en/contact":          "/contact",
-  "/en/manual":           "/handleiding",
-};
-for (const demo of demos) {
-  langMap[demoHref(demo, "nl")] = demoHref(demo, "en");
-  langMap[demoHref(demo, "en")] = demoHref(demo, "nl");
-}
-
-const normalised = currentPath === "/" ? "/" : currentPath.replace(/\/$/, "");
-const alternatePath = langMap[normalised] ?? (isNL ? "/en/" : "/");
+// NL <-> EN page pairs live in src/data/routes.ts
+const normalised = normalisePath(currentPath);
+const alternatePath = translatedPath(normalised) ?? (isNL ? "/en/" : "/");
 
 const links = isNL
   ? [
       { href: "/product-tour",  label: "Product" },
       { href: "/hoe-het-werkt", label: "Hoe het werkt" },
       { href: "/prijzen",       label: "Prijzen" },
+      { href: "/gidsen",        label: "Gidsen" },
       { href: "/contact",       label: "Contact" },
       { href: "/over-ons",      label: "Over ons" },
     ]
@@ -47,6 +27,7 @@ const links = isNL
       { href: "/en/product-tour",  label: "Product" },
       { href: "/en/how-it-works",  label: "How It Works" },
       { href: "/en/pricing",       label: "Pricing" },
+      { href: "/en/guides",        label: "Guides" },
       { href: "/en/contact",       label: "Contact" },
       { href: "/en/about",         label: "About" },
     ];
@@ -57,7 +38,7 @@ const demoLinks = demos.map((d) => ({ href: demoHref(d, isNL ? "nl" : "en"), lab
 const allFeaturesLabel = isNL ? "Alles over hoe het werkt" : "Everything about how it works";
 const seeItLabel = isNL ? "Zie hoe het werkt" : "See how it works";
 const linkClass = (href: string) => [
-  "text-sm font-medium transition-colors duration-200 hover:text-[var(--color-amber)]",
+  "text-sm font-medium whitespace-nowrap transition-colors duration-200 hover:text-[var(--color-amber)]",
   normalised === href || normalised.startsWith(href + "/")
     ? "text-[var(--color-forest)] font-semibold"
     : "text-[var(--color-charcoal)]",
@@ -79,7 +60,7 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
     </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+    <nav class="hidden lg:flex items-center gap-6 xl:gap-8" aria-label="Main navigation">
       {links.map((l) => l.href === featuresHref ? (
         <div class="relative group">
           <a href={l.href} class:list={[...linkClass(l.href), "inline-flex items-center gap-1"]} aria-haspopup="true">
@@ -113,7 +94,7 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
     </nav>
 
     <!-- Desktop CTA + Language switcher -->
-    <div class="hidden md:flex items-center gap-4">
+    <div class="hidden lg:flex items-center gap-3 xl:gap-4 whitespace-nowrap">
       <div class="flex items-center gap-1 text-xs font-medium">
         <a
           href={!isNL ? normalised : alternatePath}
@@ -146,7 +127,7 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
     <!-- Mobile hamburger -->
     <button
       id="mobile-menu-btn"
-      class="md:hidden p-2 rounded-lg text-[var(--color-charcoal)]"
+      class="lg:hidden p-2 rounded-lg text-[var(--color-charcoal)]"
       aria-label="Open menu"
       aria-expanded="false"
     >
@@ -166,7 +147,7 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
 <!-- Mobile drawer -->
 <div
   id="mobile-drawer"
-  class="fixed inset-0 z-40 bg-white transform translate-x-full transition-transform duration-300 md:hidden flex flex-col pt-20 px-8 pb-8 overflow-y-auto"
+  class="fixed inset-0 z-40 bg-white transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col pt-20 px-8 pb-8 overflow-y-auto"
   aria-hidden="true"
 >
   <nav class="flex flex-col gap-6" aria-label="Mobile navigation">

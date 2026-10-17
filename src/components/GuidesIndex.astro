@@ -1,0 +1,65 @@
+---
+// Overview of all guides in one language.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { guideHref, guidesFor } from "../data/guides";
+import { absoluteUrl } from "../data/routes";
+import { breadcrumbs } from "../data/seo";
+
+interface Props {
+  lang: "nl" | "en";
+}
+
+const { lang } = Astro.props;
+const t = (nl: string, en: string) => (lang === "nl" ? nl : en);
+const list = guidesFor(lang);
+const overviewHref = lang === "nl" ? "/gidsen" : "/en/guides";
+
+const jsonLd = [
+  {
+    "@type": "CollectionPage",
+    name: t("Gidsen voor horecaroosters", "Guides for hospitality scheduling"),
+    url: absoluteUrl(overviewHref),
+    hasPart: list.map((g) => ({ "@type": "Article", headline: g.title, url: absoluteUrl(guideHref(g)) })),
+  },
+  breadcrumbs([
+    { name: "Gedekt", url: absoluteUrl(lang === "nl" ? "/" : "/en/") },
+    { name: t("Gidsen", "Guides"), url: absoluteUrl(overviewHref) },
+  ]),
+];
+---
+
+<BaseLayout
+  title={t("Gidsen: roosteren en personeelsplanning in de horeca", "Guides: hospitality scheduling and staffing")}
+  description={t(
+    "Praktische gidsen over roosters maken, de Arbeidstijdenwet, oproepkrachten, loonkosten en personeelsplanning in de Nederlandse horeca.",
+    "Practical guides on making rotas, Dutch working-hours rules, on-call staff, labour cost and staff planning in Dutch hospitality."
+  )}
+  lang={lang}
+  jsonLd={jsonLd}
+>
+  <section class="bg-[var(--color-cream)] pt-32 pb-12 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-sm font-semibold uppercase tracking-widest text-[var(--color-amber)] mb-4">{t("Gidsen", "Guides")}</p>
+      <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-4">
+        {t("Alles over roosteren in de horeca", "Everything about hospitality scheduling")}
+      </h1>
+      <p class="text-lg text-[var(--color-stone)] leading-relaxed">
+        {t(
+          "Praktische uitleg over roosters, regels en personeelsplanning — voor wie een horecateam runt.",
+          "Practical guides on rotas, rules and staff planning — for people who run a hospitality team."
+        )}
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-cream)] pb-24 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5">
+      {list.map((g) => (
+        <a href={guideHref(g)} class="group block bg-white rounded-xl border border-gray-100 p-6 hover:shadow-md transition-shadow">
+          <h2 class="font-display font-semibold text-lg text-[var(--color-charcoal)] group-hover:text-[var(--color-forest)] transition-colors mb-2">{g.title}</h2>
+          <p class="text-sm text-[var(--color-stone)] leading-relaxed">{g.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

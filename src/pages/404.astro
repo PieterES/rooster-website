@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Pagina niet gevonden" description="Deze pagina bestaat niet (meer)." lang="nl" noindex>
+  <section class="bg-[var(--color-cream)] pt-40 pb-32 px-6 lg:px-8">
+    <div class="max-w-xl mx-auto text-center">
+      <p class="text-sm font-semibold uppercase tracking-widest text-[var(--color-amber)] mb-4">404</p>
+      <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-4">
+        Deze dienst is niet gevuld.
+      </h1>
+      <p class="text-lg text-[var(--color-stone)] leading-relaxed mb-2">
+        De pagina die je zoekt bestaat niet (meer).
+      </p>
+      <p class="text-[var(--color-stone)] mb-10">This page doesn't exist (anymore).</p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="/" class="bg-[var(--color-forest)] text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[var(--color-forest-light)] transition-colors">
+          Naar de homepage
+        </a>
+        <a href="/gidsen" class="border border-[var(--color-forest)] text-[var(--color-forest)] text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[var(--color-forest)] hover:text-white transition-colors">
+          Bekijk de gidsen
+        </a>
+        <a href="/en/" class="text-sm font-medium px-6 py-3 text-[var(--color-stone)] hover:text-[var(--color-forest)] transition-colors">
+          English site →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -17,7 +17,7 @@ const next = demos[(index + 1) % demos.length];
 const overviewHref = lang === "nl" ? "/hoe-het-werkt" : "/en/how-it-works";
 ---
 
-<BaseLayout title={demo.menuLabel[lang]} description={demo.lede[lang]} lang={lang}>
+<BaseLayout title={`${demo.menuLabel[lang]} – ${t("video demo rooster app", "scheduling app video demo")}`} description={demo.lede[lang]} lang={lang}>
   <section class="bg-white pt-32 pb-20 px-6 lg:px-8">
     <div class="max-w-5xl mx-auto">
       <div class="max-w-2xl mx-auto text-center mb-10">
