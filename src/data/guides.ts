@@ -1,4 +1,5 @@
-// Guide articles under /gidsen/<slug> (NL) and /en/guides/<slug> (EN).
+// Guide articles at /<slug> (NL) and /en/<slug> (EN); the overviews stay at /gidsen and /en/guides.
+// Old /gidsen/<slug> and /en/guides/<slug> URLs are 301-redirected in public/_redirects.
 // Each one targets a specific search query; translations share the same `id`.
 // Content lives in src/data/guide-content/; adding an entry there creates the page,
 // lists it on the overview, adds it to the sitemap and wires up hreflang.
@@ -28,7 +29,7 @@ export interface Guide {
 
 export const guides: Guide[] = [...nlGuides, ...enGuides];
 
-export const guideHref = (g: Guide) => (g.lang === "nl" ? `/gidsen/${g.slug}` : `/en/guides/${g.slug}`);
+export const guideHref = (g: Guide) => (g.lang === "nl" ? `/${g.slug}` : `/en/${g.slug}`);
 
 export const guidesFor = (lang: "nl" | "en") => guides.filter((g) => g.lang === lang);
 

@@ -28,7 +28,7 @@ export const nlGuides: Guide[] = [
       {
         heading: "3. Verzamel beschikbaarheid op tijd",
         html: `<p>Vraag je team om hun beschikbaarheid uiterlijk een week voordat je het rooster maakt door te geven. Publiceer je drie weken vooruit (zoals de cao Horeca vraagt), dan verzamel je beschikbaarheid dus ongeveer vier weken vooruit. Spreek een vaste deadline af, bijvoorbeeld elke maandag om 12:00. Wie te laat is, wordt ingeroosterd op basis van zijn standaardbeschikbaarheid.</p>
-<p>Werk met twee niveaus: <strong>kan</strong> en <strong>liever</strong>. Dan weet je niet alleen wie beschikbaar is, maar ook wie graag wil werken. Lees meer in <a href="/gidsen/beschikbaarheid-personeel-bijhouden">beschikbaarheid van personeel bijhouden</a>.</p>`,
+<p>Werk met twee niveaus: <strong>kan</strong> en <strong>liever</strong>. Dan weet je niet alleen wie beschikbaar is, maar ook wie graag wil werken. Lees meer in <a href="/beschikbaarheid-personeel-bijhouden">beschikbaarheid van personeel bijhouden</a>.</p>`,
       },
       {
         heading: "4. Zet eerst je vaste krachten in",
@@ -36,16 +36,16 @@ export const nlGuides: Guide[] = [
       },
       {
         heading: "5. Controleer wet- en regelgeving",
-        html: `<p>Een rooster moet voldoen aan de <a href="/gidsen/arbeidstijdenwet-horeca">Arbeidstijdenwet</a>: maximaal 12 uur per dienst, minimaal 11 uur rust tussen twee diensten en voldoende pauze. Voor jongeren onder de 18 gelden strengere regels — zie <a href="/gidsen/jongeren-werktijden-horeca">werktijden voor jongeren in de horeca</a>.</p>
-<p>Werk je met oproepkrachten? Dan moet je ze in principe minimaal 4 dagen van tevoren oproepen. Meer daarover in <a href="/gidsen/oproepkrachten-inroosteren">oproepkrachten inroosteren</a>.</p>`,
+        html: `<p>Een rooster moet voldoen aan de <a href="/arbeidstijdenwet-horeca">Arbeidstijdenwet</a>: maximaal 12 uur per dienst, minimaal 11 uur rust tussen twee diensten en voldoende pauze. Voor jongeren onder de 18 gelden strengere regels — zie <a href="/jongeren-werktijden-horeca">werktijden voor jongeren in de horeca</a>.</p>
+<p>Werk je met oproepkrachten? Dan moet je ze in principe minimaal 4 dagen van tevoren oproepen. Meer daarover in <a href="/oproepkrachten-inroosteren">oproepkrachten inroosteren</a>.</p>`,
       },
       {
         heading: "6. Check je loonkosten",
-        html: `<p>Tel voor je publiceert de geplande uren op en vermenigvuldig ze met het uurloon (inclusief werkgeverslasten). Vergelijk dat met je verwachte omzet. Zit je ruim boven je doel, kijk dan of je diensten kunt inkorten of later laten beginnen. Zie ook <a href="/gidsen/loonkosten-horeca-berekenen">loonkosten in de horeca berekenen</a>.</p>`,
+        html: `<p>Tel voor je publiceert de geplande uren op en vermenigvuldig ze met het uurloon (inclusief werkgeverslasten). Vergelijk dat met je verwachte omzet. Zit je ruim boven je doel, kijk dan of je diensten kunt inkorten of later laten beginnen. Zie ook <a href="/loonkosten-horeca-berekenen">loonkosten in de horeca berekenen</a>.</p>`,
       },
       {
         heading: "7. Publiceer op een vast moment — en regel ruilen",
-        html: `<p>Publiceer het rooster altijd op hetzelfde moment. Valt je zaak onder de cao Horeca, dan moet je de werkdagen en -tijden <strong>minimaal drie weken van tevoren</strong> bekendmaken; doe je dat later, dan mag de medewerker de uren weigeren. Zorg dat iedereen het op zijn telefoon kan zien, en spreek af hoe ruilen werkt: via een vast kanaal en altijd met jouw akkoord. Lees hoe je dat regelt in <a href="/gidsen/diensten-ruilen">diensten ruilen zonder chaos</a>.</p>`,
+        html: `<p>Publiceer het rooster altijd op hetzelfde moment. Valt je zaak onder de cao Horeca, dan moet je de werkdagen en -tijden <strong>minimaal drie weken van tevoren</strong> bekendmaken; doe je dat later, dan mag de medewerker de uren weigeren. Zorg dat iedereen het op zijn telefoon kan zien, en spreek af hoe ruilen werkt: via een vast kanaal en altijd met jouw akkoord. Lees hoe je dat regelt in <a href="/diensten-ruilen">diensten ruilen zonder chaos</a>.</p>`,
       },
       {
         heading: "Sneller: laat het rooster automatisch maken",
@@ -124,11 +124,11 @@ export const nlGuides: Guide[] = [
       },
       {
         heading: "Registratie: werkgever moet het kunnen aantonen",
-        html: `<p>Als werkgever ben je verplicht de arbeids- en rusttijden van je medewerkers te registreren en die registratie te bewaren. De Nederlandse Arbeidsinspectie kan erom vragen. Een rooster alleen is daarvoor niet genoeg: het gaat om de werkelijk gewerkte tijden. Lees meer in <a href="/gidsen/urenregistratie-horeca">urenregistratie in de horeca</a>.</p>`,
+        html: `<p>Als werkgever ben je verplicht de arbeids- en rusttijden van je medewerkers te registreren en die registratie te bewaren. De Nederlandse Arbeidsinspectie kan erom vragen. Een rooster alleen is daarvoor niet genoeg: het gaat om de werkelijk gewerkte tijden. Lees meer in <a href="/urenregistratie-horeca">urenregistratie in de horeca</a>.</p>`,
       },
       {
         heading: "Let op: cao en uitzonderingen",
-        html: `<p>Deze gids geeft de hoofdregels uit de wet. Je cao kan aanvullende afspraken bevatten, en voor jongeren gelden strengere regels — zie <a href="/gidsen/jongeren-werktijden-horeca">werktijden voor jongeren</a>. Controleer de actuele regels altijd op <a href="https://www.rijksoverheid.nl/onderwerpen/werktijden" rel="noopener" target="_blank">rijksoverheid.nl</a> of bij je brancheorganisatie.</p>`,
+        html: `<p>Deze gids geeft de hoofdregels uit de wet. Je cao kan aanvullende afspraken bevatten, en voor jongeren gelden strengere regels — zie <a href="/jongeren-werktijden-horeca">werktijden voor jongeren</a>. Controleer de actuele regels altijd op <a href="https://www.rijksoverheid.nl/onderwerpen/werktijden" rel="noopener" target="_blank">rijksoverheid.nl</a> of bij je brancheorganisatie.</p>`,
       },
     ],
     faq: [
@@ -185,7 +185,7 @@ export const nlGuides: Guide[] = [
       {
         heading: "Na 12 maanden: aanbod voor vaste uren",
         html: `<p>Werkt een oproepkracht 12 maanden bij je, dan moet je binnen een maand een contract aanbieden met een vast aantal uren. Dat aantal is minimaal het gemiddelde van de afgelopen 12 maanden. De medewerker hoeft het aanbod niet aan te nemen. Doe je geen aanbod, dan heeft de medewerker alsnog recht op loon over dat gemiddelde.</p>
-<p>Houd daarom per medewerker bij hoeveel uur er gemiddeld gewerkt is. Een <a href="/gidsen/urenregistratie-horeca">urenregistratie</a> maakt dat eenvoudig.</p>`,
+<p>Houd daarom per medewerker bij hoeveel uur er gemiddeld gewerkt is. Een <a href="/urenregistratie-horeca">urenregistratie</a> maakt dat eenvoudig.</p>`,
       },
       {
         heading: "Hogere WW-premie voor flexcontracten",
@@ -272,7 +272,7 @@ export const nlGuides: Guide[] = [
 <li>Maak aparte diensten voor jongeren, bijvoorbeeld een avonddienst tot 22:30 in plaats van tot sluit.</li>
 <li>Plan jongeren niet op schooldagen voor lange diensten, ook niet als ze dat zelf willen.</li>
 </ul>
-<p>De regels voor volwassenen staan in <a href="/gidsen/arbeidstijdenwet-horeca">Arbeidstijdenwet in de horeca</a>. Controleer de actuele regels altijd op <a href="https://www.rijksoverheid.nl/onderwerpen/jongeren-en-werk" rel="noopener" target="_blank">rijksoverheid.nl</a>.</p>`,
+<p>De regels voor volwassenen staan in <a href="/arbeidstijdenwet-horeca">Arbeidstijdenwet in de horeca</a>. Controleer de actuele regels altijd op <a href="https://www.rijksoverheid.nl/onderwerpen/jongeren-en-werk" rel="noopener" target="_blank">rijksoverheid.nl</a>.</p>`,
       },
     ],
     faq: [
@@ -383,7 +383,7 @@ export const nlGuides: Guide[] = [
       },
       {
         heading: "Ken je loonkosten",
-        html: `<p>Voor restaurants ligt de personeelskostenratio vaak rond de 30 tot 35% van de omzet. Houd per week bij wat je geplande uren kosten en vergelijk dat met je verwachte omzet. Meer in <a href="/gidsen/loonkosten-horeca-berekenen">loonkosten in de horeca berekenen</a>.</p>`,
+        html: `<p>Voor restaurants ligt de personeelskostenratio vaak rond de 30 tot 35% van de omzet. Houd per week bij wat je geplande uren kosten en vergelijk dat met je verwachte omzet. Meer in <a href="/loonkosten-horeca-berekenen">loonkosten in de horeca berekenen</a>.</p>`,
       },
       {
         heading: "Hoe Gedekt helpt",
@@ -423,8 +423,8 @@ export const nlGuides: Guide[] = [
     sections: [
       {
         heading: "Sluitdiensten en rusttijd",
-        html: `<p>Wie om 02:00 sluit, heeft volgens de Arbeidstijdenwet minimaal 14 uur rust nodig voordat de volgende dienst begint (één keer per week in te korten tot 8 uur). Zet dus niet dezelfde persoon op de sluitdienst en de openingsdienst van de volgende dag. Lees alle regels in <a href="/gidsen/arbeidstijdenwet-horeca">Arbeidstijdenwet in de horeca</a>.</p>
-<p>Werken er scholieren van 16 of 17? Die mogen na 23:00 niet meer werken. Zie <a href="/gidsen/jongeren-werktijden-horeca">jongeren in de horeca</a>.</p>`,
+        html: `<p>Wie om 02:00 sluit, heeft volgens de Arbeidstijdenwet minimaal 14 uur rust nodig voordat de volgende dienst begint (één keer per week in te korten tot 8 uur). Zet dus niet dezelfde persoon op de sluitdienst en de openingsdienst van de volgende dag. Lees alle regels in <a href="/arbeidstijdenwet-horeca">Arbeidstijdenwet in de horeca</a>.</p>
+<p>Werken er scholieren van 16 of 17? Die mogen na 23:00 niet meer werken. Zie <a href="/jongeren-werktijden-horeca">jongeren in de horeca</a>.</p>`,
       },
       {
         heading: "Piek en dal opvangen",
@@ -432,7 +432,7 @@ export const nlGuides: Guide[] = [
       },
       {
         heading: "Een team met veel studenten",
-        html: `<p>Studenten hebben wisselende roosters, tentamenweken en vakanties. Laat hen hun beschikbaarheid zelf per week doorgeven, en maak duidelijke afspraken over ruilen. Een vaste wekelijkse deadline (bijvoorbeeld maandag 12:00) voorkomt dat je achter mensen aan moet. Lees <a href="/gidsen/beschikbaarheid-personeel-bijhouden">beschikbaarheid bijhouden</a> en <a href="/gidsen/diensten-ruilen">diensten ruilen</a>.</p>`,
+        html: `<p>Studenten hebben wisselende roosters, tentamenweken en vakanties. Laat hen hun beschikbaarheid zelf per week doorgeven, en maak duidelijke afspraken over ruilen. Een vaste wekelijkse deadline (bijvoorbeeld maandag 12:00) voorkomt dat je achter mensen aan moet. Lees <a href="/beschikbaarheid-personeel-bijhouden">beschikbaarheid bijhouden</a> en <a href="/diensten-ruilen">diensten ruilen</a>.</p>`,
       },
       {
         heading: "Klein team, kleine prijs",
@@ -474,11 +474,11 @@ export const nlGuides: Guide[] = [
       },
       {
         heading: "Let op de oproeptermijn",
-        html: `<p>Het weer laat zich niet 4 dagen vooruit voorspellen, maar de oproeptermijn voor oproepkrachten is wel 4 dagen (tenzij je cao korter toestaat, minimaal 24 uur). Zeg je binnen die termijn af, dan betaal je de dienst toch. Plan je flexibele schil daarom op basis van de weersverwachting voor de hele week, en maak duidelijke afspraken. Meer in <a href="/gidsen/oproepkrachten-inroosteren">oproepkrachten inroosteren</a>.</p>`,
+        html: `<p>Het weer laat zich niet 4 dagen vooruit voorspellen, maar de oproeptermijn voor oproepkrachten is wel 4 dagen (tenzij je cao korter toestaat, minimaal 24 uur). Zeg je binnen die termijn af, dan betaal je de dienst toch. Plan je flexibele schil daarom op basis van de weersverwachting voor de hele week, en maak duidelijke afspraken. Meer in <a href="/oproepkrachten-inroosteren">oproepkrachten inroosteren</a>.</p>`,
       },
       {
         heading: "Pieken in het seizoen en de Arbeidstijdenwet",
-        html: `<p>In het hoogseizoen werken mensen graag veel uren. Dat mag: maximaal 60 uur in een week, zolang het gemiddelde over 16 weken onder de 48 uur blijft. Houd ook rekening met jongeren: die hebben strengere grenzen. Zie <a href="/gidsen/arbeidstijdenwet-horeca">Arbeidstijdenwet in de horeca</a>.</p>`,
+        html: `<p>In het hoogseizoen werken mensen graag veel uren. Dat mag: maximaal 60 uur in een week, zolang het gemiddelde over 16 weken onder de 48 uur blijft. Houd ook rekening met jongeren: die hebben strengere grenzen. Zie <a href="/arbeidstijdenwet-horeca">Arbeidstijdenwet in de horeca</a>.</p>`,
       },
       {
         heading: "Seizoenskorting",
@@ -534,7 +534,7 @@ export const nlGuides: Guide[] = [
 <li><strong>Gefaseerd naar huis:</strong> stuur bij rustige avonden eerder mensen naar huis, in overleg.</li>
 <li><strong>Plan op data:</strong> vergelijk met dezelfde week vorig jaar en met reserveringen.</li>
 <li><strong>Voorkom overuren</strong> door contracturen in het rooster mee te nemen.</li>
-<li><strong>Verminder no-shows</strong> — een leeg gat betekent vaak dure last-minute vervanging. Zie <a href="/gidsen/no-shows-voorkomen">no-shows voorkomen</a>.</li>
+<li><strong>Verminder no-shows</strong> — een leeg gat betekent vaak dure last-minute vervanging. Zie <a href="/no-shows-voorkomen">no-shows voorkomen</a>.</li>
 </ol>`,
       },
       {
@@ -633,7 +633,7 @@ export const nlGuides: Guide[] = [
       },
       {
         heading: "Verlof apart regelen",
-        html: `<p>Beschikbaarheid ("ik kan dinsdag niet") is iets anders dan verlof ("ik ben drie weken op vakantie"). Laat verlof aanvragen via een aparte aanvraag die jij goedkeurt. Zie <a href="/gidsen/verlof-en-vakantie-plannen">verlof en vakantie plannen</a>.</p>`,
+        html: `<p>Beschikbaarheid ("ik kan dinsdag niet") is iets anders dan verlof ("ik ben drie weken op vakantie"). Laat verlof aanvragen via een aparte aanvraag die jij goedkeurt. Zie <a href="/verlof-en-vakantie-plannen">verlof en vakantie plannen</a>.</p>`,
       },
       {
         heading: "Beschikbaarheid in Gedekt",
@@ -711,17 +711,17 @@ export const nlGuides: Guide[] = [
 <thead><tr><th>App</th><th>Prijsmodel</th><th>Per maand, 20 medewerkers</th><th>Automatisch roosteren</th></tr></thead>
 <tbody>
 <tr><td>Gedekt</td><td>Vast per pakket</td><td>€20 (Pro)</td><td>Ja, vanaf Pro</td></tr>
-<tr><td><a href="/gidsen/shiftbase-alternatief">Shiftbase</a></td><td>Pakket + per extra medewerker</td><td>€86 (Basic) · €112 (Premium)</td><td>Premium, in early access</td></tr>
-<tr><td><a href="/gidsen/planday-alternatief">Planday</a></td><td>Per gebruiker</td><td>Starter vanaf £2,99 per gebruiker</td><td>Alleen Pro, prijs op aanvraag</td></tr>
-<tr><td><a href="/gidsen/dyflexis-alternatief">Dyflexis</a></td><td>Per gebruiker</td><td>€90 (Pro) · €130 (Expert)</td><td>Vanaf Expert</td></tr>
-<tr><td><a href="/gidsen/eitje-alternatief">eitje</a></td><td>Per teamlid, per module</td><td>€48 (planning) · €80 (alle modules)</td><td>Niet genoemd op de prijspagina</td></tr>
-<tr><td><a href="/gidsen/l1nda-alternatief">L1NDA</a></td><td>Per ingeroosterde medewerker</td><td>€104</td><td>Niet genoemd op de prijspagina</td></tr>
+<tr><td><a href="/shiftbase-alternatief">Shiftbase</a></td><td>Pakket + per extra medewerker</td><td>€86 (Basic) · €112 (Premium)</td><td>Premium, in early access</td></tr>
+<tr><td><a href="/planday-alternatief">Planday</a></td><td>Per gebruiker</td><td>Starter vanaf £2,99 per gebruiker</td><td>Alleen Pro, prijs op aanvraag</td></tr>
+<tr><td><a href="/dyflexis-alternatief">Dyflexis</a></td><td>Per gebruiker</td><td>€90 (Pro) · €130 (Expert)</td><td>Vanaf Expert</td></tr>
+<tr><td><a href="/eitje-alternatief">eitje</a></td><td>Per teamlid, per module</td><td>€48 (planning) · €80 (alle modules)</td><td>Niet genoemd op de prijspagina</td></tr>
+<tr><td><a href="/l1nda-alternatief">L1NDA</a></td><td>Per ingeroosterde medewerker</td><td>€104</td><td>Niet genoemd op de prijspagina</td></tr>
 </tbody></table></div>
 <p class="note">Bron: de officiële prijspagina's van de aanbieders op 17 oktober 2026, bij maandelijkse betaling. Prijzen kunnen wijzigen; klik op een naam voor de volledige vergelijking.</p>`,
       },
       {
         heading: "Hoe Gedekt scoort",
-        html: `<p>Gedekt is gebouwd voor Nederlandse horecazaken met 5 tot 20 medewerkers: vaste prijs <a href="/prijzen">vanaf €10 per maand</a>, automatisch rooster, een app voor je team, ruilen en open diensten, in- en uitklokken en loonkostenoverzichten. Geen jaarcontract, en van setup tot je eerste rooster in minder dan 30 minuten. <a href="/hoe-het-werkt">Bekijk hoe het werkt</a>, of lees de vergelijkingen met <a href="/gidsen/shiftbase-alternatief">Shiftbase</a>, <a href="/gidsen/planday-alternatief">Planday</a>, <a href="/gidsen/dyflexis-alternatief">Dyflexis</a>, <a href="/gidsen/eitje-alternatief">eitje</a> en <a href="/gidsen/l1nda-alternatief">L1NDA</a>.</p>`,
+        html: `<p>Gedekt is gebouwd voor Nederlandse horecazaken met 5 tot 20 medewerkers: vaste prijs <a href="/prijzen">vanaf €10 per maand</a>, automatisch rooster, een app voor je team, ruilen en open diensten, in- en uitklokken en loonkostenoverzichten. Geen jaarcontract, en van setup tot je eerste rooster in minder dan 30 minuten. <a href="/hoe-het-werkt">Bekijk hoe het werkt</a>, of lees de vergelijkingen met <a href="/shiftbase-alternatief">Shiftbase</a>, <a href="/planday-alternatief">Planday</a>, <a href="/dyflexis-alternatief">Dyflexis</a>, <a href="/eitje-alternatief">eitje</a> en <a href="/l1nda-alternatief">L1NDA</a>.</p>`,
       },
     ],
     faq: [
@@ -759,7 +759,7 @@ export const nlGuides: Guide[] = [
       },
       {
         heading: "3. Maak ruilen makkelijk",
-        html: `<p>Als ruilen gedoe is, is niet komen de makkelijkste uitweg. Een eenvoudige manier om een dienst over te dragen voorkomt gaten. Zie <a href="/gidsen/diensten-ruilen">diensten ruilen</a>.</p>`,
+        html: `<p>Als ruilen gedoe is, is niet komen de makkelijkste uitweg. Een eenvoudige manier om een dienst over te dragen voorkomt gaten. Zie <a href="/diensten-ruilen">diensten ruilen</a>.</p>`,
       },
       {
         heading: "4. Spreek een duidelijk afmeldbeleid af",
@@ -865,7 +865,7 @@ export const nlGuides: Guide[] = [
       },
       {
         heading: "6. Bewaak de grenzen",
-        html: `<p>Met een krap team is de verleiding groot om je beste mensen extra in te zetten. Let op de <a href="/gidsen/arbeidstijdenwet-horeca">Arbeidstijdenwet</a> en op overbelasting: wie opbrandt, valt helemaal uit.</p>`,
+        html: `<p>Met een krap team is de verleiding groot om je beste mensen extra in te zetten. Let op de <a href="/arbeidstijdenwet-horeca">Arbeidstijdenwet</a> en op overbelasting: wie opbrandt, valt helemaal uit.</p>`,
       },
       {
         heading: "7. Maak open diensten zichtbaar",

@@ -33,15 +33,15 @@ export const enGuides: Guide[] = [
       },
       {
         heading: "5. Check the rules",
-        html: `<p>Dutch law sets limits: a maximum of 12 hours per shift, at least 11 hours of rest between shifts, and mandatory breaks. Staff under 18 have stricter limits. See the <a href="/en/guides/dutch-working-time-act-hospitality">Dutch Working Hours Act for hospitality</a> and <a href="/en/guides/young-workers-netherlands">young workers in Dutch hospitality</a>. On-call staff must normally be called in at least 4 days ahead — see <a href="/en/guides/on-call-workers-netherlands">on-call workers in the Netherlands</a>.</p>`,
+        html: `<p>Dutch law sets limits: a maximum of 12 hours per shift, at least 11 hours of rest between shifts, and mandatory breaks. Staff under 18 have stricter limits. See the <a href="/en/dutch-working-time-act-hospitality">Dutch Working Hours Act for hospitality</a> and <a href="/en/young-workers-netherlands">young workers in Dutch hospitality</a>. On-call staff must normally be called in at least 4 days ahead — see <a href="/en/on-call-workers-netherlands">on-call workers in the Netherlands</a>.</p>`,
       },
       {
         heading: "6. Check your labour cost",
-        html: `<p>Before publishing, add up the planned hours and multiply by the hourly cost including employer charges. Compare it with expected revenue. More in <a href="/en/guides/restaurant-labour-cost">calculating restaurant labour cost</a>.</p>`,
+        html: `<p>Before publishing, add up the planned hours and multiply by the hourly cost including employer charges. Compare it with expected revenue. More in <a href="/en/restaurant-labour-cost">calculating restaurant labour cost</a>.</p>`,
       },
       {
         heading: "7. Publish at a fixed time — and sort out swaps",
-        html: `<p>Publish at the same time every week. Under the cao Horeca, working days and times must be announced <strong>at least three weeks in advance</strong>, otherwise staff may refuse the hours. Make sure everyone can see it on their phone. Agree how swaps work: one channel, always with your approval. See <a href="/en/guides/shift-swapping">shift swapping without the chaos</a>.</p>`,
+        html: `<p>Publish at the same time every week. Under the cao Horeca, working days and times must be announced <strong>at least three weeks in advance</strong>, otherwise staff may refuse the hours. Make sure everyone can see it on their phone. Agree how swaps work: one channel, always with your approval. See <a href="/en/shift-swapping">shift swapping without the chaos</a>.</p>`,
       },
       {
         heading: "Faster: let the rota build itself",
@@ -109,7 +109,7 @@ export const enGuides: Guide[] = [
       },
       {
         heading: "Collective agreements and exceptions",
-        html: `<p>This guide covers the main statutory rules. Your collective agreement may add to them, and staff under 18 have stricter limits — see <a href="/en/guides/young-workers-netherlands">young workers</a>. Always check the current rules at <a href="https://www.government.nl/topics/working-hours" rel="noopener" target="_blank">government.nl</a>.</p>`,
+        html: `<p>This guide covers the main statutory rules. Your collective agreement may add to them, and staff under 18 have stricter limits — see <a href="/en/young-workers-netherlands">young workers</a>. Always check the current rules at <a href="https://www.government.nl/topics/working-hours" rel="noopener" target="_blank">government.nl</a>.</p>`,
       },
     ],
     faq: [
@@ -369,17 +369,17 @@ export const enGuides: Guide[] = [
 <thead><tr><th>App</th><th>Pricing model</th><th>Per month, 20 staff</th><th>Auto-scheduling</th></tr></thead>
 <tbody>
 <tr><td>Gedekt</td><td>Flat per plan</td><td>€20 (Pro)</td><td>Yes, from Pro</td></tr>
-<tr><td><a href="/en/guides/shiftbase-alternative">Shiftbase</a></td><td>Plan + per extra employee</td><td>€86 (Basic) · €112 (Premium)</td><td>Premium, early access</td></tr>
-<tr><td><a href="/en/guides/planday-alternative">Planday</a></td><td>Per user</td><td>Starter from £2.99 per user</td><td>Pro only, price on request</td></tr>
-<tr><td><a href="/en/guides/dyflexis-alternative">Dyflexis</a></td><td>Per user</td><td>€90 (Pro) · €130 (Expert)</td><td>From Expert</td></tr>
-<tr><td><a href="/en/guides/eitje-alternative">eitje</a></td><td>Per member, per module</td><td>€48 (planning) · €80 (all modules)</td><td>Not mentioned on pricing page</td></tr>
-<tr><td><a href="/en/guides/l1nda-alternative">L1NDA</a></td><td>Per scheduled employee</td><td>€104</td><td>Not mentioned on pricing page</td></tr>
+<tr><td><a href="/en/shiftbase-alternative">Shiftbase</a></td><td>Plan + per extra employee</td><td>€86 (Basic) · €112 (Premium)</td><td>Premium, early access</td></tr>
+<tr><td><a href="/en/planday-alternative">Planday</a></td><td>Per user</td><td>Starter from £2.99 per user</td><td>Pro only, price on request</td></tr>
+<tr><td><a href="/en/dyflexis-alternative">Dyflexis</a></td><td>Per user</td><td>€90 (Pro) · €130 (Expert)</td><td>From Expert</td></tr>
+<tr><td><a href="/en/eitje-alternative">eitje</a></td><td>Per member, per module</td><td>€48 (planning) · €80 (all modules)</td><td>Not mentioned on pricing page</td></tr>
+<tr><td><a href="/en/l1nda-alternative">L1NDA</a></td><td>Per scheduled employee</td><td>€104</td><td>Not mentioned on pricing page</td></tr>
 </tbody></table></div>
 <p class="note">Source: each provider's official pricing page on 17 October 2026, billed monthly. Prices may change; click a name for the full comparison.</p>`,
       },
       {
         heading: "How Gedekt compares",
-        html: `<p>Gedekt is built for Dutch hospitality venues with 5 to 20 staff: flat pricing <a href="/en/pricing">from €10 a month</a>, automatic scheduling, a staff app, swaps and open shifts, clock-in and labour cost reports, in Dutch and English. No annual contract, and from setup to first rota in under 30 minutes. <a href="/en/how-it-works">See how it works</a>, or read the comparisons with <a href="/en/guides/shiftbase-alternative">Shiftbase</a>, <a href="/en/guides/planday-alternative">Planday</a>, <a href="/en/guides/dyflexis-alternative">Dyflexis</a>, <a href="/en/guides/eitje-alternative">eitje</a> and <a href="/en/guides/l1nda-alternative">L1NDA</a>.</p>`,
+        html: `<p>Gedekt is built for Dutch hospitality venues with 5 to 20 staff: flat pricing <a href="/en/pricing">from €10 a month</a>, automatic scheduling, a staff app, swaps and open shifts, clock-in and labour cost reports, in Dutch and English. No annual contract, and from setup to first rota in under 30 minutes. <a href="/en/how-it-works">See how it works</a>, or read the comparisons with <a href="/en/shiftbase-alternative">Shiftbase</a>, <a href="/en/planday-alternative">Planday</a>, <a href="/en/dyflexis-alternative">Dyflexis</a>, <a href="/en/eitje-alternative">eitje</a> and <a href="/en/l1nda-alternative">L1NDA</a>.</p>`,
       },
     ],
     faq: [

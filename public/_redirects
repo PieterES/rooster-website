@@ -1,0 +1,5 @@
+# Cloudflare redirects. Guides moved from /gidsen/<slug> and /en/guides/<slug> to the site root.
+/gidsen/:slug/ /:slug/ 301
+/gidsen/:slug /:slug/ 301
+/en/guides/:slug/ /en/:slug/ 301
+/en/guides/:slug /en/:slug/ 301

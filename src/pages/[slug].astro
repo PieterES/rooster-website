@@ -1,0 +1,22 @@
+---
+// Root-level Dutch pages generated from data: guide articles and keyword landing pages.
+import GuidePage from "../components/GuidePage.astro";
+import LandingPage from "../components/LandingPage.astro";
+import { guidesFor, type Guide } from "../data/guides";
+import { landingPages, type LandingPage as Landing } from "../data/landing-pages";
+
+export function getStaticPaths() {
+  const paths = [
+    ...guidesFor("nl").map((guide) => ({ params: { slug: guide.slug }, props: { guide } })),
+    ...landingPages.map((page) => ({ params: { slug: page.slug }, props: { page } })),
+  ];
+  const slugs = paths.map((p) => p.params.slug);
+  const dupe = slugs.find((s, i) => slugs.indexOf(s) !== i);
+  if (dupe) throw new Error(`Duplicate root slug "${dupe}" in guides / landing pages`);
+  return paths;
+}
+
+const { guide, page } = Astro.props as { guide?: Guide; page?: Landing };
+---
+
+{guide ? <GuidePage guide={guide} /> : <LandingPage page={page!} />}

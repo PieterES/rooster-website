@@ -1,7 +1,7 @@
 // Dutch keyword landing pages at the site root (/personeelsplanning, /horecaplanning, ...).
 // Each page targets one search term with its own angle and copy — don't turn these into
 // copies of /hoe-het-werkt, Google treats duplicate pages as doorway pages.
-// Rendered by src/pages/[landing].astro; linked from the footer. Only claim features that exist in the app.
+// Rendered by src/pages/[slug].astro (shared with the guides, so slugs must not clash); linked from the footer. Only claim features that exist in the app.
 
 export interface LandingSection {
   title: string;
