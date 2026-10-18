@@ -23,7 +23,7 @@ const steps = [
   {
     number: "03",
     title: "Staff set their availability",
-    body: "Each team member ticks the shifts they can — or prefer to — work in the app. The engine reads this directly, no manual translation needed.",
+    body: "Each team member marks in the app when they can — or prefer to — work. With a start and end time per day, or by ticking shifts: you pick what fits your venue. The engine reads this directly, no manual translation needed.",
     qa: [],
     demo: "staff-app",
     clip: "staff-availability",
@@ -41,6 +41,64 @@ const quickFAQ = [
   { q: "How long does initial setup take?", a: "Most venues are fully live in under 30 minutes. Adding staff, departments, ranks, and the first weekly template is straightforward." },
   { q: "Can I run it without the auto-generate feature?", a: "Yes. Starter plan includes a full schedule builder. Auto-generate is a Pro feature." },
   { q: "What if my team isn't tech-savvy?", a: "The employee app is intentionally minimal — staff see their shifts, mark availability, and request swaps. Three screens, that's it." },
+];
+
+const timeWindowDays = [
+  { day: "Mon", value: "10:00 – 17:00" },
+  { day: "Tue", value: "Unavailable", off: true },
+  { day: "Wed", value: "From 16:00" },
+  { day: "Fri", value: "12:00 – 23:00", preferred: true },
+];
+
+const shiftPickDays = [
+  { day: "Mon", shifts: [{ name: "Lunch", picked: true }, { name: "Dinner" }] },
+  { day: "Tue", shifts: [], off: true },
+  { day: "Wed", shifts: [{ name: "Lunch" }, { name: "Dinner", picked: true, preferred: true }] },
+  { day: "Fri", shifts: [{ name: "Lunch", picked: true }, { name: "Dinner", picked: true }] },
+];
+
+const settings = [
+  {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>`,
+    title: "Approvals your way",
+    body: "Decide per request type how much of your time it takes.",
+    bullets: [
+      "Claiming open shifts and swaps: always approve manually, auto-approve within the same function, or always automatic",
+      "Auto-approve vacation requests and hours corrections",
+      "Optional: only staff from the same department or function can pick up a shift",
+    ],
+  },
+  {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+    title: "Your scheduling rhythm",
+    body: "Schedule per week, per month or per quarter.",
+    bullets: [
+      "Availability reminders follow your rhythm automatically, on the day and time you choose",
+      "Set how many weeks ahead staff fill in their availability",
+      "Daily shift reminder at a time of your choice",
+    ],
+  },
+  {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>`,
+    title: "Engine rules",
+    badge: "Pro",
+    body: "Turn on what matters for your team.",
+    bullets: [
+      "Contracted staff first, until their hours are filled",
+      "Whoever is furthest behind on hours over the past 12 weeks goes first",
+      "Preferred shift types as a tiebreaker, and your own minimum rest time between shifts",
+    ],
+  },
+  {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="5" width="22" height="14" rx="7"/><circle cx="16" cy="12" r="3"/></svg>`,
+    title: "Only what you use",
+    body: "Switch off the parts your team doesn't need.",
+    bullets: [
+      "Team chat, vacation requests and hours tracking each on or off",
+      "Switched off, it disappears from the menu — for staff and for you",
+      "Need it later after all? One click and it's back",
+    ],
+  },
 ];
 
 const features = [
@@ -61,6 +119,7 @@ const features = [
     demo: "staff-app",
     hook: "Templates that staff actually update — because the system actually respects them.",
     bullets: [
+      "Choose how your team fills it in: a start and end time per day, or ticking the shifts they can work",
       "Weekly availability templates that persist until changed — no re-entering every week",
       "One-off date overrides so staff can block specific days without breaking their template",
       "Manager sees unresolved availability gaps before generating, not after",
@@ -210,8 +269,98 @@ const features = [
     </div>
   </section>
 
+  <!-- Customization -->
+  <section id="customization" class="bg-[var(--color-cream)] py-20 px-6 lg:px-8 scroll-mt-16">
+    <div class="max-w-6xl mx-auto">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-2">Customizable</p>
+        <h2 class="font-display font-bold text-3xl md:text-4xl text-[var(--color-charcoal)] leading-tight mb-4">Your venue, your rules</h2>
+        <p class="text-lg text-[var(--color-stone)] leading-relaxed">No two venues work the same way. So you set Gedekt up around how you schedule — not the other way around.</p>
+      </div>
+
+      <!-- Availability: two ways -->
+      <div class="bg-white rounded-3xl border border-gray-100 p-6 md:p-10 mb-8">
+        <div class="max-w-2xl mb-8">
+          <h3 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-2">Two ways to share availability</h3>
+          <p class="text-[var(--color-stone)] leading-relaxed">Choose how your staff share their availability. You can switch at any time: both kinds of data are kept.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="rounded-2xl border border-gray-200 p-5">
+            <p class="font-semibold text-[var(--color-charcoal)] mb-1">Time window per day</p>
+            <p class="text-sm text-[var(--color-stone)] mb-4">Staff enter a start and end time for each day. Handy when your shifts are flexible.</p>
+            <ul class="space-y-2" aria-label="Example: time window per day">
+              {timeWindowDays.map((d) => (
+                <li class="flex items-center gap-3 bg-[var(--color-cream)] rounded-lg px-3 py-2 text-sm">
+                  <span class="w-7 font-semibold text-[var(--color-charcoal)]">{d.day}</span>
+                  <span class:list={["flex-1", d.off ? "text-[var(--color-stone)] italic" : "text-[var(--color-charcoal)] tabular-nums"]}>{d.value}</span>
+                  {d.preferred && <span class="text-xs font-semibold text-[var(--color-amber)]">★ Preferred</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="rounded-2xl border border-gray-200 p-5">
+            <p class="font-semibold text-[var(--color-charcoal)] mb-1">Tick the shifts</p>
+            <p class="text-sm text-[var(--color-stone)] mb-4">Staff tick the fixed shifts they can work each day. The engine only schedules them on those shifts.</p>
+            <ul class="space-y-2" aria-label="Example: ticking shifts">
+              {shiftPickDays.map((d) => (
+                <li class="flex items-center gap-3 bg-[var(--color-cream)] rounded-lg px-3 py-2 text-sm">
+                  <span class="w-7 font-semibold text-[var(--color-charcoal)]">{d.day}</span>
+                  {d.off ? (
+                    <span class="flex-1 text-[var(--color-stone)] italic">Unavailable</span>
+                  ) : (
+                    <span class="flex-1 flex flex-wrap gap-2">
+                      {d.shifts.map((s) => (
+                        <span class:list={["inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium border", s.picked ? "bg-[var(--color-forest)] border-[var(--color-forest)] text-white" : "bg-white border-gray-200 text-[var(--color-stone)]"]}>
+                          {s.picked && "✓"} {s.name}{s.preferred && " ★"}
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+          {[
+            "Staff mark when they are available and when they would rather work. The engine takes that preference into account.",
+            "A standard week that carries over, plus one-off overrides for specific weeks.",
+            "Lock overrides a set number of days before the week starts, so nothing shifts while you build the schedule.",
+          ].map((b) => (
+            <li class="flex items-start gap-2 text-sm text-[var(--color-stone)]">
+              <svg class="w-4 h-4 text-[var(--color-forest)] mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              {b}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Other settings -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {settings.map((s) => (
+          <div class="bg-white rounded-2xl border border-gray-100 p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 bg-[#E8F5EE] rounded-xl flex items-center justify-center text-[var(--color-forest)] shrink-0" set:html={s.icon} />
+              <h3 class="font-display font-semibold text-lg text-[var(--color-charcoal)]">{s.title}</h3>
+              {s.badge && <span class="ml-auto text-xs font-semibold rounded-full px-2 py-0.5 bg-[var(--color-amber)]/15 text-[var(--color-amber)]">{s.badge}</span>}
+            </div>
+            <p class="text-[var(--color-amber)] text-sm font-medium mb-3">{s.body}</p>
+            <ul class="space-y-1.5">
+              {s.bullets.map((b) => (
+                <li class="flex items-start gap-2 text-sm text-[var(--color-stone)]">
+                  <svg class="w-4 h-4 text-[var(--color-forest)] mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- Demo's -->
-  <section class="bg-[var(--color-cream)] py-16 px-6 lg:px-8">
+  <section class="bg-white py-16 px-6 lg:px-8 border-b border-gray-100">
     <div class="max-w-5xl mx-auto text-center">
       <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-2">More demos</p>
       <p class="text-[var(--color-stone)] text-sm mb-6">Short videos of the real app — no mockups.</p>

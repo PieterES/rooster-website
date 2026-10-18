@@ -1,6 +1,7 @@
 ---
 // Footer.astro
 import { guides, guideHref } from "../data/guides";
+import { landingPages } from "../data/landing-pages";
 
 interface Props {
   lang?: "nl" | "en";
@@ -91,6 +92,9 @@ const footerGuides = Object.entries(t.guideLabels)
             <li><a href={t.featuresHref} class="hover:text-white transition-colors">{t.features}</a></li>
             <li><a href={t.pricingHref} class="hover:text-white transition-colors">{t.pricing}</a></li>
             <li><a href={t.howItWorksHref} class="hover:text-white transition-colors">{t.howItWorks}</a></li>
+            {lang === "nl" && landingPages.map((p) => (
+              <li><a href={`/${p.slug}`} class="hover:text-white transition-colors">{p.label}</a></li>
+            ))}
           </ul>
         </div>
         <div>

@@ -1,0 +1,143 @@
+---
+// Dutch keyword landing pages, one per entry in src/data/landing-pages.ts.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import DemoVideo from "../components/DemoVideo.astro";
+import { landingPages, type LandingPage } from "../data/landing-pages";
+import { demoBySlug, demoHref } from "../data/demos";
+import { guides, guideHref } from "../data/guides";
+import { absoluteUrl, SITE } from "../data/routes";
+import { breadcrumbs, faqPage, softwareApplication } from "../data/seo";
+
+export function getStaticPaths() {
+  return landingPages.map((page) => ({ params: { landing: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: LandingPage };
+const others = landingPages.filter((p) => p.slug !== page.slug);
+const relatedGuides = page.guides
+  .map((id) => guides.find((g) => g.id === id && g.lang === "nl"))
+  .filter((g) => g !== undefined);
+
+const jsonLd = [
+  softwareApplication("nl"),
+  breadcrumbs([
+    { name: "Home", url: `${SITE}/` },
+    { name: page.label, url: absoluteUrl(`/${page.slug}`) },
+  ]),
+  faqPage(page.faq),
+];
+---
+
+<BaseLayout title={page.title} description={page.description} lang="nl" jsonLd={jsonLd}>
+
+  <!-- Hero -->
+  <section class="bg-[var(--color-forest)] pt-32 pb-20 px-6 lg:px-8 text-white">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">{page.eyebrow}</p>
+      <h1 class="font-display font-bold text-4xl md:text-5xl leading-tight mb-6">{page.h1}</h1>
+      <p class="text-white/80 text-lg leading-relaxed mb-8">{page.intro}</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <Button href="https://app.gedekt.com" variant="secondary" size="lg">Aan de slag — €10/maand →</Button>
+        <a href="/hoe-het-werkt" class="text-white/90 underline underline-offset-4 font-medium hover:text-white transition-colors">Bekijk hoe het werkt →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sections, each with a demo clip -->
+  <section class="bg-white py-20 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto space-y-24">
+      {page.sections.map((s, i) => {
+        const demo = s.demo ? demoBySlug(s.demo, "nl") : undefined;
+        return (
+          <div class:list={["flex flex-col md:flex-row gap-12 items-center", i % 2 === 1 && "md:flex-row-reverse"]}>
+            <div class="flex-1">
+              <h2 class="font-display font-bold text-2xl md:text-3xl text-[var(--color-charcoal)] mb-3">{s.title}</h2>
+              <p class="text-[var(--color-stone)] leading-relaxed text-lg mb-5">{s.body}</p>
+              <ul class="space-y-2 mb-5">
+                {s.bullets.map((b) => (
+                  <li class="flex items-start gap-2 text-[var(--color-stone)]">
+                    <svg class="w-5 h-5 text-[var(--color-forest)] mt-0.5 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              {demo && (
+                <a href={demoHref(demo, "nl")} class="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-forest)] hover:text-[var(--color-amber)] transition-colors">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+                  Bekijk de demo
+                </a>
+              )}
+            </div>
+            {demo && (
+              <div class="flex-1 w-full">
+                {demo.device === "phone" ? (
+                  <DemoVideo name={s.clip ?? demo.clips[0].name} lang="nl" label={s.title} device="phone" />
+                ) : (
+                  <DemoVideo name={demo.clips[0].name} lang="nl" label={s.title} url={demo.url?.nl} />
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- Customization teaser -->
+  <section class="bg-[var(--color-cream)] py-16 px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-[var(--color-charcoal)] mb-3">Ingesteld op jouw zaak</h2>
+      <p class="text-[var(--color-stone)] text-lg leading-relaxed mb-6">Kies hoe je team beschikbaarheid doorgeeft, welke verzoeken jouw goedkeuring nodig hebben, hoe vaak je roostert en welke onderdelen je gebruikt.</p>
+      <a href="/hoe-het-werkt#instellingen" class="inline-flex items-center gap-1.5 font-semibold text-[var(--color-forest)] hover:text-[var(--color-amber)] transition-colors">Bekijk alle instellingen →</a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-white py-20 px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-8 text-center">Veelgestelde vragen</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {page.faq.map((item) => (
+          <div class="bg-[var(--color-cream)] rounded-2xl p-6">
+            <h3 class="font-semibold text-[var(--color-charcoal)] mb-2 text-sm">{item.q}</h3>
+            <p class="text-[var(--color-stone)] text-sm leading-relaxed">{item.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Further reading -->
+  <section class="bg-[var(--color-cream)] py-16 px-6 lg:px-8">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div>
+        <h2 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-4">Lees verder in onze gidsen</h2>
+        <ul class="space-y-2">
+          {relatedGuides.map((g) => (
+            <li><a href={guideHref(g!)} class="text-[var(--color-forest)] hover:text-[var(--color-amber)] transition-colors">{g!.title} →</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-4">Meer over Gedekt</h2>
+        <ul class="space-y-2">
+          {others.map((p) => (
+            <li><a href={`/${p.slug}`} class="text-[var(--color-forest)] hover:text-[var(--color-amber)] transition-colors">{p.title} →</a></li>
+          ))}
+          <li><a href="/prijzen" class="text-[var(--color-forest)] hover:text-[var(--color-amber)] transition-colors">Prijzen →</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-[var(--color-dark)] py-20 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center text-white">
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-4">Klaar om het te proberen?</h2>
+      <p class="text-white/70 mb-8">Vanaf €10/maand. Geen jaarcontract vereist.</p>
+      <Button href="https://app.gedekt.com" variant="secondary" size="lg">Aan de slag →</Button>
+    </div>
+  </section>
+
+</BaseLayout>
