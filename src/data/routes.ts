@@ -14,6 +14,7 @@ const pairs: [nl: string, en: string][] = [
   ["/contact", "/en/contact"],
   ["/handleiding", "/en/manual"],
   ["/gidsen", "/en/guides"],
+  ["/privacy", "/en/privacy"],
   ...demos.map((d) => [demoHref(d, "nl"), demoHref(d, "en")] as [string, string]),
   ...guides
     .filter((g) => g.lang === "nl" && guideTranslation(g))

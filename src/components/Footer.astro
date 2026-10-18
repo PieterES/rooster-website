@@ -20,6 +20,9 @@ const t = lang === "nl" ? {
   support: "Support",
   manual: "Handleiding",
   copyright: "© 2026 Gedekt. Alle rechten voorbehouden.",
+  cookieSettings: "Cookie-instellingen",
+  privacy: "Privacyverklaring",
+  privacyHref: "/privacy",
   featuresHref: "/hoe-het-werkt#functies",
   pricingHref: "/prijzen",
   howItWorksHref: "/hoe-het-werkt",
@@ -43,6 +46,9 @@ const t = lang === "nl" ? {
   support: "Support",
   manual: "User manual",
   copyright: "© 2026 Gedekt. All rights reserved.",
+  cookieSettings: "Cookie settings",
+  privacy: "Privacy statement",
+  privacyHref: "/en/privacy",
   featuresHref: "/en/how-it-works#features",
   pricingHref: "/en/pricing",
   howItWorksHref: "/en/how-it-works",
@@ -112,6 +118,10 @@ const footerGuides = Object.entries(t.guideLabels)
     <!-- Bottom bar -->
     <div class="mt-12 pt-8 border-t border-gray-800 text-center text-sm">
       <p>{t.copyright}</p>
+      <p class="mt-2 flex justify-center gap-4">
+        <a href={t.privacyHref} class="hover:text-white transition-colors underline underline-offset-2">{t.privacy}</a>
+        <button type="button" data-consent-open class="hover:text-white transition-colors underline underline-offset-2">{t.cookieSettings}</button>
+      </p>
     </div>
   </div>
 </footer>

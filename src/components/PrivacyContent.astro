@@ -1,0 +1,166 @@
+---
+// PrivacyContent.astro — privacy & cookie statement for the website, NL and EN.
+// Covers gedekt.com only; keep it in sync with what the site actually loads (BaseLayout, ConsentBanner, contact form).
+interface Props {
+  lang?: "nl" | "en";
+}
+const { lang = "en" } = Astro.props;
+
+const email = "pieter.elsharouni@gedekt.com";
+
+const t = lang === "nl" ? {
+  title: "Privacy- en cookieverklaring",
+  updated: "Laatst bijgewerkt: 18 oktober 2026",
+  intro: "Gedekt vindt je privacy belangrijk. In deze verklaring lees je welke persoonsgegevens we verzamelen via de website gedekt.com, waarom we dat doen en welke rechten je hebt. Voor de gegevens die je in de app (app.gedekt.com) invoert, gelden aparte afspraken; neem contact met ons op als je daar vragen over hebt.",
+  sections: [
+    {
+      h: "Wie zijn wij?",
+      p: [`Gedekt is verantwoordelijk voor de verwerking van persoonsgegevens zoals beschreven in deze verklaring. Je bereikt ons via <a href="mailto:${email}">${email}</a> of via het <a href="/contact">contactformulier</a>.`],
+    },
+    {
+      h: "Welke gegevens verwerken we?",
+      p: ["<strong>Contactformulier.</strong> Als je het contactformulier invult, ontvangen we je naam, e-mailadres, de naam van je locatie, het onderwerp en je bericht. We gebruiken deze gegevens alleen om je vraag te beantwoorden en eventueel een demo in te plannen. Grondslag: het voorbereiden van een overeenkomst en ons gerechtvaardigd belang om vragen te beantwoorden. We bewaren je bericht zolang dat nodig is voor de afhandeling, en uiterlijk twee jaar na ons laatste contact.",
+          "<strong>Advertentiemeting (Google Ads).</strong> Alleen als je daar via de cookiebanner toestemming voor geeft, plaatst Google Ads cookies om te meten of bezoekers via onze advertenties op de website komen en om onze advertenties te verbeteren. Grondslag: jouw toestemming. Geef je geen toestemming, dan plaatsen we geen advertentiecookies; Google ontvangt dan alleen anonieme signalen zonder cookies of advertentie-ID’s.",
+          "<strong>Technische gegevens.</strong> Onze hostingprovider verwerkt bij elk bezoek technische gegevens zoals je IP-adres en browsertype, om de website te kunnen tonen en te beveiligen. Grondslag: ons gerechtvaardigd belang bij een veilige, werkende website."],
+    },
+    {
+      h: "Cookies",
+      p: ["We gebruiken de volgende cookies en vergelijkbare technieken:"],
+      table: [
+        ["gedekt-consent", "Gedekt (lokale opslag in je browser)", "Onthoudt je keuze in de cookiebanner", "Tot je deze wist"],
+        ["_gcl_au en andere Google Ads-cookies", "Google", "Advertentiemeting, alleen na toestemming", "Tot 90 dagen (Google-cookies op google.com kunnen langer bewaard blijven)"],
+      ],
+      tableHead: ["Naam", "Van", "Doel", "Bewaartermijn"],
+      after: "Je kunt je toestemming op elk moment intrekken of wijzigen:",
+      button: "Cookie-instellingen wijzigen",
+    },
+    {
+      h: "Met wie delen we gegevens?",
+      p: ["We verkopen je gegevens nooit. We delen ze alleen met dienstverleners die we nodig hebben om de website te laten werken:",
+          "<ul><li><strong>Cloudflare</strong> – hosting en beveiliging van de website</li><li><strong>Web3Forms</strong> – verwerking en doorsturen van het contactformulier</li><li><strong>Google</strong> – advertentiemeting via Google Ads, alleen na toestemming</li></ul>",
+          "Sommige van deze partijen verwerken gegevens buiten de Europese Economische Ruimte, bijvoorbeeld in de Verenigde Staten. Dat gebeurt alleen met passende waarborgen, zoals het EU-VS Data Privacy Framework of de standaardcontractbepalingen van de Europese Commissie."],
+    },
+    {
+      h: "Jouw rechten",
+      p: [`Je hebt het recht om je gegevens in te zien, te laten corrigeren of te laten verwijderen. Je kunt ook bezwaar maken tegen de verwerking, de verwerking laten beperken, je gegevens laten overdragen en gegeven toestemming intrekken. Stuur hiervoor een e-mail naar <a href="mailto:${email}">${email}</a>; we reageren binnen een maand.`,
+          `Ben je niet tevreden over hoe we met je gegevens omgaan? Dan kun je een klacht indienen bij de <a href="https://www.autoriteitpersoonsgegevens.nl" target="_blank" rel="noopener">Autoriteit Persoonsgegevens</a>.`],
+    },
+    {
+      h: "Beveiliging",
+      p: ["De website wordt alleen via een versleutelde verbinding (HTTPS) aangeboden en we geven alleen toegang tot gegevens aan wie die echt nodig heeft."],
+    },
+    {
+      h: "Wijzigingen",
+      p: ["We kunnen deze verklaring aanpassen als de website verandert. De datum bovenaan laat zien wanneer dat voor het laatst is gebeurd."],
+    },
+  ],
+} : {
+  title: "Privacy and cookie statement",
+  updated: "Last updated: 18 October 2026",
+  intro: "Gedekt cares about your privacy. This statement explains which personal data we collect through the website gedekt.com, why we do so and what rights you have. Separate arrangements apply to the data you enter in the app (app.gedekt.com); contact us if you have questions about that.",
+  sections: [
+    {
+      h: "Who we are",
+      p: [`Gedekt is responsible for processing personal data as described in this statement. You can reach us at <a href="mailto:${email}">${email}</a> or through the <a href="/en/contact">contact form</a>.`],
+    },
+    {
+      h: "What data we process",
+      p: ["<strong>Contact form.</strong> When you fill in the contact form, we receive your name, email address, the name of your venue, the topic and your message. We use this only to answer your question and, if relevant, schedule a demo. Legal basis: taking steps towards a contract and our legitimate interest in answering questions. We keep your message for as long as needed to handle it, and no longer than two years after our last contact.",
+          "<strong>Ad measurement (Google Ads).</strong> Only if you agree through the cookie banner, Google Ads sets cookies to measure whether visitors reach the website through our ads and to improve those ads. Legal basis: your consent. If you do not agree, we set no advertising cookies; Google then only receives anonymous signals without cookies or advertising IDs.",
+          "<strong>Technical data.</strong> Our hosting provider processes technical data such as your IP address and browser type on every visit, to serve and secure the website. Legal basis: our legitimate interest in a secure, working website."],
+    },
+    {
+      h: "Cookies",
+      p: ["We use the following cookies and similar technologies:"],
+      table: [
+        ["gedekt-consent", "Gedekt (local storage in your browser)", "Remembers your choice in the cookie banner", "Until you clear it"],
+        ["_gcl_au and other Google Ads cookies", "Google", "Ad measurement, only with consent", "Up to 90 days (Google cookies on google.com may be kept longer)"],
+      ],
+      tableHead: ["Name", "From", "Purpose", "Retention"],
+      after: "You can withdraw or change your consent at any time:",
+      button: "Change cookie settings",
+    },
+    {
+      h: "Who we share data with",
+      p: ["We never sell your data. We only share it with service providers we need to run the website:",
+          "<ul><li><strong>Cloudflare</strong> – website hosting and security</li><li><strong>Web3Forms</strong> – processing and forwarding the contact form</li><li><strong>Google</strong> – ad measurement through Google Ads, only with consent</li></ul>",
+          "Some of these providers process data outside the European Economic Area, for example in the United States. This only happens with appropriate safeguards, such as the EU-US Data Privacy Framework or the European Commission’s standard contractual clauses."],
+    },
+    {
+      h: "Your rights",
+      p: [`You have the right to access, correct or delete your data. You can also object to processing, restrict processing, receive your data in a portable format and withdraw consent you have given. Email <a href="mailto:${email}">${email}</a> to do so; we respond within one month.`,
+          `Not happy with how we handle your data? You can file a complaint with the Dutch Data Protection Authority, the <a href="https://www.autoriteitpersoonsgegevens.nl/en" target="_blank" rel="noopener">Autoriteit Persoonsgegevens</a>.`],
+    },
+    {
+      h: "Security",
+      p: ["The website is only served over an encrypted connection (HTTPS), and we only give access to data to those who really need it."],
+    },
+    {
+      h: "Changes",
+      p: ["We may update this statement when the website changes. The date at the top shows when that last happened."],
+    },
+  ],
+};
+---
+<section class="bg-[var(--color-cream)] pt-32 pb-12 px-6 lg:px-8">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-3">{t.title}</h1>
+    <p class="text-[var(--color-stone)] text-sm">{t.updated}</p>
+  </div>
+</section>
+
+<section class="bg-white py-16 px-6 lg:px-8">
+  <div class="privacy max-w-3xl mx-auto text-[var(--color-stone)] leading-relaxed">
+    <p class="text-lg mb-10">{t.intro}</p>
+
+    {t.sections.map((s) => (
+      <div class="mb-10">
+        <h2 class="font-display font-semibold text-2xl text-[var(--color-charcoal)] mb-4">{s.h}</h2>
+        {s.p.map((p) => p.startsWith("<ul>") ? <Fragment set:html={p} /> : <p class="mb-4" set:html={p} />)}
+        {"table" in s && s.table && (
+          <>
+            <div class="overflow-x-auto mb-6 rounded-xl border border-gray-200">
+              <table class="w-full text-sm text-left">
+                <thead class="bg-[var(--color-cream)] text-[var(--color-charcoal)]">
+                  <tr>{s.tableHead!.map((h) => <th class="px-4 py-3 font-semibold">{h}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {s.table.map((row) => (
+                    <tr class="border-t border-gray-200">
+                      {row.map((cell, i) => <td class:list={["px-4 py-3 align-top", i === 0 && "font-mono text-xs text-[var(--color-charcoal)]"]}>{cell}</td>)}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="mb-4">{s.after}</p>
+            <button
+              type="button"
+              data-consent-open
+              class="rounded-lg border border-[var(--color-forest)] px-5 py-2.5 text-sm font-semibold text-[var(--color-forest)] hover:bg-[var(--color-cream)] transition-colors"
+            >{s.button}</button>
+          </>
+        )}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .privacy :global(a) {
+    color: var(--color-forest);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .privacy :global(strong) {
+    color: var(--color-charcoal);
+  }
+  .privacy :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .privacy :global(li) {
+    margin-bottom: 0.25rem;
+  }
+</style>
