@@ -35,6 +35,10 @@ const businessFeatures = [
 
 const faq = [
   {
+    q: "Hoe werkt de gratis maand?",
+    a: "Elk plan begint met een maand gratis. Je hoeft geen betaalgegevens in te vullen. Na die maand kies je zelf of je doorgaat; er wordt niets automatisch afgeschreven. Ga je niet door, dan blijven je gegevens bewaard, maar kun je niets meer wijzigen totdat je een abonnement afsluit.",
+  },
+  {
     q: "Is er een jaarlijks abonnement?",
     a: "Ja. Bij jaarlijkse betaling krijg je 2 maanden gratis \u2014 je betaalt 10 maanden en gebruikt 12. Gebruik de toggle hierboven om de jaarprijs te zien. Je tarief staat voor het hele jaar vast.",
   },
@@ -59,7 +63,7 @@ const faq = [
 
 <BaseLayout
   title="Prijzen rooster app horeca – vanaf €10/maand"
-  description="Vaste prijzen, geen verrassingen per medewerker. Plannen vanaf €10/maand. Geen jaarcontract."
+  description="Probeer Gedekt een maand gratis. Daarna vaste prijzen vanaf €10/maand, zonder kosten per medewerker en zonder jaarcontract."
   lang="nl"
   jsonLd={[softwareApplication("nl"), faqPage(faq)]}
 >
@@ -72,6 +76,9 @@ const faq = [
       </h1>
       <p class="text-lg text-[var(--color-stone)] leading-relaxed">
         Geen contracten. Op elk moment opzegbaar. Begint bij €10/maand.
+      </p>
+      <p class="inline-flex items-center gap-2 mt-6 bg-[var(--color-amber)]/15 border border-[var(--color-amber)]/30 text-[var(--color-charcoal)] text-lg font-semibold rounded-full px-6 py-3">
+        <svg class="w-5 h-5 text-[var(--color-amber)] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 010-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 010 5"/></svg> Eerste maand gratis op elk plan — geen betaalgegevens nodig
       </p>
     </div>
   </section>
@@ -108,7 +115,7 @@ const faq = [
           priceAnnual="\u20ac100"
           staffLimit="Tot 15 medewerkers \u00b7 1 locatie"
           features={starterFeatures}
-          cta="Aan de slag \u2192"
+          cta="Start gratis \u2192"
           ctaHref="/aanmelden?plan=starter"
         />
 
@@ -119,7 +126,7 @@ const faq = [
           priceAnnual="\u20ac200"
           staffLimit="Tot 25 medewerkers \u00b7 meerdere locaties"
           features={proFeatures}
-          cta="Start Pro-proefperiode \u2192"
+          cta="Probeer Pro gratis \u2192"
           ctaHref="/aanmelden?plan=pro"
           highlighted={true}
           badge="Meest populair"
@@ -132,7 +139,7 @@ const faq = [
           priceAnnual="\u20ac500"
           staffLimit="25+ medewerkers \u00b7 meerdere locaties"
           features={businessFeatures}
-          cta="Start Business-proefperiode \u2192"
+          cta="Probeer Business gratis \u2192"
           ctaHref="/aanmelden?plan=business"
         />
       </div>
@@ -148,9 +155,9 @@ const faq = [
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           </svg>
         </div>
-        <h3 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-3">Alles in Starter — voor €10/maand</h3>
+        <h3 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-3">Eerst een maand gratis</h3>
         <p class="text-[var(--color-charcoal)] leading-relaxed">
-          <strong>Starter is geen proefperiode.</strong> Geen kosten per medewerker, geen extra vergoedingen, geen verassingen op de factuur. €10 vast, tot 15 medewerkers, op elk moment opzegbaar.
+          <strong>Elk plan begint met een gratis maand</strong>, zonder betaalgegevens. Daarna kies je zelf of je doorgaat — er wordt niets automatisch afgeschreven. Geen kosten per medewerker, geen verrassingen op de factuur.
         </p>
       </div>
     </div>
@@ -207,8 +214,8 @@ const faq = [
   <section class="bg-[var(--color-forest)] py-20 px-6 lg:px-8">
     <div class="max-w-2xl mx-auto text-center text-white">
       <h2 class="font-display font-bold text-3xl mb-4">Klaar om te beginnen?</h2>
-      <p class="text-white/80 mb-8">€10/maand. Geen jaarcontract. Maak vandaag je eerste rooster.</p>
-      <Button href="/contact" variant="secondary" size="lg">Aan de slag →</Button>
+      <p class="text-white/80 mb-8">Eerste maand gratis, daarna vanaf €10/maand. Geen jaarcontract. Maak vandaag je eerste rooster.</p>
+      <Button href="/aanmelden" variant="secondary" size="lg">Aan de slag →</Button>
     </div>
   </section>
 

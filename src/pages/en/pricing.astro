@@ -35,6 +35,10 @@ const businessFeatures = [
 
 const faq = [
   {
+    q: "How does the free month work?",
+    a: "Every plan starts with one month free. You don't enter any payment details. After that month you decide whether to continue; nothing is charged automatically. If you don't continue, your data is kept, but you can't make changes until you subscribe.",
+  },
+  {
     q: "Is there an annual plan?",
     a: "Yes. With annual billing you get 2 months free \u2014 you pay for 10 months and use 12. Use the toggle above to see the annual price. Your rate is locked in for the full year.",
   },
@@ -63,7 +67,7 @@ const faq = [
 
 <BaseLayout
   title="Pricing – hospitality scheduling app from €10/month"
-  description="Flat pricing, no per-employee surprises. Plans from €10/month. No annual contract."
+  description="Try Gedekt free for a month. Then flat pricing from €10/month, with no per-employee fees and no annual contract."
   jsonLd={[softwareApplication("en"), faqPage(faq)]}
 >
 
@@ -75,6 +79,9 @@ const faq = [
       </h1>
       <p class="text-lg text-[var(--color-stone)] leading-relaxed">
         No contracts. Cancel any time. Starts at €10/month.
+      </p>
+      <p class="inline-flex items-center gap-2 mt-6 bg-[var(--color-amber)]/15 border border-[var(--color-amber)]/30 text-[var(--color-charcoal)] text-lg font-semibold rounded-full px-6 py-3">
+        <svg class="w-5 h-5 text-[var(--color-amber)] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 010-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 010 5"/></svg> First month free on every plan — no payment details needed
       </p>
     </div>
   </section>
@@ -113,7 +120,7 @@ const faq = [
           yearLabel="/year"
           staffLimit="Up to 15 staff \u00b7 1 location"
           features={starterFeatures}
-          cta="Get started \u2192"
+          cta="Start free \u2192"
           ctaHref="/en/sign-up?plan=starter"
         />
 
@@ -126,7 +133,7 @@ const faq = [
           yearLabel="/year"
           staffLimit="Up to 25 staff \u00b7 multiple locations"
           features={proFeatures}
-          cta="Start Pro trial \u2192"
+          cta="Try Pro free \u2192"
           ctaHref="/en/sign-up?plan=pro"
           highlighted={true}
           badge="Most popular"
@@ -141,7 +148,7 @@ const faq = [
           yearLabel="/year"
           staffLimit="25+ staff \u00b7 multiple locations"
           features={businessFeatures}
-          cta="Start Business trial \u2192"
+          cta="Try Business free \u2192"
           ctaHref="/en/sign-up?plan=business"
         />
       </div>
@@ -157,9 +164,9 @@ const faq = [
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           </svg>
         </div>
-        <h3 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-3">Everything in Starter — for €10/month</h3>
+        <h3 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-3">A free month first</h3>
         <p class="text-[var(--color-charcoal)] leading-relaxed">
-          <strong>Starter is not a trial.</strong> No per-employee pricing, no seat fees, no surprise invoices. €10 flat, up to 15 staff, cancel any time. No credit card until you're ready.
+          <strong>Every plan starts with a free month</strong>, no payment details needed. After that you decide whether to continue — nothing is charged automatically. No per-employee pricing, no surprise invoices.
         </p>
       </div>
     </div>
@@ -216,8 +223,8 @@ const faq = [
   <section class="bg-[var(--color-forest)] py-20 px-6 lg:px-8">
     <div class="max-w-2xl mx-auto text-center text-white">
       <h2 class="font-display font-bold text-3xl mb-4">Ready to try it?</h2>
-      <p class="text-white/80 mb-8">€10/month. No long-term contract. Set up your first schedule today.</p>
-      <Button href="/en/contact" variant="secondary" size="lg">Get started →</Button>
+      <p class="text-white/80 mb-8">First month free, then from €10/month. No long-term contract. Set up your first schedule today.</p>
+      <Button href="/en/sign-up" variant="secondary" size="lg">Get started →</Button>
     </div>
   </section>
 
