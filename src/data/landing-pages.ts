@@ -69,7 +69,8 @@ export const landingPages: LandingPage[] = [
           "Signalering van te veel of te weinig uren ten opzichte van het contract",
           "Export voor je salarisadministratie",
         ],
-        demo: "uren-en-loonkosten",
+        demo: "medewerkers-app",
+        clip: "staff-clock",
       },
     ],
     faq: [

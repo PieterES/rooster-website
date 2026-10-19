@@ -32,6 +32,11 @@ The interface language is switched per user before each pass and set back to Dut
 - Clips run against real data on dev. Most clean up after themselves, but:
   - `schedule` leaves the demo week (`DEMO_WEEK` in `04-schedule.mjs`) **published**, because the
     employee clips need shifts to show.
+  - `settings` switches the company's claim approval and availability input method; it restores the
+    original values in `cleanup`, so if a run is killed halfway check `/admin/settings` on dev.
+  - `staff-clock` clocks the employee in and out for real. It also logs in as admin to move the
+    clock-in back ~5 hours mid-clip (otherwise quarter-hour rounding shows negative hours) and
+    deletes the clock record in `cleanup`. Phone clocking must be on for the company.
   - `requests` **approves** one pending claim and one swap request per language. Once dev has no
     pending claims/swaps left, that clip fails until new ones exist.
 - A full schedule needs enough staff and availability; the demo company was topped up with

@@ -42,7 +42,7 @@ const overviewHref = lang === "nl" ? "/hoe-het-werkt" : "/en/how-it-works";
       {demo.device === "desktop" ? (
         <DemoVideo name={demo.clips[0].name} lang={lang} label={demo.menuLabel[lang]} url={demo.url?.[lang]} class="shadow-2xl" />
       ) : (
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-8 max-w-4xl mx-auto">
+        <div class:list={["grid grid-cols-1 gap-12 sm:gap-8 mx-auto", demo.clips.length === 4 ? "sm:grid-cols-2 lg:grid-cols-4 max-w-6xl" : "sm:grid-cols-3 max-w-4xl"]}>
           {demo.clips.map((clip) => (
             <div class="flex flex-col items-center gap-4">
               <DemoVideo name={clip.name} lang={lang} label={clip.caption?.[lang] ?? demo.menuLabel[lang]} device="phone" />
