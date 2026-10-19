@@ -39,3 +39,5 @@ Use `var(--color-*)` in Tailwind classes (e.g., `text-[var(--color-forest)]`) ra
 **i18n pattern in components:** Components that appear on both NL and EN pages (Nav, Footer) accept a `lang` prop and define a `t` object with both translations inline — no external i18n library.
 
 **App URL:** The live app is at `https://app.gedekt.com`. CTAs and login links point there.
+
+**Trial signup:** `/aanmelden` and `/en/sign-up` render [src/components/SignupForm.astro](src/components/SignupForm.astro), which posts JSON to the app's `POST https://app.gedekt.com/api/public/signup` (override with `PUBLIC_SIGNUP_API`, e.g. `http://localhost:3001/api/public/signup` in a local `.env`; the app must then allow the origin via `SIGNUP_ALLOWED_ORIGINS`). The app validates everything again and creates the trial company. The pricing CTAs link there with `?plan=starter|pro|business`. Keep the plan names/prices here in sync with `prijzen.astro`.

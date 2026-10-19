@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SignupForm from "../components/SignupForm.astro";
+---
+
+<BaseLayout
+  title="Gratis proberen – rooster app voor de horeca"
+  description="Maak in een minuut een account aan en probeer Gedekt een maand gratis. Geen betaalgegevens nodig."
+  lang="nl"
+>
+  <section class="bg-[var(--color-cream)] pt-32 pb-12 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center">
+      <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-3">
+        Probeer Gedekt een maand gratis
+      </h1>
+      <p class="text-[var(--color-stone)] text-lg">Account aanmaken duurt een minuut. Je eerste rooster staat er vandaag nog.</p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto">
+      <SignupForm lang="nl" />
+    </div>
+  </section>
+</BaseLayout>

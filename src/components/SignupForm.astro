@@ -1,0 +1,219 @@
+---
+// Trial signup form. Posts JSON to the app's public API (HorecaRooster:
+// src/app/api/public/signup/route.ts), which validates again and creates the company.
+// PUBLIC_SIGNUP_API overrides the endpoint, e.g. http://localhost:3001/api/public/signup locally.
+interface Props {
+  lang?: "nl" | "en";
+}
+const { lang = "nl" } = Astro.props;
+const api = import.meta.env.PUBLIC_SIGNUP_API ?? "https://app.gedekt.com/api/public/signup";
+
+const t = {
+  nl: {
+    company: "Naam zaak", companyPh: "Café De Kroon",
+    name: "Jouw naam", namePh: "Voor- en achternaam",
+    email: "E-mail", emailPh: "jij@jouwzaak.nl",
+    phone: "Telefoon (optioneel)", phonePh: "06 12345678",
+    plan: "Kies je plan", perMonth: "/maand",
+    source: "Hoe heb je ons gevonden?", choose: "Maak een keuze",
+    sources: { google: "Google zoeken", ads: "Advertentie (Google / social)", word_of_mouth: "Mond-tot-mond", flyer: "Flyer", email: "E-mail van ons", other: "Anders" },
+    otherPh: "Vertel kort hoe",
+    privacy: "Ik ga akkoord met de", privacyLink: "privacyverklaring", privacyHref: "/privacy",
+    submit: "Start mijn gratis maand →", sending: "Bezig…",
+    trialNote: "1 maand gratis, daarna kies je zelf of je doorgaat. Geen betaalgegevens nodig.",
+    success: "Gelukt! Check je mail: we hebben je een link en een tijdelijk wachtwoord gestuurd om je account te activeren.",
+    successNoMail: "Je account is aangemaakt, maar we konden de e-mail met je inloggegevens niet versturen. Geen zorgen: we nemen vandaag nog contact met je op.",
+    errors: {
+      email_taken: "Er bestaat al een account met dit e-mailadres. Log in op app.gedekt.com of vraag een nieuw wachtwoord aan.",
+      company_taken: "Er bestaat al een account voor deze zaak. Neem contact met ons op als je erbij wilt.",
+      rate_limited: "Te veel pogingen. Probeer het over een uur opnieuw.",
+      invalid: "Controleer de rood gemarkeerde velden.",
+      generic: "Er ging iets mis. Probeer het opnieuw of mail naar pieter.elsharouni@gedekt.com.",
+    },
+  },
+  en: {
+    company: "Business name", companyPh: "The Crown Café",
+    name: "Your name", namePh: "First and last name",
+    email: "E-mail", emailPh: "you@yourvenue.com",
+    phone: "Phone (optional)", phonePh: "+31 6 12345678",
+    plan: "Choose your plan", perMonth: "/month",
+    source: "How did you find us?", choose: "Choose one",
+    sources: { google: "Google search", ads: "Advert (Google / social)", word_of_mouth: "Word of mouth", flyer: "Flyer", email: "E-mail from us", other: "Other" },
+    otherPh: "Tell us briefly how",
+    privacy: "I agree to the", privacyLink: "privacy policy", privacyHref: "/en/privacy",
+    submit: "Start my free month →", sending: "Sending…",
+    trialNote: "1 month free, then you decide whether to continue. No payment details needed.",
+    success: "Done! Check your e-mail: we've sent you a link and a temporary password to activate your account.",
+    successNoMail: "Your account has been created, but we couldn't send the e-mail with your login details. Don't worry: we'll get in touch with you today.",
+    errors: {
+      email_taken: "An account with this e-mail already exists. Log in at app.gedekt.com or reset your password.",
+      company_taken: "An account for this business already exists. Contact us if you want to join it.",
+      rate_limited: "Too many attempts. Please try again in an hour.",
+      invalid: "Please check the fields marked in red.",
+      generic: "Something went wrong. Try again or e-mail pieter.elsharouni@gedekt.com.",
+    },
+  },
+}[lang];
+
+// Site names → the app's PlanTier
+const plans = [
+  { key: "starter", value: "BASIC", name: "Starter", price: "€10", limit: lang === "nl" ? "Tot 15 medewerkers" : "Up to 15 staff" },
+  { key: "pro", value: "PREMIUM", name: "Pro", price: "€20", limit: lang === "nl" ? "Tot 25 medewerkers" : "Up to 25 staff" },
+  { key: "business", value: "ENTERPRISE", name: "Business", price: "€50", limit: lang === "nl" ? "25+ medewerkers" : "25+ staff" },
+];
+
+const input = "border border-stone-200 rounded-lg px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-forest)] text-sm";
+const label = "block text-sm font-medium text-[var(--color-charcoal)] mb-1.5";
+---
+
+<form id="signup-form" class="flex flex-col gap-5" novalidate data-api={api} data-errors={JSON.stringify(t.errors)} data-sending={t.sending}>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div>
+      <label for="companyName" class={label}>{t.company}</label>
+      <input type="text" id="companyName" name="companyName" required minlength="2" maxlength="100" placeholder={t.companyPh} class={input} />
+    </div>
+    <div>
+      <label for="contactName" class={label}>{t.name}</label>
+      <input type="text" id="contactName" name="contactName" required minlength="2" maxlength="100" autocomplete="name" placeholder={t.namePh} class={input} />
+    </div>
+    <div>
+      <label for="email" class={label}>{t.email}</label>
+      <input type="email" id="email" name="email" required maxlength="255" autocomplete="email" placeholder={t.emailPh} class={input}
+        pattern="[^@\s]+@[^@\s]+\.[^@\s]{2,}" />
+    </div>
+    <div>
+      <label for="phone" class={label}>{t.phone}</label>
+      <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder={t.phonePh} class={input} pattern="\+?[0-9 ()\-]{8,20}" />
+    </div>
+  </div>
+
+  <fieldset data-field="plan">
+    <legend class={label}>{t.plan}</legend>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {plans.map((p) => (
+        <label class="plan-option cursor-pointer rounded-xl border-2 border-stone-200 px-4 py-3 has-[:checked]:border-[var(--color-forest)] has-[:checked]:bg-[#E8F5EE] transition-colors">
+          <input type="radio" name="plan" value={p.value} data-key={p.key} required class="sr-only" />
+          <span class="block font-display font-semibold text-[var(--color-charcoal)]">{p.name}</span>
+          <span class="block text-sm text-[var(--color-charcoal)]"><strong>{p.price}</strong>{t.perMonth}</span>
+          <span class="block text-xs text-[var(--color-stone)]">{p.limit}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <div>
+    <label for="source" class={label}>{t.source}</label>
+    <select id="source" name="source" required class={`${input} bg-white`}>
+      <option value="">{t.choose}</option>
+      {Object.entries(t.sources).map(([value, text]) => <option value={value}>{text}</option>)}
+    </select>
+    <input type="text" id="sourceOther" name="sourceOther" maxlength="200" placeholder={t.otherPh} class={`${input} mt-2 hidden`} />
+  </div>
+
+  <!-- Honeypot: hidden from people, bots fill it in -->
+  <div class="hidden" aria-hidden="true">
+    <label for="website">Website</label>
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <label class="flex items-start gap-2 text-sm text-[var(--color-charcoal)]" data-field="privacyAccepted">
+    <input type="checkbox" id="privacyAccepted" name="privacyAccepted" required class="mt-0.5" />
+    <span>{t.privacy} <a href={t.privacyHref} class="underline" target="_blank">{t.privacyLink}</a></span>
+  </label>
+
+  <button id="signup-submit" type="submit"
+    class="bg-[var(--color-amber)] hover:bg-[var(--color-amber-light)] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3.5 px-6 rounded-xl transition-colors duration-200 text-sm">
+    {t.submit}
+  </button>
+  <p class="text-xs text-[var(--color-stone)] text-center -mt-2">{t.trialNote}</p>
+
+  <div id="signup-error" class="hidden text-sm text-red-600 bg-red-50 rounded-lg px-4 py-3" role="alert"></div>
+</form>
+
+<div id="signup-success" class="hidden text-sm text-[var(--color-forest)] bg-[#E8F5EE] rounded-lg px-4 py-4" role="status" data-no-mail={t.successNoMail}>
+  {t.success}
+</div>
+
+<script>
+  const form = document.getElementById("signup-form") as HTMLFormElement | null;
+  if (form) {
+    const btn = document.getElementById("signup-submit") as HTMLButtonElement;
+    const errorBox = document.getElementById("signup-error")!;
+    const success = document.getElementById("signup-success")!;
+    const source = form.elements.namedItem("source") as HTMLSelectElement;
+    const sourceOther = form.elements.namedItem("sourceOther") as HTMLInputElement;
+    const errors = JSON.parse(form.dataset.errors!) as Record<string, string>;
+    const btnText = btn.textContent;
+
+    // ?plan=starter|pro|business preselects a plan (links from the pricing page)
+    const wanted = new URLSearchParams(location.search).get("plan");
+    form.querySelectorAll<HTMLInputElement>('input[name="plan"]').forEach((r) => { if (r.dataset.key === wanted) r.checked = true; });
+
+    source.addEventListener("change", () => {
+      const other = source.value === "other";
+      sourceOther.classList.toggle("hidden", !other);
+      sourceOther.required = other;
+    });
+
+    // Fieldsets / the checkbox row carry data-field; plain inputs are found by name
+    const markField = (name: string, bad: boolean) => {
+      const el = form.querySelector(`[data-field="${name}"]`) ?? form.querySelector(`[name="${name}"]`);
+      el?.classList.toggle("ring-2", bad);
+      el?.classList.toggle("ring-red-400", bad);
+    };
+    const clearMarks = () => form.querySelectorAll(".ring-red-400").forEach((el) => el.classList.remove("ring-2", "ring-red-400"));
+    const showError = (msg: string) => { errorBox.textContent = msg; errorBox.classList.remove("hidden"); };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearMarks();
+      errorBox.classList.add("hidden");
+
+      // Browser checks first (type=email, required, pattern); the server checks again
+      if (!form.checkValidity()) {
+        form.querySelectorAll<HTMLInputElement>(":invalid").forEach((el) => markField(el.name, true));
+        showError(errors.invalid);
+        form.reportValidity();
+        return;
+      }
+
+      const data = new FormData(form);
+      const body = {
+        companyName: data.get("companyName"),
+        contactName: data.get("contactName"),
+        email: data.get("email"),
+        phone: data.get("phone") || "",
+        plan: data.get("plan"),
+        source: data.get("source"),
+        sourceOther: data.get("sourceOther") || undefined,
+        privacyAccepted: data.get("privacyAccepted") === "on",
+        website: data.get("website") || "",
+      };
+
+      btn.disabled = true;
+      btn.textContent = form.dataset.sending!;
+      try {
+        const res = await fetch(form.dataset.api!, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (res.ok) {
+          // Account created but the welcome e-mail failed: Pieter is notified and gets in touch
+          if (json.emailSent === false) success.textContent = success.dataset.noMail!;
+          form.classList.add("hidden");
+          success.classList.remove("hidden");
+          success.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+        if (json.fields) Object.keys(json.fields).forEach((f) => markField(f, true));
+        showError(errors[json.error] ?? errors.generic);
+      } catch {
+        showError(errors.generic);
+      }
+      btn.disabled = false;
+      btn.textContent = btnText;
+    });
+  }
+</script>

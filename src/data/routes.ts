@@ -12,6 +12,7 @@ const pairs: [nl: string, en: string][] = [
   ["/product-tour", "/en/product-tour"],
   ["/over-ons", "/en/about"],
   ["/contact", "/en/contact"],
+  ["/aanmelden", "/en/sign-up"],
   ["/handleiding", "/en/manual"],
   ["/gidsen", "/en/guides"],
   ["/privacy", "/en/privacy"],
