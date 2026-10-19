@@ -34,7 +34,7 @@ export const landingPages: LandingPage[] = [
     label: "Personeelsplanning",
     title: "Personeelsplanning app voor de horeca",
     description:
-      "Personeelsplanning voor horecazaken: beschikbaarheid, rooster, uren en loonkosten in één app. Gedekt plant automatisch in op wie kan en wie past. Vanaf €10/maand.",
+      "Personeelsplanning voor horecazaken: beschikbaarheid, rooster, uren en loonkosten in één app. Gedekt plant automatisch in op wie kan en wie past. Eerste maand gratis.",
     eyebrow: "Personeelsplanning",
     h1: "Personeelsplanning voor de horeca, van beschikbaarheid tot loonkosten.",
     intro:
@@ -75,7 +75,7 @@ export const landingPages: LandingPage[] = [
     faq: [
       {
         q: "Wat kost personeelsplanning met Gedekt?",
-        a: "Gedekt begint bij €10 per maand voor teams tot 15 medewerkers, met een vaste prijs in plaats van een bedrag per medewerker. Je kunt maandelijks opzeggen.",
+        a: "Gedekt begint bij €10 per maand voor teams tot 15 medewerkers, met een vaste prijs in plaats van een bedrag per medewerker. De eerste maand is gratis, zonder betaalgegevens; daarna kun je maandelijks opzeggen.",
       },
       {
         q: "Hebben mijn medewerkers een aparte app nodig?",
@@ -93,7 +93,7 @@ export const landingPages: LandingPage[] = [
     label: "Horecaplanning",
     title: "Horecaplanning: roosteren voor bar, keuken en bediening",
     description:
-      "Horecaplanning met afdelingen, functies, vaste diensten en oproepkrachten. Gedekt is gebouwd voor hoe een Nederlandse horecazaak echt draait. Vanaf €10/maand.",
+      "Horecaplanning met afdelingen, functies, vaste diensten en oproepkrachten. Gedekt is gebouwd voor hoe een Nederlandse horecazaak echt draait. Eerste maand gratis.",
     eyebrow: "Horecaplanning",
     h1: "Horecaplanning die snapt hoe een horecazaak draait.",
     intro:
@@ -133,7 +133,7 @@ export const landingPages: LandingPage[] = [
     faq: [
       {
         q: "Is Gedekt geschikt voor kleine horecazaken?",
-        a: "Ja. Gedekt is juist gemaakt voor cafés, restaurants en bars. Het Starter-plan kost €10 per maand voor teams tot 15 medewerkers.",
+        a: "Ja. Gedekt is juist gemaakt voor cafés, restaurants en bars. Je probeert het eerst een maand gratis; daarna kost het Starter-plan €10 per maand voor teams tot 15 medewerkers.",
       },
       {
         q: "Houdt Gedekt rekening met rusttijden?",
