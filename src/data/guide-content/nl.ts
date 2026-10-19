@@ -972,7 +972,7 @@ export const nlGuides: Guide[] = [
         html: `<div class="table-wrap"><table>
 <thead><tr><th></th><th>Gedekt</th><th>Shiftbase</th></tr></thead>
 <tbody>
-<tr><td>Automatisch rooster maken</td><td>Pro en Business (Starter: één keer proberen)</td><td>Premium en Enterprise, nog in "early access"</td></tr>
+<tr><td>Automatisch rooster maken</td><td>Pro en Business</td><td>Premium en Enterprise, nog in "early access"</td></tr>
 <tr><td>Beschikbaarheid, ruilen, open diensten</td><td>Alle pakketten</td><td>Vanaf Basic</td></tr>
 <tr><td>In- en uitklokken</td><td>Alle pakketten</td><td>Vanaf Basic (klokken op mobiel, desktop of kiosk)</td></tr>
 <tr><td>Verlofaanvragen</td><td>Alle pakketten; goedkeuringsworkflow vanaf Pro</td><td>Vanaf Basic</td></tr>
@@ -1045,7 +1045,7 @@ export const nlGuides: Guide[] = [
 <thead><tr><th></th><th>Gedekt</th><th>Planday</th></tr></thead>
 <tbody>
 <tr><td>Prijs</td><td>Vast: €10 / €20 / €50 per maand</td><td>Per gebruiker per maand; Starter vanaf £2,99, Pro op aanvraag</td></tr>
-<tr><td>Automatisch rooster maken</td><td>Pro en Business (Starter: één keer proberen)</td><td>Alleen in Pro (maatwerkprijs)</td></tr>
+<tr><td>Automatisch rooster maken</td><td>Pro en Business</td><td>Alleen in Pro (maatwerkprijs)</td></tr>
 <tr><td>Verlof en afwezigheid</td><td>Alle pakketten; goedkeuringsworkflow vanaf Pro</td><td>Vanaf Plus</td></tr>
 <tr><td>Urenregistratie</td><td>Alle pakketten</td><td>Vanaf Starter</td></tr>
 <tr><td>Ruilen en open diensten</td><td>Alle pakketten</td><td>Ja</td></tr>
@@ -1108,7 +1108,7 @@ export const nlGuides: Guide[] = [
 <tbody>
 <tr><td>Prijsmodel</td><td>Vast per maand, geen kosten per medewerker</td><td>Per gebruiker per maand</td></tr>
 <tr><td>Pakketten</td><td>Starter €10 (tot 15 medewerkers), Pro €20 (tot 25), Business €50 (25+)</td><td>Pro €4,50, Suite €5,50, Expert €6,50, Talent €7,50 per gebruiker</td></tr>
-<tr><td>Automatisch rooster maken</td><td>Pro en Business (Starter: één keer proberen)</td><td>Vanaf Expert (€6,50 per gebruiker)</td></tr>
+<tr><td>Automatisch rooster maken</td><td>Pro en Business</td><td>Vanaf Expert (€6,50 per gebruiker)</td></tr>
 <tr><td>Koppeling salarisadministratie</td><td>Export naar Excel, PDF of je salarisadministratie</td><td>Vanaf Suite</td></tr>
 <tr><td>Loonkostenoverzicht</td><td>Uren- en loonkostenoverzicht</td><td>Productiviteitsdashboard vanaf Suite</td></tr>
 <tr><td>Uitproberen</td><td>Proefperiode voor Pro en Business; Starter maandelijks opzegbaar</td><td>Demo aanvragen</td></tr>

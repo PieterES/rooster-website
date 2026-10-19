@@ -473,7 +473,7 @@ export const enGuides: Guide[] = [
         html: `<div class="table-wrap"><table>
 <thead><tr><th></th><th>Gedekt</th><th>Shiftbase</th></tr></thead>
 <tbody>
-<tr><td>Auto-scheduling</td><td>Pro and Business (Starter: one trial run)</td><td>Premium and Enterprise, in "early access"</td></tr>
+<tr><td>Auto-scheduling</td><td>Pro and Business</td><td>Premium and Enterprise, in "early access"</td></tr>
 <tr><td>Availability, swaps, open shifts</td><td>All plans</td><td>From Basic</td></tr>
 <tr><td>Clock in/out</td><td>All plans</td><td>From Basic</td></tr>
 <tr><td>Leave requests</td><td>All plans; approval workflow from Pro</td><td>From Basic</td></tr>
@@ -540,7 +540,7 @@ export const enGuides: Guide[] = [
 <thead><tr><th></th><th>Gedekt</th><th>Planday</th></tr></thead>
 <tbody>
 <tr><td>Price</td><td>Flat: €10 / €20 / €50 a month</td><td>Per user per month; Starter from £2.99, Pro on request</td></tr>
-<tr><td>Auto-scheduling</td><td>Pro and Business (Starter: one trial run)</td><td>Pro only (custom pricing)</td></tr>
+<tr><td>Auto-scheduling</td><td>Pro and Business</td><td>Pro only (custom pricing)</td></tr>
 <tr><td>Leave and absence</td><td>All plans; approval workflow from Pro</td><td>From Plus</td></tr>
 <tr><td>Time tracking</td><td>All plans</td><td>From Starter</td></tr>
 <tr><td>Trial</td><td>Trial for Pro and Business; Starter cancel anytime</td><td>30 days, no credit card</td></tr>
@@ -597,7 +597,7 @@ export const enGuides: Guide[] = [
 <tbody>
 <tr><td>Pricing model</td><td>Flat per month</td><td>Per user per month</td></tr>
 <tr><td>Plans</td><td>Starter €10 (up to 15 staff), Pro €20 (up to 25), Business €50 (25+)</td><td>Pro €4.50, Suite €5.50, Expert €6.50, Talent €7.50 per user</td></tr>
-<tr><td>Auto-scheduling</td><td>Pro and Business (Starter: one trial run)</td><td>From Expert (€6.50 per user)</td></tr>
+<tr><td>Auto-scheduling</td><td>Pro and Business</td><td>From Expert (€6.50 per user)</td></tr>
 <tr><td>Payroll integration</td><td>Export to Excel, PDF or payroll</td><td>From Suite</td></tr>
 <tr><td>Try it</td><td>Trial for Pro and Business</td><td>Request a demo</td></tr>
 </tbody></table></div>`,
