@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 npm run dev      # start dev server at localhost:4321
-npm run build    # build to ./dist/
+npm run build    # build to ./dist/ and build the Pagefind search index
 npm run preview  # preview the production build locally
 ```
 
@@ -22,6 +22,7 @@ No test suite or linter is configured.
 - The NL <-> EN slug mapping is maintained in [src/data/routes.ts](src/data/routes.ts) (`pairs`). It drives both the language switcher in Nav and the `hreflang` tags in BaseLayout. When adding a new page, add the NL/EN pair there and add the route to the `links` arrays in [src/components/Nav.astro](src/components/Nav.astro) for both languages.
 - Demo video pages (`/hoe-het-werkt/<slug>`, `/en/how-it-works/<slug>`) are generated from [src/data/demos.ts](src/data/demos.ts); adding an entry there creates both pages, the nav dropdown item and the route pairs. Clips are recorded with `npm run record:demos` (see [scripts/demo-videos/README.md](scripts/demo-videos/README.md)).
 - SEO guide articles live at the site root (`/<slug>`, `/en/<slug>`) and are generated from [src/data/guide-content/](src/data/guide-content/) (`nl.ts`, `en.ts`); the overviews stay at `/gidsen` and `/en/guides`. Translations share an `id`; an entry creates the page, its overview card, sitemap entry and hreflang pair. Only claim features that exist in the app. Old `/gidsen/<slug>` URLs are 301-redirected in [public/_redirects](public/_redirects) (Cloudflare).
+- The user manual (help docs) lives at `/handleiding/<slug>` and `/en/manual/<slug>`, generated from [src/data/manual-content/](src/data/manual-content/) (`nl.ts`, `en.ts`; types and categories in [src/data/manual.ts](src/data/manual.ts)). One article answers one "how do I ...?" question; translations share an `id`. Describe the live app (the `HorecaRooster` repo, not `RoosterV2`) and copy UI labels exactly from its translations. The hubs `/handleiding` and `/en/manual` have full-text search via Pagefind: `npm run build` runs `pagefind --site dist` after `astro build` and indexes only the article bodies (`data-pagefind-body`); under `astro dev` the search falls back to titles. The app loads the same index from `https://gedekt.com/pagefind/` (CORS in [public/_headers](public/_headers)), so keep the `audience` filter (`admin` / `employee`).
 - Dutch keyword landing pages (`/personeelsplanning`, `/horecaplanning`, ...) come from [src/data/landing-pages.ts](src/data/landing-pages.ts). They share the root route [src/pages/[slug].astro](src/pages/[slug].astro) with the NL guides, so slugs must be unique across both (the build fails on a clash). Give each its own angle and copy; don't duplicate existing pages.
 
 **Page layout:** Every page wraps in `BaseLayout` ([src/layouts/BaseLayout.astro](src/layouts/BaseLayout.astro)), which accepts `title`, `description`, and `lang` props. `lang` defaults to `"en"` — NL pages must pass `lang="nl"` explicitly.

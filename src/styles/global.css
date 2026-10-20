@@ -119,3 +119,39 @@ h1, h2, h3, h4, h5 {
   font-size: 0.875rem;
   color: var(--color-stone);
 }
+
+/* Manual articles (src/data/manual-content): builds on .guide-body */
+.manual-body ol ul {
+  list-style: circle;
+  margin: 0.4rem 0 0;
+}
+.manual-body .ui {
+  font-size: 0.88em;
+  font-weight: 500;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  background: var(--color-cream);
+  border: 1px solid #ebebe6;
+  padding: 0.05em 0.4em;
+  border-radius: 5px;
+  color: var(--color-charcoal);
+}
+.manual-body .tip {
+  font-size: 0.95rem;
+  background: color-mix(in srgb, var(--color-amber) 8%, white);
+  border: 1px solid color-mix(in srgb, var(--color-amber) 25%, white);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+.manual-path {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-charcoal);
+  background: var(--color-cream);
+  border: 1px solid #ebebe6;
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+}

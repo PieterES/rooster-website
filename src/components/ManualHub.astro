@@ -1,0 +1,140 @@
+---
+// Manual overview (/handleiding, /en/manual): search box plus every article grouped by category.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ManualSearch from "./ManualSearch.astro";
+import {
+  legacyAnchors,
+  manualCategories,
+  manualFor,
+  manualHref,
+  planLabel,
+  type ManualLang,
+} from "../data/manual";
+
+interface Props {
+  lang: ManualLang;
+}
+
+const { lang } = Astro.props;
+const t = (nl: string, en: string) => (lang === "nl" ? nl : en);
+const articles = manualFor(lang);
+
+const groups = manualCategories
+  .map((c) => ({ ...c, articles: articles.filter((a) => a.category === c.id) }))
+  .filter((g) => g.articles.length > 0);
+const adminGroups = groups.filter((g) => g.audience === "admin");
+const employeeGroup = groups.find((g) => g.audience === "employee");
+
+// Old single-page manual links (/handleiding#admin-klok) go to the matching article.
+const legacy = Object.fromEntries(
+  Object.entries(legacyAnchors).flatMap(([anchor, id]) => {
+    const a = articles.find((x) => x.id === id);
+    return a ? [[anchor, manualHref(a)]] : [];
+  }),
+);
+
+const popularIds = ["build-schedule", "swaps-claims", "kiosk", "add-employee", "engine", "leave"];
+const popular = popularIds.map((id) => articles.find((a) => a.id === id)!).filter(Boolean);
+---
+
+<BaseLayout
+  title={t("Handleiding: hulp bij Gedekt", "Manual: help with Gedekt")}
+  description={t(
+    "Zoek hoe je iets doet in Gedekt: rooster maken, ruilverzoeken goedkeuren, de klokpaal instellen en meer. Voor beheerders en medewerkers.",
+    "Find out how to do things in Gedekt: build a schedule, approve swaps, set up the clock kiosk and more. For admins and employees.",
+  )}
+  lang={lang}
+>
+  <script is:inline define:vars={{ legacy }}>
+    if (location.hash && legacy[location.hash.slice(1)]) location.replace(legacy[location.hash.slice(1)]);
+  </script>
+
+  <section class="bg-[var(--color-forest)] pt-32 pb-16 px-6 lg:px-8 text-white">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="font-display font-bold text-4xl md:text-5xl leading-tight mb-4">{t("Handleiding", "Manual")}</h1>
+      <p class="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto mb-8">
+        {t(
+          "Hoe doe je iets in Gedekt? Zoek op wat je wilt doen, of kies hieronder een onderwerp.",
+          "How do you do something in Gedekt? Search for what you want to do, or pick a topic below.",
+        )}
+      </p>
+      <ManualSearch lang={lang} size="hero" readQuery />
+      <p class="mt-5 text-sm text-white/70">
+        <span class="mr-1">{t("Veel gezocht:", "Popular:")}</span>
+        {popular.map((a, i) => (
+          <>
+            <a href={manualHref(a)} class="underline underline-offset-2 decoration-white/30 hover:text-white hover:decoration-white">{a.title}</a>{i < popular.length - 1 && <span class="mx-1.5 text-white/40">·</span>}
+          </>
+        ))}
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white px-6 lg:px-8 py-16">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-display font-bold text-2xl md:text-3xl text-[var(--color-charcoal)] mb-2">{t("Voor beheerders", "For admins")}</h2>
+      <p class="text-[var(--color-stone)] mb-10">
+        {t("Inrichten, roosteren, verzoeken afhandelen en uren bijhouden.", "Setting up, scheduling, handling requests and tracking hours.")}
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {adminGroups.map((g) => (
+          <div id={g.id} class="rounded-2xl border border-gray-100 bg-[var(--color-cream)] p-6 scroll-mt-24">
+            <h3 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-3">{g.label[lang]}</h3>
+            <ul class="space-y-2">
+              {g.articles.map((a) => (
+                <li>
+                  <a href={manualHref(a)} class="group flex items-start gap-2 text-sm text-[var(--color-charcoal)] hover:text-[var(--color-forest)]">
+                    <span class="text-[var(--color-forest)] mt-px" aria-hidden="true">→</span>
+                    <span class="group-hover:underline underline-offset-2">
+                      {a.title}
+                      {a.plan && <span class="ml-1 whitespace-nowrap text-[10px] font-semibold uppercase tracking-wider text-[var(--color-amber)]">{planLabel(a.plan, lang)}</span>}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {employeeGroup && (
+    <section id="employee" class="bg-[var(--color-cream)] px-6 lg:px-8 py-16 scroll-mt-16">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display font-bold text-2xl md:text-3xl text-[var(--color-charcoal)] mb-2">{employeeGroup.label[lang]}</h2>
+        <p class="text-[var(--color-stone)] mb-10">
+          {t("Gedekt op je telefoon: je rooster, beschikbaarheid, ruilen en klokken.", "Gedekt on your phone: your schedule, availability, swaps and clocking.")}
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {employeeGroup.articles.map((a) => (
+            <a href={manualHref(a)} class="group block bg-white rounded-xl border border-gray-100 p-5 hover:shadow-md transition-shadow">
+              <h3 class="font-display font-semibold text-[var(--color-charcoal)] group-hover:text-[var(--color-forest)] transition-colors mb-1.5">{a.title}</h3>
+              <p class="text-sm text-[var(--color-stone)] leading-relaxed">{a.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="bg-white px-6 lg:px-8 py-16">
+    <div class="max-w-3xl mx-auto rounded-2xl border border-gray-100 p-8 md:p-10 text-center">
+      <h2 class="font-display font-bold text-2xl text-[var(--color-charcoal)] mb-3">{t("Antwoord niet gevonden?", "Didn't find your answer?")}</h2>
+      <p class="text-[var(--color-stone)] leading-relaxed mb-6">
+        {t(
+          "Stel je vraag in de app via Beheer → Ondersteuning, of neem contact met ons op. We lezen alles zelf.",
+          "Ask your question in the app through Admin → Support, or get in touch. We read everything ourselves.",
+        )}
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="https://app.gedekt.com/admin/support" class="bg-[var(--color-forest)] text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[var(--color-forest-light)] transition-colors">
+          {t("Naar Ondersteuning in de app", "Go to Support in the app")}
+        </a>
+        <a href={lang === "nl" ? "/contact" : "/en/contact"} class="border border-[var(--color-forest)] text-[var(--color-forest)] text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[var(--color-cream)] transition-colors">
+          {t("Contact", "Contact")}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -20,6 +20,7 @@ const links = isNL
       { href: "/hoe-het-werkt", label: "Hoe het werkt" },
       { href: "/prijzen",       label: "Prijzen" },
       { href: "/gidsen",        label: "Gidsen" },
+      { href: "/handleiding",   label: "Help" },
       { href: "/contact",       label: "Contact" },
       { href: "/over-ons",      label: "Over ons" },
     ]
@@ -28,6 +29,7 @@ const links = isNL
       { href: "/en/how-it-works",  label: "How It Works" },
       { href: "/en/pricing",       label: "Pricing" },
       { href: "/en/guides",        label: "Guides" },
+      { href: "/en/manual",        label: "Help" },
       { href: "/en/contact",       label: "Contact" },
       { href: "/en/about",         label: "About" },
     ];
@@ -60,7 +62,7 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
     </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden lg:flex items-center gap-6 xl:gap-8" aria-label="Main navigation">
+    <nav class="hidden lg:flex items-center gap-4 xl:gap-8" aria-label="Main navigation">
       {links.map((l) => l.href === featuresHref ? (
         <div class="relative group">
           <a href={l.href} class:list={[...linkClass(l.href), "inline-flex items-center gap-1"]} aria-haspopup="true">

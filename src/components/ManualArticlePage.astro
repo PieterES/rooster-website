@@ -1,0 +1,183 @@
+---
+// One manual article: sidebar with search and the other articles for the same audience,
+// the article itself (marked as the Pagefind search body), related articles and a help box.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ManualSearch from "./ManualSearch.astro";
+import {
+  manualCategories,
+  manualCategory,
+  manualFor,
+  manualHref,
+  manualHubHref,
+  manualUpdated,
+  planLabel,
+  relatedManual,
+  sectionId,
+  type ManualArticle,
+} from "../data/manual";
+import { absoluteUrl, SITE } from "../data/routes";
+import { breadcrumbs } from "../data/seo";
+
+interface Props {
+  article: ManualArticle;
+}
+
+const { article } = Astro.props;
+const lang = article.lang;
+const t = (nl: string, en: string) => (lang === "nl" ? nl : en);
+
+const category = manualCategory(article.category);
+const hubHref = manualHubHref(lang);
+const hubLabel = t("Handleiding", "Manual");
+const url = absoluteUrl(manualHref(article));
+const related = relatedManual(article);
+
+// Sidebar: every category of the same audience (admin or employee), with its articles.
+const all = manualFor(lang);
+const nav = manualCategories
+  .filter((c) => c.audience === category.audience)
+  .map((c) => ({ ...c, articles: all.filter((a) => a.category === c.id) }))
+  .filter((c) => c.articles.length > 0);
+
+const jsonLd = [
+  {
+    "@type": "TechArticle",
+    headline: article.title,
+    description: article.description,
+    inLanguage: lang === "nl" ? "nl-NL" : "en",
+    dateModified: manualUpdated,
+    mainEntityOfPage: url,
+    image: `${SITE}/og-image.png`,
+    author: { "@id": `${SITE}/#organization` },
+    publisher: { "@id": `${SITE}/#organization` },
+  },
+  breadcrumbs([
+    { name: "Gedekt", url: absoluteUrl(lang === "nl" ? "/" : "/en/") },
+    { name: hubLabel, url: absoluteUrl(hubHref) },
+    { name: article.title, url },
+  ]),
+];
+
+const sidebarLink = (active: boolean) => [
+  "block py-1 pl-3 -ml-px border-l text-sm transition-colors",
+  active
+    ? "border-[var(--color-forest)] text-[var(--color-forest)] font-semibold"
+    : "border-transparent text-[var(--color-stone)] hover:text-[var(--color-charcoal)] hover:border-gray-300",
+];
+---
+
+<BaseLayout
+  title={`${article.title} | ${hubLabel}`}
+  description={article.description}
+  lang={lang}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <div class="bg-white pt-28 pb-16 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[240px_minmax(0,1fr)] gap-8 md:gap-12">
+      <aside class="md:sticky md:top-24 md:self-start md:max-h-[calc(100vh-7rem)] md:overflow-y-auto md:pr-2">
+        <ManualSearch lang={lang} />
+        <details class="group mt-4 md:hidden rounded-xl border border-gray-100">
+          <summary class="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-[var(--color-charcoal)] flex justify-between">
+            {t("Alle onderwerpen", "All topics")}
+            <span class="text-[var(--color-forest)] group-open:rotate-45 transition-transform" aria-hidden="true">+</span>
+          </summary>
+          <nav class="px-4 pb-4 space-y-4" aria-label={t("Handleiding", "Manual")}>
+            {nav.map((c) => (
+              <div>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-1">{c.label[lang]}</p>
+                <ul class="border-l border-gray-100">
+                  {c.articles.map((a) => <li><a href={manualHref(a)} class:list={sidebarLink(a.id === article.id)}>{a.title}</a></li>)}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </details>
+        <nav class="hidden md:block mt-6 space-y-5" aria-label={t("Handleiding", "Manual")}>
+          {nav.map((c) => (
+            <div>
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-forest)] mb-1.5">{c.label[lang]}</p>
+              <ul class="border-l border-gray-100">
+                {c.articles.map((a) => <li><a href={manualHref(a)} class:list={sidebarLink(a.id === article.id)} aria-current={a.id === article.id ? "page" : undefined}>{a.title}</a></li>)}
+              </ul>
+            </div>
+          ))}
+          <a href={hubHref} class="inline-block text-sm font-medium text-[var(--color-forest)] hover:text-[var(--color-amber)]">
+            ← {t("Alle onderwerpen", "All topics")}
+          </a>
+        </nav>
+      </aside>
+
+      <article class="min-w-0 max-w-3xl">
+        <nav aria-label={t("Kruimelpad", "Breadcrumb")} class="text-sm text-[var(--color-stone)] mb-5">
+          <a href={hubHref} class="hover:text-[var(--color-forest)] transition-colors">{hubLabel}</a>
+          <span class="mx-1.5 text-gray-300">/</span>
+          <a href={`${hubHref}#${category.audience === "employee" ? "employee" : category.id}`} class="hover:text-[var(--color-forest)] transition-colors">{category.label[lang]}</a>
+        </nav>
+
+        <div
+          data-pagefind-body
+          data-pagefind-filter={`audience:${category.audience}`}
+          data-pagefind-meta={`category:${category.label[lang]}`}
+        >
+          <h1 class="font-display font-bold text-3xl md:text-4xl text-[var(--color-charcoal)] leading-tight mb-4">{article.title}</h1>
+          <p class="text-lg text-[var(--color-stone)] leading-relaxed mb-5">{article.description}</p>
+
+          {(article.path || article.plan) && (
+            <div class="flex flex-wrap items-center gap-2 mb-10" data-pagefind-ignore>
+              {article.path && (
+                <span class="manual-path">
+                  <span class="text-[var(--color-stone)]">{t("In de app:", "In the app:")}</span>
+                  {article.path.join(" → ")}
+                </span>
+              )}
+              {article.plan && (
+                <span class="text-xs font-semibold text-[var(--color-amber)] bg-[var(--color-amber)]/10 rounded-md px-2 py-1">
+                  {planLabel(article.plan, lang)}
+                </span>
+              )}
+            </div>
+          )}
+
+          <div class="guide-body manual-body">
+            {article.sections.map((s) => (
+              <section>
+                <h2 id={sectionId(s.heading)} class="scroll-mt-24">{s.heading}</h2>
+                <Fragment set:html={s.html} />
+              </section>
+            ))}
+          </div>
+        </div>
+
+        {related.length > 0 && (
+          <section class="mt-14 pt-8 border-t border-gray-100">
+            <h2 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-4">{t("Zie ook", "See also")}</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {related.map((r) => (
+                <a href={manualHref(r)} class="group block rounded-xl border border-gray-100 p-4 hover:shadow-md transition-shadow">
+                  <span class="block font-semibold text-sm text-[var(--color-charcoal)] group-hover:text-[var(--color-forest)] transition-colors">{r.title}</span>
+                  <span class="block text-xs text-[var(--color-stone)] mt-1 leading-relaxed">{r.description}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <aside class="mt-10 rounded-2xl bg-[var(--color-cream)] p-6 md:p-8">
+          <h2 class="font-display font-semibold text-lg text-[var(--color-charcoal)] mb-2">{t("Kom je er niet uit?", "Still stuck?")}</h2>
+          <p class="text-sm text-[var(--color-stone)] leading-relaxed">
+            {category.audience === "employee"
+              ? t(
+                  "Vraag het je leidinggevende. Die kan in de app ook meekijken met jouw scherm.",
+                  "Ask your manager. They can also see the app the way you see it.",
+                )
+              : t(
+                  "Stel je vraag in de app via Beheer → Ondersteuning. We lezen elk bericht zelf.",
+                  "Ask your question in the app through Admin → Support. We read every message ourselves.",
+                )}
+          </p>
+        </aside>
+      </article>
+    </div>
+  </div>
+</BaseLayout>

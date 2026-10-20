@@ -1,0 +1,4 @@
+# Cloudflare headers. The manual's search index may be loaded by the app (app.gedekt.com)
+# for the search on its support page.
+/pagefind/*
+  Access-Control-Allow-Origin: *

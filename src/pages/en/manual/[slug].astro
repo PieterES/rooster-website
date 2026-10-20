@@ -1,0 +1,12 @@
+---
+import ManualArticlePage from "../../../components/ManualArticlePage.astro";
+import { manualFor, type ManualArticle } from "../../../data/manual";
+
+export function getStaticPaths() {
+  return manualFor("en").map((article) => ({ params: { slug: article.slug }, props: { article } }));
+}
+
+const { article } = Astro.props as { article: ManualArticle };
+---
+
+<ManualArticlePage article={article} />

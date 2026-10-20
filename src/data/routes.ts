@@ -2,6 +2,7 @@
 // by the hreflang tags in BaseLayout, so every translated page must be listed here.
 import { demos, demoHref } from "./demos";
 import { guides, guideHref, guideTranslation } from "./guides";
+import { manualFor, manualHref, manualTranslation } from "./manual";
 
 export const SITE = "https://gedekt.com";
 
@@ -20,6 +21,9 @@ const pairs: [nl: string, en: string][] = [
   ...guides
     .filter((g) => g.lang === "nl" && guideTranslation(g))
     .map((g) => [guideHref(g), guideHref(guideTranslation(g)!)] as [string, string]),
+  ...manualFor("nl")
+    .filter((a) => manualTranslation(a))
+    .map((a) => [manualHref(a), manualHref(manualTranslation(a)!)] as [string, string]),
 ];
 
 const nlToEn = new Map(pairs);
