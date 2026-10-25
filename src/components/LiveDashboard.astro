@@ -46,15 +46,15 @@ const t = {
   },
 }[lang];
 
-// in/out: minutes after the shift's start / end at which the person clocks in / out.
-// Roos and Jesse clock in late, so at those moments the board shows "te laat".
+// in/out: minutes after the shift's start / end at which the person clocks in / out (the board
+// shows them rounded, see the script). Roos and Jesse clock in late, so then it shows "te laat".
 const depts = [
   {
     name: lang === "nl" ? "Keuken" : "Kitchen",
     color: "#b7791f",
     rows: [
       { who: "Joost Hendriks", shift: "Prep", start: "08:00", end: "14:00", in: -2, out: 6 },
-      { who: "Daan Smits", shift: "Lunch", start: "10:30", end: "16:00", in: 1, out: 3 },
+      { who: "Daan Smits", shift: "Lunch", start: "10:30", end: "16:00", in: -3, out: 3 },
       { who: "Bram Willems", shift: "Diner", start: "15:00", end: "23:00", in: -4, out: 9 },
     ],
   },
@@ -62,9 +62,9 @@ const depts = [
     name: lang === "nl" ? "Bediening" : "Floor",
     color: "#2f855a",
     rows: [
-      { who: "Roos Vermeer", shift: "Lunch", start: "11:00", end: "15:30", in: 48, out: 2 },
+      { who: "Roos Vermeer", shift: "Lunch", start: "11:00", end: "15:30", in: 41, out: 2 },
       { who: "Lars van den Berg", shift: "Middag", start: "14:30", end: "20:00", in: -1, out: 4 },
-      { who: "Vera Hoekstra", shift: "Diner", start: "17:00", end: "23:00", in: 0, out: 12 },
+      { who: "Vera Hoekstra", shift: "Diner", start: "17:00", end: "23:00", in: -6, out: 12 },
       { who: "Sophie Janssen", shift: "Sluit", start: "21:00", end: "00:30", in: -3, out: 5 },
     ],
   },
@@ -73,7 +73,7 @@ const depts = [
     color: "#b83280",
     rows: [
       { who: "Sanne de Graaf", shift: "Middag", start: "12:00", end: "18:00", in: -4, out: 7 },
-      { who: "Jesse Bos", shift: "Avond", start: "17:00", end: "23:30", in: 24, out: 4 },
+      { who: "Jesse Bos", shift: "Avond", start: "17:00", end: "23:30", in: 22, out: 4 },
       { who: "Milan Peters", shift: "Sluit", start: "21:30", end: "01:00", in: -5, out: 3 },
     ],
   },
@@ -203,6 +203,9 @@ const hhmm = (m: number) => `${String(Math.floor(m / 60) % 24).padStart(2, "0")}
   const FROM = 8 * 60;
   const TO = 26 * 60;
   const LATE_AFTER = 5; // minutes, as in the app
+  // The app rounds clock-ins up and clock-outs down to the quarter hour.
+  const roundIn = (m: number) => Math.ceil(m / 15) * 15;
+  const roundOut = (m: number) => Math.floor(m / 15) * 15;
   const NIGHT_SNAPSHOT = 19 * 60 + 45; // between 02:00 and 08:00 the board shows the evening
 
   const words = {
@@ -249,8 +252,8 @@ const hhmm = (m: number) => `${String(Math.floor(m / 60) % 24).padStart(2, "0")}
       const s = +row.dataset.start!, e = +row.dataset.end!;
       const clockIn = s + +row.dataset.in!, clockOut = e + +row.dataset.out!;
       let kind: Kind, label: string;
-      if (now >= clockOut) { kind = "done"; label = w.bar.done.replace("{t}", hhmm(clockOut)); }
-      else if (now >= clockIn) { kind = "active"; label = w.bar.active.replace("{t}", hhmm(clockIn)); }
+      if (now >= clockOut) { kind = "done"; label = w.bar.done.replace("{t}", hhmm(roundOut(clockOut))); }
+      else if (now >= clockIn) { kind = "active"; label = w.bar.active.replace("{t}", hhmm(roundIn(clockIn))); }
       else if (now >= s + LATE_AFTER) { kind = "late"; label = w.bar.late; firstLate ??= row; }
       else { kind = "upcoming"; label = w.bar.upcoming; }
       counts[kind]++;
@@ -294,6 +297,7 @@ const hhmm = (m: number) => `${String(Math.floor(m / 60) % 24).padStart(2, "0")}
 
 <style>
   .live-dash {
+    min-width: 0;
     --paper: #f0f0ec;
     --card: #ffffff;
     --ink: #1a1c1a;
@@ -329,6 +333,10 @@ const hhmm = (m: number) => `${String(Math.floor(m / 60) % 24).padStart(2, "0")}
   .ld-dots i { width: 10px; height: 10px; border-radius: 50%; background: #c9c9c2; }
   .ld-url {
     flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     max-width: 320px;
     margin: 0 auto;
     padding: 3px 12px;
@@ -349,7 +357,7 @@ const hhmm = (m: number) => `${String(Math.floor(m / 60) % 24).padStart(2, "0")}
     border-bottom: 1px solid var(--line);
     font-size: 14px;
   }
-  .ld-logo { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
+  .ld-logo { min-width: 0; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
   .ld-logo small { margin-left: 4px; font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--ink-soft); }
   .ld-nav { display: flex; gap: 20px; color: var(--ink-soft); overflow: hidden; }
   .ld-nav .is-active { color: var(--ink); font-weight: 600; box-shadow: inset 0 -2px 0 var(--ink); padding-bottom: 12px; margin-bottom: -14px; }
