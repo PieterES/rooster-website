@@ -28,7 +28,8 @@ export default {
   },
 
   async run({ page, h, t }) {
-    await h.click(page.getByRole('link', { name: t('Afdelingen beheren', 'Manage departments') }), 900);
+    await h.click(page.getByRole('button', { name: /^Team/ }), 500);
+    await h.click(page.getByRole('link', { name: t('Afdelingen & locaties', 'Departments & locations') }), 900);
     await h.click(page.getByRole('button', { name: t('Afdeling toevoegen', 'Add department') }).first(), 500);
     await h.type(page.getByPlaceholder(t('Naam nieuwe afdeling', 'New department name')), deptName(t));
     await h.click(page.getByRole('button', { name: t('Afdeling toevoegen', 'Add department') }).first(), 1000); // the dialog's submit precedes the page button in the DOM

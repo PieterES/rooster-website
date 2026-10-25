@@ -1,28 +1,27 @@
-// Shift types overview, then fill the weekly fixed-shift template by drag & drop.
-//
-// Note: adding or editing a shift type is left out on purpose: on dev, adding one
-// crashes the page after saving, and saving uppercases the shift code.
+// The week's template (shifts per department), then make two fixed shifts: drag a regular onto
+// a shift in the demo week and click the lock. cleanup() unlocks them again, so they don't end
+// up in every new week; the schedule clip resets the demo week afterwards.
 import { APP } from '../lib.mjs';
+import { DEMO_WEEK, resetDemoWeek } from './04-schedule.mjs';
 
-// Template slots we fill during the clip (and empty again afterwards).
+// Shifts of the demo week we fill and lock during the clip (day 2 = Wednesday).
 const SLOTS = [
-  { shift: /Middag · Bartender/i, day: 1, person: 'Mila Pietersen' }, // Tuesday
-  { shift: /Avond · Barchef/i, day: 2, person: 'Thomas Bakker' }, // Wednesday
+  { shift: 'MIDDAG', day: 2, person: 'Mila Pietersen' },
+  { shift: 'Avond', day: 2, person: 'Thomas Bakker' },
 ];
 
-const slot = (page, s) => page.locator('main button', { hasText: s.shift }).nth(s.day);
+const slot = (page, s) => page.locator(`main [title^="${s.shift} "]:visible`).nth(s.day);
+// The slot card is aria-disabled, so Playwright sees the lock inside it as disabled too.
+const lock = (page, s) => slot(page, s).locator('span[role=button]');
 
-async function emptySlots(page, t) {
-  await page.goto(`${APP}/admin/templates`);
+async function unlockSlots(page) {
+  await page.goto(`${APP}/admin/schedule?week=${DEMO_WEEK}`);
   await page.waitForLoadState('networkidle');
   for (const s of SLOTS) {
-    const cell = slot(page, s);
-    if (!(await cell.innerText()).includes(s.person)) continue;
-    await cell.click({ force: true });
-    const leeg = page.getByText(t('Leeg', 'Empty'), { exact: true }).last();
-    const bb = await leeg.boundingBox();
-    await page.mouse.click(bb.x + bb.width / 2, bb.y + bb.height / 2);
-    await page.waitForTimeout(1000);
+    const l = lock(page, s);
+    if (!(await l.count()) || !/^(Vaste dienst|Fixed shift)/.test(await l.getAttribute('title'))) continue;
+    await l.click({ force: true });
+    await page.waitForTimeout(1500);
   }
 }
 
@@ -33,7 +32,7 @@ async function teamChip(page, name, target) {
   let best = null;
   for (const chip of await chips.all()) {
     const b = await chip.boundingBox();
-    if (!b || b.y < tb.y + tb.height + 40) continue; // skip the template grid itself
+    if (!b || b.y < tb.y + tb.height + 40) continue; // skip the schedule grid itself
     const dx = Math.abs(b.x + b.width / 2 - (tb.x + tb.width / 2));
     if (!best || dx < best.dx) best = { chip, dx };
   }
@@ -47,32 +46,41 @@ export default {
   device: 'desktop',
 
   async prepare({ page, h, t }) {
-    await emptySlots(page, t);
-    await h.goto('/admin/shift-types');
-    await h.park(760, 520);
+    await unlockSlots(page);
+    await resetDemoWeek(page, t);
+    await h.goto(`/admin/schedule?week=${DEMO_WEEK}`);
+    await h.park(900, 520);
   },
 
   async run({ page, h, t }) {
-    const rows = page.locator('main tbody tr');
-    for (let i = 0; i < 3; i++) await h.hover(rows.nth(i).locator('td').nth(2), 350);
-    const deptFilter = page.locator('main select').nth(1);
-    await h.select(deptFilter, { label: 'Bediening' }, 1200);
-    await h.hover(rows.nth(2).locator('td').nth(2), 600);
-    await h.select(deptFilter, { label: 'Bar' }, 800);
+    // The template: every shift per department, with times and minimum function.
+    await h.click(page.getByRole('button', { name: t('Hulpmiddelen', 'Tools') }), 500);
+    await h.click(page.getByRole('button', { name: t('Templates en diensten…', 'Templates and shifts…') }), 1000);
+    const dialog = page.locator('[role=dialog]');
+    const edit = dialog.locator('[aria-label$=" bewerken"], [aria-label^="Edit "]');
+    for (const i of [0, 1, 3]) await h.hover(edit.nth(i).locator('xpath=..'), 400);
+    await h.moveTo(720, 600);
+    await h.scroll(350, 1000);
+    await h.sleep(700);
+    await h.click(dialog.getByRole('button', { name: t('Sluiten', 'Close') }), 800);
 
-    await h.click(page.getByRole('link', { name: t('Vaste diensten', 'Fixed shifts') }), 1200);
-    await h.click(page.getByRole('button', { name: t('Team tonen', 'Show team') }), 600);
+    // Fixed shifts: drag a regular onto a shift, then lock it.
+    await h.click(page.getByRole('button', { name: new RegExp(`^${t('Tonen', 'Show')}`) }), 700);
+    await h.moveTo(700, 500);
     await h.scroll(230);
-
     for (const s of SLOTS) {
       const target = slot(page, s);
-      await h.drag(await teamChip(page, s.person, target), target, 1000);
+      await h.drag(await teamChip(page, s.person, target), target, 900);
+      // dragging near the top edge auto-scrolls the page; bring the slot out from under the sticky header
+      const box = await target.boundingBox();
+      if (box.y < 150) await h.scroll(box.y - 220, 500);
+      await h.click(lock(page, s), 1300);
     }
     await h.moveTo(900, 330);
     await h.sleep(1500);
   },
 
-  async cleanup({ page, t }) {
-    await emptySlots(page, t);
+  async cleanup({ page }) {
+    await unlockSlots(page);
   },
 };

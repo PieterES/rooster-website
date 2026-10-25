@@ -30,8 +30,12 @@ The interface language is switched per user before each pass and set back to Dut
 ## Things to know
 
 - Clips run against real data on dev. Most clean up after themselves, but:
-  - `schedule` leaves the demo week (`DEMO_WEEK` in `04-schedule.mjs`) **published**, because the
-    employee clips need shifts to show.
+  - `shifts` and `schedule` both reset the demo week (`DEMO_WEEK` in `04-schedule.mjs`): withdraw
+    the publication, then "Week leegmaken" (template + fixed shifts). `shifts` locks two shifts as
+    fixed shifts and unlocks them in `cleanup`. `schedule` leaves the week **published**, because
+    the employee clips need shifts to show; run it before the employee clips.
+  - Never run two recordings at once: they share the dev accounts, the interface language and the
+    company settings, and `settings` then restores the other run's in-between values.
   - `settings` switches the company's claim approval and availability input method; it restores the
     original values in `cleanup`, so if a run is killed halfway check `/admin/settings` on dev.
   - `staff-clock` clocks the employee in and out for real. It also logs in as admin to move the
@@ -42,4 +46,4 @@ The interface language is switched per user before each pass and set back to Dut
 - A full schedule needs enough staff and availability; the demo company was topped up with
   five extra employees (Bar and Keuken) and full standard availability for that reason.
 - Adding or editing shift types is not shown: on dev, adding one crashes the page after
-  saving and saving uppercases the shift code.
+  saving and saving uppercases the shift code (the Bar's "MIDDAG" is a leftover of that).

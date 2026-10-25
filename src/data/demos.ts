@@ -29,11 +29,11 @@ export const demos: Demo[] = [
       en: "Your regulars are already on it. The scheduling engine fills the rest based on availability, function and contract hours. Then you publish — and your team is notified right away.",
     },
     steps: [
-      { nl: "Vaste toewijzingen toepassen", en: "Apply fixed assignments" },
-      { nl: "Genereren: alle 59 diensten gevuld", en: "Generate: all 59 shifts filled" },
+      { nl: "Alle afdelingen: vaste diensten staan er al", en: "All departments: fixed shifts are already in" },
+      { nl: "Genereren: de roostermotor vult de open diensten", en: "Generate: the engine fills the open shifts" },
       { nl: "Publiceren naar het hele team", en: "Publish to the whole team" },
     ],
-    seconds: 30,
+    seconds: 26,
   },
   {
     slug: { nl: "afdelingen-en-functies", en: "departments-and-functions" },
@@ -79,15 +79,15 @@ export const demos: Demo[] = [
     menuLabel: { nl: "Diensten & vaste diensten", en: "Shifts & fixed shifts" },
     title: { nl: "Eén keer instellen. Elke week gebruiken.", en: "Set it up once. Use it every week." },
     lede: {
-      nl: "Diensten hebben vaste tijden en een minimale functie. Sleep je vaste krachten in het weektemplate — geschikte plekken lichten op terwijl je sleept.",
-      en: "Shifts have set times and a minimum function. Drag your regulars into the weekly template — eligible slots light up as you drag.",
+      nl: "Diensten hebben vaste tijden en een minimale functie, per afdeling in je template. Sleep een vaste kracht op een dienst en klik op het slotje: vanaf dan staat die persoon er elke nieuwe week.",
+      en: "Shifts have set times and a minimum function, per department in your template. Drag a regular onto a shift and click the lock: from then on they're on it every new week.",
     },
     steps: [
-      { nl: "Diensten per afdeling bekijken", en: "Review shifts per department" },
-      { nl: "Team tonen in het weektemplate", en: "Show the team in the weekly template" },
-      { nl: "Slepen en neerzetten — automatisch opgeslagen", en: "Drag and drop — saved automatically" },
+      { nl: "Diensten per afdeling bekijken in het template", en: "Review shifts per department in the template" },
+      { nl: "Een vaste kracht op een dienst slepen", en: "Drag a regular onto a shift" },
+      { nl: "Slotje erop: elke week weer ingepland", en: "Lock it: scheduled again every week" },
     ],
-    seconds: 27,
+    seconds: 35,
   },
   {
     slug: { nl: "claims-en-ruilverzoeken", en: "claims-and-swaps" },
@@ -105,7 +105,7 @@ export const demos: Demo[] = [
       { nl: "Opmerking toevoegen bij een ruil", en: "Add a note to a swap" },
       { nl: "Rooster wordt automatisch bijgewerkt", en: "The schedule updates automatically" },
     ],
-    seconds: 17,
+    seconds: 16,
   },
   {
     slug: { nl: "uren-en-loonkosten", en: "hours-and-labour-cost" },
@@ -123,7 +123,7 @@ export const demos: Demo[] = [
       { nl: "Uren en kosten per medewerker", en: "Hours and cost per employee" },
       { nl: "Exporteren voor de administratie", en: "Export for your accountant" },
     ],
-    seconds: 23,
+    seconds: 22,
   },
   {
     slug: { nl: "medewerkers-app", en: "staff-app" },

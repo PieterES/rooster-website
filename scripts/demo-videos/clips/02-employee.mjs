@@ -47,7 +47,7 @@ export default {
     await h.click(page.locator('main').getByRole('button', { name: t('Medewerker toevoegen', 'Add employee') }), 1500);
     await page.waitForURL((u) => !u.pathname.endsWith('/new'), { timeout: 6000 }).catch(() => {});
     if (!/\/admin\/employees$/.test(new URL(page.url()).pathname)) {
-      await h.click(page.getByRole('link', { name: t('Medewerkers', 'Employees'), exact: true }), 1200);
+      await h.goto('/admin/employees');
     }
     await page.waitForLoadState('networkidle');
     const card = page.locator('main a', { hasText: NAME });

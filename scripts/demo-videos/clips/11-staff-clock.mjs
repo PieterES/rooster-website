@@ -70,7 +70,9 @@ export default {
     await h.click(big(), 900);
     const modal = page.locator('div.fixed', { has: page.getByText(t('Vul in voor het uitklokken', 'Fill in before clocking out')) }).last();
     await h.click(modal.getByRole('button', { name: t('Ja', 'Yes'), exact: true }).first(), 600);
-    await h.click(modal.getByRole('button', { name: '30m', exact: true }), 600);
+    // break: the hour + quarter picker, 00:00 → 00:30
+    await h.click(modal.getByRole('button', { name: '00:00', exact: true }), 500);
+    await h.click(modal.getByRole('button', { name: '30', exact: true }), 600);
     await h.click(modal.getByRole('button', { name: t('Uitklokken', 'Clock out'), exact: true }), 0);
     await page.getByText(new RegExp(t('Uitgeklokt om', 'Clocked out at'))).waitFor();
     await h.sleep(1500);

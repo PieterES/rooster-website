@@ -17,7 +17,8 @@ export default {
     await h.hover(page.locator('main').getByRole('button', { name: t('Afwijzen', 'Deny'), exact: true }).first(), 300);
     await h.click(approve.first(), 1500);
 
-    await h.click(page.locator('a[href="/admin/swap-requests"]').first(), 1200);
+    await h.click(page.getByRole('button', { name: new RegExp(`^${t('Verzoeken', 'Requests')}`) }), 500);
+    await h.click(page.locator('a[href="/admin/swap-requests"]:visible').first(), 1200);
     if (!(await approve.count())) throw new Error('No pending swap requests left to approve');
     await h.type(page.locator('main input[type=text]').first(), t('Prima, veel plezier!', 'Fine by me, enjoy!'));
     await h.click(approve.first(), 1600);
