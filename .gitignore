@@ -24,3 +24,6 @@ pnpm-debug.log*
 .idea/
 .env.demo
 music-samples/
+
+.claude/skills/design-taste-frontend-v2/*
+.taste-skill/*
