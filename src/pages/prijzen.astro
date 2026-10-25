@@ -49,6 +49,10 @@ const faq = [
     a: "Je krijgt een melding om te upgraden. Er is geen harde afsluiting, geen dataverlies en geen onderbrekingen in de dienst — we vragen je gewoon om op te schalen wanneer je gegroeid bent.",
   },
   {
+    q: "Wat als we meer dan 50 medewerkers hebben?",
+    a: "Dan maken we een prijs op maat. Business is bedoeld voor teams tot 50 medewerkers; met een groter team of meerdere vestigingen kijken we samen wat past. Neem contact op, dan regelen we het.",
+  },
+  {
     q: "Is er een korting voor seizoensbedrijven?",
     a: "Ja. Neem direct contact op en we regelen iets passends. We houden je liever op een eerlijk tarief dan je 4 maanden kwijt te zijn.",
   },
@@ -135,11 +139,17 @@ const faq = [
           priceMonthly="\u20ac50"
           priceAnnualMonthly="\u20ac41,67"
           priceAnnual="\u20ac500"
-          staffLimit="25+ medewerkers \u00b7 meerdere locaties"
+          staffLimit="26 tot 50 medewerkers \u00b7 meerdere locaties"
           features={businessFeatures}
           cta="Probeer Business gratis \u2192"
           ctaHref="/aanmelden?plan=business"
         />
+      </div>
+      <div class="mt-6 bg-white border border-gray-100 rounded-2xl px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <p class="text-[var(--color-charcoal)] leading-relaxed">
+          <strong>Meer dan 50 medewerkers?</strong> <span class="text-[var(--color-stone)]">Dan spreken we samen een prijs af die past bij je team en locaties.</span>
+        </p>
+        <a href="/contact" class="shrink-0 text-[var(--color-forest)] font-semibold hover:underline">Neem contact op →</a>
       </div>
     </div>
   </section>

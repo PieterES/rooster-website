@@ -49,6 +49,10 @@ const faq = [
     a: "You'll be prompted to upgrade. There's no hard cutoff, no data loss, and no service interruption — we just ask you to move up when you've grown beyond your tier.",
   },
   {
+    q: "What if we have more than 50 staff?",
+    a: "Then we'll agree on a custom price. Business is meant for teams of up to 50; for a bigger team or several venues we'll work out together what fits. Get in touch and we'll sort it out.",
+  },
+  {
     q: "Is there a discount for seasonal businesses?",
     a: "Yes. Contact us directly and we'll work out a seasonal arrangement. We'd rather keep you on a fair deal than lose you for 4 months.",
   },
@@ -144,11 +148,17 @@ const faq = [
           priceAnnual="\u20ac500"
           periodLabel="/month"
           yearLabel="/year"
-          staffLimit="25+ staff \u00b7 multiple locations"
+          staffLimit="26 to 50 staff \u00b7 multiple locations"
           features={businessFeatures}
           cta="Try Business free \u2192"
           ctaHref="/en/sign-up?plan=business"
         />
+      </div>
+      <div class="mt-6 bg-white border border-gray-100 rounded-2xl px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <p class="text-[var(--color-charcoal)] leading-relaxed">
+          <strong>More than 50 staff?</strong> <span class="text-[var(--color-stone)]">We'll agree on a price that fits your team and locations.</span>
+        </p>
+        <a href="/en/contact" class="shrink-0 text-[var(--color-forest)] font-semibold hover:underline">Get in touch →</a>
       </div>
     </div>
   </section>

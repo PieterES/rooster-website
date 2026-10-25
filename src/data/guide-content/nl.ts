@@ -951,7 +951,7 @@ export const nlGuides: Guide[] = [
 <tr><td>Gratis versie</td><td>Nee</td><td>Ja: Free, tot 15 medewerkers, alleen basisplanning en handmatige urenregistratie</td></tr>
 <tr><td>Instappakket</td><td>Starter: €10/maand, tot 15 medewerkers</td><td>Basic: €30/maand voor 6 medewerkers, +€4 per extra medewerker</td></tr>
 <tr><td>Middenpakket</td><td>Pro: €20/maand, tot 25 medewerkers</td><td>Premium: €72/maand voor 12 medewerkers, +€5 per extra medewerker</td></tr>
-<tr><td>Groot pakket</td><td>Business: €50/maand, 25+ medewerkers</td><td>Enterprise: €336/maand voor 48 medewerkers, +€6 per extra medewerker</td></tr>
+<tr><td>Groot pakket</td><td>Business: €50/maand, 26 tot 50 medewerkers; daarboven prijs op maat</td><td>Enterprise: €336/maand voor 48 medewerkers, +€6 per extra medewerker</td></tr>
 <tr><td>Jaarlijks betalen</td><td>2 maanden gratis</td><td>10% korting</td></tr>
 <tr><td>Contract</td><td>Maandelijks opzegbaar</td><td>Maandelijks of jaarlijks</td></tr>
 </tbody></table></div>`,
@@ -1107,7 +1107,7 @@ export const nlGuides: Guide[] = [
 <thead><tr><th></th><th>Gedekt</th><th>Dyflexis</th></tr></thead>
 <tbody>
 <tr><td>Prijsmodel</td><td>Vast per maand, geen kosten per medewerker</td><td>Per gebruiker per maand</td></tr>
-<tr><td>Pakketten</td><td>Starter €10 (tot 15 medewerkers), Pro €20 (tot 25), Business €50 (25+)</td><td>Pro €4,50, Suite €5,50, Expert €6,50, Talent €7,50 per gebruiker</td></tr>
+<tr><td>Pakketten</td><td>Starter €10 (tot 15 medewerkers), Pro €20 (tot 25), Business €50 (tot 50), daarboven op maat</td><td>Pro €4,50, Suite €5,50, Expert €6,50, Talent €7,50 per gebruiker</td></tr>
 <tr><td>Automatisch rooster maken</td><td>Pro en Business</td><td>Vanaf Expert (€6,50 per gebruiker)</td></tr>
 <tr><td>Koppeling salarisadministratie</td><td>Export naar Excel, PDF of je salarisadministratie</td><td>Vanaf Suite</td></tr>
 <tr><td>Loonkostenoverzicht</td><td>Uren- en loonkostenoverzicht</td><td>Productiviteitsdashboard vanaf Suite</td></tr>

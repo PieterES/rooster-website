@@ -453,7 +453,7 @@ export const enGuides: Guide[] = [
 <tr><td>Free plan</td><td>No</td><td>Yes: Free, up to 15 staff, basic scheduling and manual time tracking only</td></tr>
 <tr><td>Entry plan</td><td>Starter: €10/month, up to 15 staff</td><td>Basic: €30/month for 6 staff, +€4 per extra employee</td></tr>
 <tr><td>Mid plan</td><td>Pro: €20/month, up to 25 staff</td><td>Premium: €72/month for 12 staff, +€5 per extra employee</td></tr>
-<tr><td>Large plan</td><td>Business: €50/month, 25+ staff</td><td>Enterprise: €336/month for 48 staff, +€6 per extra employee</td></tr>
+<tr><td>Large plan</td><td>Business: €50/month, 26 to 50 staff; custom price above that</td><td>Enterprise: €336/month for 48 staff, +€6 per extra employee</td></tr>
 <tr><td>Annual billing</td><td>2 months free</td><td>10% off</td></tr>
 </tbody></table></div>`,
       },
@@ -596,7 +596,7 @@ export const enGuides: Guide[] = [
 <thead><tr><th></th><th>Gedekt</th><th>Dyflexis</th></tr></thead>
 <tbody>
 <tr><td>Pricing model</td><td>Flat per month</td><td>Per user per month</td></tr>
-<tr><td>Plans</td><td>Starter €10 (up to 15 staff), Pro €20 (up to 25), Business €50 (25+)</td><td>Pro €4.50, Suite €5.50, Expert €6.50, Talent €7.50 per user</td></tr>
+<tr><td>Plans</td><td>Starter €10 (up to 15 staff), Pro €20 (up to 25), Business €50 (up to 50), custom above that</td><td>Pro €4.50, Suite €5.50, Expert €6.50, Talent €7.50 per user</td></tr>
 <tr><td>Auto-scheduling</td><td>Pro and Business</td><td>From Expert (€6.50 per user)</td></tr>
 <tr><td>Payroll integration</td><td>Export to Excel, PDF or payroll</td><td>From Suite</td></tr>
 <tr><td>Try it</td><td>Trial for Pro and Business</td><td>Request a demo</td></tr>
