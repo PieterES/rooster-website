@@ -1,0 +1,448 @@
+---
+// The admin dashboard of the app ("Vandaag op de vloer"), rebuilt with demo data. The script
+// below puts the now-line on the visitor's current Dutch time and works out each shift's status
+// from it, so the board looks live at any moment of the day.
+interface Props {
+  lang: "nl" | "en";
+}
+const { lang } = Astro.props;
+
+const t = {
+  nl: {
+    floor: "Vandaag op de vloer",
+    hoursToday: "Uren van vandaag",
+    scheduleWeek: "Rooster deze week",
+    waiting: "Wacht op jou",
+    claims: "Claims op open diensten",
+    claimsSub: "wachten op je goedkeuring",
+    swaps: "Ruilverzoeken",
+    swapsSub: "collega's zijn het eens, jij beslist",
+    leave: "Vakantieverzoeken",
+    corrections: "Urencorrecties",
+    open: "Open diensten",
+    allCovered: "Alles is bezet",
+    allCoveredSub: "Geen open diensten meer deze week.",
+    nav: ["Vandaag", "Rooster", "Team", "Uren", "Verzoeken"],
+    url: "app.gedekt.com/admin",
+    caption: "Voorbeeld met demodata, de tijdlijn loopt live mee met de klok",
+  },
+  en: {
+    floor: "On the floor today",
+    hoursToday: "Today's hours",
+    scheduleWeek: "This week's schedule",
+    waiting: "Waiting for you",
+    claims: "Claims on open shifts",
+    claimsSub: "waiting for your approval",
+    swaps: "Swap requests",
+    swapsSub: "colleagues agreed, you decide",
+    leave: "Leave requests",
+    corrections: "Hours corrections",
+    open: "Open shifts",
+    allCovered: "All covered",
+    allCoveredSub: "No open shifts left this week.",
+    nav: ["Today", "Schedule", "Team", "Hours", "Requests"],
+    url: "app.gedekt.com/admin",
+    caption: "Example with demo data, the timeline runs live with the clock",
+  },
+}[lang];
+
+// in/out: minutes after the shift's start / end at which the person clocks in / out.
+// Roos and Jesse clock in late, so at those moments the board shows "te laat".
+const depts = [
+  {
+    name: lang === "nl" ? "Keuken" : "Kitchen",
+    color: "#b7791f",
+    rows: [
+      { who: "Joost Hendriks", shift: "Prep", start: "08:00", end: "14:00", in: -2, out: 6 },
+      { who: "Daan Smits", shift: "Lunch", start: "10:30", end: "16:00", in: 1, out: 3 },
+      { who: "Bram Willems", shift: "Diner", start: "15:00", end: "23:00", in: -4, out: 9 },
+    ],
+  },
+  {
+    name: lang === "nl" ? "Bediening" : "Floor",
+    color: "#2f855a",
+    rows: [
+      { who: "Roos Vermeer", shift: "Lunch", start: "11:00", end: "15:30", in: 48, out: 2 },
+      { who: "Lars van den Berg", shift: "Middag", start: "14:30", end: "20:00", in: -1, out: 4 },
+      { who: "Vera Hoekstra", shift: "Diner", start: "17:00", end: "23:00", in: 0, out: 12 },
+      { who: "Sophie Janssen", shift: "Sluit", start: "21:00", end: "00:30", in: -3, out: 5 },
+    ],
+  },
+  {
+    name: "Bar",
+    color: "#b83280",
+    rows: [
+      { who: "Sanne de Graaf", shift: "Middag", start: "12:00", end: "18:00", in: -4, out: 7 },
+      { who: "Jesse Bos", shift: "Avond", start: "17:00", end: "23:30", in: 24, out: 4 },
+      { who: "Milan Peters", shift: "Sluit", start: "21:30", end: "01:00", in: -5, out: 3 },
+    ],
+  },
+];
+
+// Fixed axis 08:00 → 02:00 in 3-hour steps, like the app draws it for this day.
+const FROM = 8 * 60;
+const TO = 26 * 60;
+const toMin = (hhmm: string) => {
+  const [h, m] = hhmm.split(":").map(Number);
+  return h * 60 + m;
+};
+const span = (start: string, end: string): [number, number] => {
+  const s = toMin(start);
+  let e = toMin(end);
+  if (e <= s) e += 1440;
+  return [s, e];
+};
+const pct = (m: number) => ((m - FROM) / (TO - FROM)) * 100;
+const ticks = Array.from({ length: 7 }, (_, i) => FROM + i * 180);
+const hhmm = (m: number) => `${String(Math.floor(m / 60) % 24).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+---
+
+<figure class="live-dash" data-live-dash data-lang={lang} aria-label={t.caption}>
+  <div class="ld-window">
+    <div class="ld-chrome" aria-hidden="true">
+      <span class="ld-dots"><i></i><i></i><i></i></span>
+      <span class="ld-url">{t.url}</span>
+    </div>
+
+    <div class="ld-app">
+      <div class="ld-topbar" aria-hidden="true">
+        <span class="ld-logo">rooster <small>De Gouden Lepel</small></span>
+        <span class="ld-nav">
+          {t.nav.map((n, i) => <span class={i === 0 ? "is-active" : ""}>{n}</span>)}
+        </span>
+      </div>
+
+      <div class="ld-body">
+        <div class="ld-head">
+          <div class="min-w-0">
+            <p class="ld-date" data-date>&nbsp;</p>
+            <p class="ld-finding" data-finding>&nbsp;</p>
+          </div>
+          <div class="ld-head-right">
+            <span class="ld-stand" data-stand></span>
+            <span class="ld-btn">{t.scheduleWeek}</span>
+          </div>
+        </div>
+
+        <div class="ld-grid">
+          <section class="ld-card ld-floor">
+            <div class="ld-card-head">
+              <h3>{t.floor} <span class="ld-count">10</span></h3>
+              <span class="ld-link">{t.hoursToday} ›</span>
+            </div>
+            <ul class="ld-legend" data-legend></ul>
+
+            <div class="ld-axis" aria-hidden="true">
+              <span></span>
+              <div class="ld-axis-track">
+                {ticks.map((m, i) => (
+                  <span
+                    data-tick={m}
+                    class={i === 0 ? "" : i === ticks.length - 1 ? "is-last" : "is-mid"}
+                    style={`left:${pct(m)}%`}
+                  >{hhmm(m)}</span>
+                ))}
+              </div>
+            </div>
+
+            <div class="ld-rows">
+              <div class="ld-lines" aria-hidden="true">
+                {ticks.map((m) => <i style={`left:${pct(m)}%`}></i>)}
+                <b class="ld-now" data-now-line></b>
+                <b class="ld-now-pill" data-now-pill></b>
+              </div>
+              {depts.map((d) => (
+                <div>
+                  <div class="ld-dept"><span style={`background:${d.color}`}></span>{d.name}</div>
+                  {d.rows.map((r) => {
+                    const [s, e] = span(r.start, r.end);
+                    return (
+                      <div class="ld-row" data-row data-start={s} data-end={e} data-in={r.in} data-out={r.out} data-who={r.who} data-shift={r.shift} data-time={r.start}>
+                        <div class="ld-who">
+                          <span class="ld-name">{r.who}</span>
+                          <span class="ld-shift">{r.shift} {r.start}–{r.end}</span>
+                        </div>
+                        <span class="ld-badge" data-badge></span>
+                        <div class="ld-track">
+                          <div class="ld-bar" data-bar style={`left:${pct(s)}%;width:${pct(e) - pct(s)}%`}>
+                            <span data-label></span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <aside class="ld-side">
+            <section class="ld-card">
+              <div class="ld-card-head"><h3>{t.waiting} <span class="ld-count">7</span></h3></div>
+              <ul class="ld-wait">
+                <li><span><b>{t.claims}</b><small>{t.claimsSub}</small></span><em>2</em></li>
+                <li><span><b>{t.swaps}</b><small>{t.swapsSub}</small></span><em>3</em></li>
+                <li><span><b>{t.leave}</b></span><em>1</em></li>
+                <li><span><b>{t.corrections}</b></span><em>1</em></li>
+              </ul>
+            </section>
+            <section class="ld-card">
+              <div class="ld-card-head"><h3>{t.open}</h3></div>
+              <div class="ld-empty"><b>{t.allCovered}</b><span>{t.allCoveredSub}</span></div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  <figcaption class="ld-caption"><span class="ld-pulse"></span>{t.caption}</figcaption>
+</figure>
+
+<script>
+  const TZ = "Europe/Amsterdam";
+  const FROM = 8 * 60;
+  const TO = 26 * 60;
+  const LATE_AFTER = 5; // minutes, as in the app
+  const NIGHT_SNAPSHOT = 19 * 60 + 45; // between 02:00 and 08:00 the board shows the evening
+
+  const words = {
+    nl: {
+      kinds: { late: "te laat", active: "aan het werk", upcoming: "nog te gaan", done: "klaar" },
+      bar: { late: "niet ingeklokt", active: "in {t}", upcoming: "ingepland", done: "klaar {t}" },
+      lateOne: "{who} is nog niet ingeklokt ({shift}, {t})",
+      allGood: "Iedereen staat er, en de rest van de week is rond.",
+      stand: "Stand {t}",
+      locale: "nl-NL",
+    },
+    en: {
+      kinds: { late: "late", active: "at work", upcoming: "still to come", done: "done" },
+      bar: { late: "not clocked in", active: "in {t}", upcoming: "scheduled", done: "done {t}" },
+      lateOne: "{who} hasn't clocked in yet ({shift}, {t})",
+      allGood: "Everyone is in, and the rest of the week is covered.",
+      stand: "As of {t}",
+      locale: "en-GB",
+    },
+  };
+  type Kind = "late" | "active" | "upcoming" | "done";
+  const ORDER: Kind[] = ["late", "active", "upcoming", "done"];
+
+  const hhmm = (m: number) => `${String(Math.floor(m / 60) % 24).padStart(2, "0")}:${String(Math.round(m) % 60).padStart(2, "0")}`;
+  const pct = (m: number) => ((m - FROM) / (TO - FROM)) * 100;
+
+  function amsterdamNow() {
+    const parts = new Intl.DateTimeFormat("en-GB", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date());
+    const h = +parts.find((p) => p.type === "hour")!.value;
+    const m = +parts.find((p) => p.type === "minute")!.value;
+    let min = h * 60 + m;
+    if (min < 2 * 60) min += 1440; // after midnight: still the same service day
+    if (min < FROM) min = NIGHT_SNAPSHOT;
+    return min;
+  }
+
+  function render(root: HTMLElement) {
+    const w = words[(root.dataset.lang as "nl" | "en") ?? "nl"];
+    const now = amsterdamNow();
+    const counts: Record<Kind, number> = { late: 0, active: 0, upcoming: 0, done: 0 };
+    let firstLate: HTMLElement | null = null;
+
+    root.querySelectorAll<HTMLElement>("[data-row]").forEach((row) => {
+      const s = +row.dataset.start!, e = +row.dataset.end!;
+      const clockIn = s + +row.dataset.in!, clockOut = e + +row.dataset.out!;
+      let kind: Kind, label: string;
+      if (now >= clockOut) { kind = "done"; label = w.bar.done.replace("{t}", hhmm(clockOut)); }
+      else if (now >= clockIn) { kind = "active"; label = w.bar.active.replace("{t}", hhmm(clockIn)); }
+      else if (now >= s + LATE_AFTER) { kind = "late"; label = w.bar.late; firstLate ??= row; }
+      else { kind = "upcoming"; label = w.bar.upcoming; }
+      counts[kind]++;
+      row.dataset.kind = kind;
+      row.querySelector("[data-label]")!.textContent = label;
+      row.querySelector("[data-badge]")!.textContent = label;
+    });
+
+    root.querySelector("[data-legend]")!.innerHTML = ORDER.filter((k) => counts[k])
+      .map((k) => `<li><span class="ld-swatch" data-kind="${k}"></span><b>${counts[k]}</b>${w.kinds[k]}</li>`)
+      .join("");
+
+    const late = firstLate as HTMLElement | null;
+    const finding = root.querySelector<HTMLElement>("[data-finding]")!;
+    if (late) {
+      finding.innerHTML = w.lateOne
+        .replace("{who}", `<b>${late.dataset.who}</b>`)
+        .replace("{shift}", late.dataset.shift!)
+        .replace("{t}", late.dataset.time!);
+    } else finding.textContent = w.allGood;
+
+    const time = hhmm(now);
+    root.querySelector("[data-stand]")!.textContent = w.stand.replace("{t}", time);
+    const line = root.querySelector<HTMLElement>("[data-now-line]")!;
+    const pill = root.querySelector<HTMLElement>("[data-now-pill]")!;
+    line.style.left = pill.style.left = `${pct(now)}%`;
+    pill.textContent = time;
+    root.querySelectorAll<HTMLElement>("[data-tick]").forEach((tick) => {
+      tick.style.visibility = Math.abs(+tick.dataset.tick! - now) < 50 ? "hidden" : "";
+    });
+
+    const date = new Intl.DateTimeFormat(w.locale, { timeZone: TZ, weekday: "long", day: "numeric", month: "long" }).format(new Date());
+    root.querySelector("[data-date]")!.textContent = date.charAt(0).toUpperCase() + date.slice(1);
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-live-dash]").forEach((root) => {
+    render(root);
+    setInterval(() => render(root), 30_000);
+  });
+</script>
+
+<style>
+  .live-dash {
+    --paper: #f0f0ec;
+    --card: #ffffff;
+    --ink: #1a1c1a;
+    --ink-soft: #424641;
+    --muted: #646962;
+    --line: #e0e0d9;
+    --accent: #0f6b40;
+    --accent-strong: #0b5231;
+    --accent-soft: #d5eadd;
+    --danger: #b4321f;
+    --danger-soft: #f6ddd9;
+    margin: 0;
+    text-align: left;
+    color: var(--ink);
+    font-family: var(--font-body);
+  }
+  .ld-window {
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--paper);
+    box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(255 255 255 / 0.12);
+  }
+  .ld-chrome {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 34px;
+    padding: 0 14px;
+    background: #e4e4de;
+    border-bottom: 1px solid var(--line);
+  }
+  .ld-dots { display: flex; gap: 6px; }
+  .ld-dots i { width: 10px; height: 10px; border-radius: 50%; background: #c9c9c2; }
+  .ld-url {
+    flex: 1;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 3px 12px;
+    border-radius: 6px;
+    background: #f6f6f2;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .ld-topbar {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    height: 46px;
+    padding: 0 20px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .ld-logo { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
+  .ld-logo small { margin-left: 4px; font-family: var(--font-body); font-weight: 500; font-size: 12px; color: var(--ink-soft); }
+  .ld-nav { display: flex; gap: 20px; color: var(--ink-soft); overflow: hidden; }
+  .ld-nav .is-active { color: var(--ink); font-weight: 600; box-shadow: inset 0 -2px 0 var(--ink); padding-bottom: 12px; margin-bottom: -14px; }
+
+  .ld-body { padding: 18px 20px 20px; }
+  .ld-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+  .ld-date { font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.2; }
+  .ld-finding { margin-top: 2px; font-size: 14px; color: var(--ink-soft); }
+  .ld-finding :global(b) { color: var(--ink); font-weight: 600; }
+  .ld-head-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .ld-stand { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .ld-btn { padding: 8px 14px; border-radius: 8px; background: var(--accent); color: #fff; font-size: 13px; font-weight: 600; white-space: nowrap; }
+
+  .ld-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 16px; align-items: start; }
+  .ld-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .ld-side { display: flex; flex-direction: column; gap: 16px; }
+  .ld-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .ld-card-head h3 { font-family: var(--font-display); font-weight: 600; font-size: 16px; }
+  .ld-count { margin-left: 4px; font-weight: 500; color: var(--muted); }
+  .ld-link { font-size: 13px; font-weight: 600; color: var(--accent-strong); white-space: nowrap; }
+
+  .ld-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 8px 0 14px; font-size: 13px; color: var(--ink-soft); min-height: 20px; }
+  .ld-legend :global(li) { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .ld-legend :global(b) { color: var(--ink); font-weight: 600; }
+  .ld-legend :global(.ld-swatch) { width: 16px; height: 10px; border-radius: 3px; }
+
+  /* the status marks, as in the app's floor timeline */
+  .live-dash :global([data-kind="done"]) .ld-bar, .live-dash :global(.ld-swatch[data-kind="done"]) { background: var(--paper); color: var(--ink-soft); border: 1px solid var(--line); font-weight: 500; }
+  .live-dash :global([data-kind="active"]) .ld-bar, .live-dash :global(.ld-swatch[data-kind="active"]) { background: var(--accent-soft); color: var(--accent-strong); border-left: 3px solid var(--accent); }
+  .live-dash :global([data-kind="upcoming"]) .ld-bar, .live-dash :global(.ld-swatch[data-kind="upcoming"]) { background: var(--card); color: var(--ink-soft); border: 1px solid var(--muted); }
+  .live-dash :global([data-kind="late"]) .ld-bar, .live-dash :global(.ld-swatch[data-kind="late"]) { background: var(--card); color: var(--danger); border: 1px solid var(--danger); }
+  .live-dash :global(.ld-swatch[data-kind="active"]) { border-left-width: 2px; }
+
+  .ld-axis, .ld-row { display: grid; grid-template-columns: 150px minmax(0, 1fr); }
+  .ld-axis { height: 22px; }
+  .ld-axis-track { position: relative; }
+  .ld-axis-track span { position: absolute; top: 2px; font-size: 11px; color: var(--muted); }
+  .ld-axis-track .is-mid { transform: translateX(-50%); }
+  .ld-axis-track .is-last { transform: translateX(-100%); }
+
+  .ld-rows { position: relative; }
+  .ld-lines { position: absolute; top: 0; bottom: 0; right: 0; left: 150px; pointer-events: none; }
+  .ld-lines i { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line); opacity: 0.7; }
+  .ld-now { position: absolute; top: -22px; bottom: 0; width: 1px; background: var(--accent); z-index: 1; transition: left 0.6s ease; }
+  .ld-now-pill {
+    position: absolute; top: -24px; z-index: 2; transform: translateX(-50%);
+    height: 20px; padding: 0 7px; border-radius: 999px; background: var(--accent); color: #fff;
+    font-size: 11px; font-weight: 600; line-height: 20px; transition: left 0.6s ease;
+  }
+  .ld-dept { display: flex; align-items: center; gap: 8px; height: 30px; padding-top: 6px; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+  .ld-dept span { width: 7px; height: 7px; border-radius: 50%; }
+  .ld-row { align-items: center; min-height: 40px; }
+  .ld-who { min-width: 0; padding-right: 12px; }
+  .ld-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; font-size: 14px; }
+  .ld-shift { display: block; font-size: 11px; line-height: 15px; color: var(--muted); }
+  .ld-track { position: relative; height: 40px; }
+  .ld-bar {
+    position: absolute; top: 8px; height: 24px; display: flex; align-items: center;
+    padding: 0 8px; border-radius: 6px; font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden;
+    transition: background-color 0.4s, color 0.4s;
+  }
+  .ld-badge { display: none; }
+
+  .ld-wait { margin-top: 6px; }
+  .ld-wait li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid var(--line); }
+  .ld-wait li:first-child { border-top: 0; }
+  .ld-wait b { display: block; font-weight: 500; font-size: 14px; }
+  .ld-wait small { display: block; font-size: 11px; color: var(--muted); }
+  .ld-wait em { font-style: normal; font-weight: 600; }
+  .ld-empty { margin-top: 10px; padding: 18px 12px; border: 1px dashed #c6c7bf; border-radius: 8px; text-align: center; font-size: 13px; color: var(--ink-soft); }
+  .ld-empty b { display: block; color: var(--ink); font-weight: 600; font-size: 14px; }
+
+  .ld-caption { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; font-size: 13px; color: rgb(255 255 255 / 0.75); }
+  .ld-pulse { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 0 rgb(74 222 128 / 0.6); animation: ld-pulse 2s infinite; }
+  @keyframes ld-pulse { 70% { box-shadow: 0 0 0 8px rgb(74 222 128 / 0); } 100% { box-shadow: 0 0 0 0 rgb(74 222 128 / 0); } }
+
+  @media (max-width: 1023px) {
+    .ld-grid { grid-template-columns: minmax(0, 1fr); }
+    .ld-side { display: none; }
+  }
+  /* phone: no timeline, a status badge per person (as in the app) */
+  @media (max-width: 639px) {
+    .ld-topbar .ld-nav, .ld-stand, .ld-btn, .ld-link, .ld-axis, .ld-lines, .ld-track, .ld-chrome .ld-dots { display: none; }
+    .ld-body { padding: 14px; }
+    .ld-card { padding: 14px; }
+    .ld-date { font-size: 19px; }
+    .ld-row { grid-template-columns: minmax(0, 1fr) auto; min-height: 46px; }
+    .ld-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: var(--paper); color: var(--ink-soft); }
+    .live-dash :global([data-kind="active"]) .ld-badge { background: var(--accent-soft); color: var(--accent-strong); }
+    .live-dash :global([data-kind="late"]) .ld-badge { background: var(--danger-soft); color: var(--danger); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ld-pulse { animation: none; }
+    .ld-now, .ld-now-pill, .ld-bar { transition: none; }
+  }
+</style>

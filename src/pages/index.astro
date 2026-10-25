@@ -5,6 +5,7 @@ import employeeDashboard from "../assets/screenshots/employee-dashboard.png";
 import adminSchedule from "../assets/screenshots/admin-schedule.png";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
+import LiveDashboard from "../components/LiveDashboard.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import { softwareApplication } from "../data/seo";
 ---
@@ -35,7 +36,7 @@ import { softwareApplication } from "../data/seo";
       <div class="absolute inset-0 bg-[#1B4332]/75"></div>
     </div>
 
-    <div class="relative max-w-6xl mx-auto px-6 lg:px-8 text-center text-white py-32">
+    <div class="relative max-w-6xl mx-auto px-6 lg:px-8 text-center text-white pt-32 pb-20">
       <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-8 text-sm font-medium backdrop-blur-sm">
         <span class="w-2 h-2 rounded-full bg-[var(--color-amber)] animate-pulse"></span>
         Gebouwd voor de Nederlandse horeca
@@ -49,6 +50,10 @@ import { softwareApplication } from "../data/seo";
       <p class="text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed mb-10">
         Gedekt is de rooster- en personeelsplanning app die automatisch je weekrooster maakt — rekening houdend met wie beschikbaar is, wie welke rol kan invullen, en wie er gisteren werkte. Gemaakt voor de Nederlandse horeca. Geprijsd voor echte locaties.
       </p>
+
+      <div class="max-w-5xl mx-auto mb-10">
+        <LiveDashboard lang="nl" />
+      </div>
 
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
         <a
@@ -65,11 +70,6 @@ import { softwareApplication } from "../data/seo";
 
     </div>
 
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <polyline points="6 9 12 15 18 9"/>
-      </svg>
-    </div>
   </section>
 
 
