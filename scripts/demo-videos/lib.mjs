@@ -18,6 +18,8 @@ export const ACCOUNTS = {
 
 export const VIEWPORTS = {
   desktop: { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 },
+  // Same 16:10 shape, wide enough (≥1500px) for side columns such as the one on Vandaag.
+  wide: { viewport: { width: 1680, height: 1050 }, deviceScaleFactor: 1 },
   mobile: { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 },
 };
 

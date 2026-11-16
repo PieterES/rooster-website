@@ -1,22 +1,25 @@
 // Vandaag: is today under control? The three numbers, the timeline (finished, running, the now
-// line), this week's coverage and what is waiting for you. Read-only.
-// Best recorded during service (afternoon/evening), so the timeline has running shifts.
+// line), the side column with what is waiting for you and this week's open shifts, and this week's
+// coverage with one day folded open. Read-only.
+// Recorded wide (side column next to the timeline). Best during service, so shifts are running.
 export default {
   name: 'dashboard',
   who: 'admin',
-  device: 'desktop',
+  device: 'wide',
 
   async prepare({ h }) {
     await h.goto('/admin');
-    await h.park(700, 160);
+    await h.park(820, 180);
   },
 
   async run({ page, h, t }) {
     const main = page.locator('main');
-    await h.sleep(600);
+    const vis = (loc) => loc.filter({ visible: true }).first();
+    await h.sleep(700);
+
     // The three numbers
     for (const label of [t('Nu aan het werk', 'Working now'), t('Komt nog', 'Still to come'), t('Open vandaag', 'Open today')]) {
-      const el = main.getByText(new RegExp(`^${label}$`, 'i')).filter({ visible: true }).first();
+      const el = vis(main.getByText(new RegExp(`^${label}$`, 'i')));
       if (await el.count()) await h.hover(el, 500);
     }
 
@@ -24,28 +27,29 @@ export default {
     const bars = main.locator('text=/^\\d\\d:\\d\\d–\\d\\d:\\d\\d$/').filter({ visible: true });
     const n = await bars.count();
     for (const i of [0, Math.min(1, n - 1), Math.min(4, n - 1)]) if (n) await h.hover(bars.nth(i), 600);
-    const now = main.getByText(new RegExp(`^${t('nu', 'now')} \\d\\d:\\d\\d$`)).filter({ visible: true }).first();
+    const now = vis(main.getByText(new RegExp(`^${t('nu', 'now')} \\d\\d:\\d\\d$`)));
     if (await now.count()) await h.hover(now, 900);
 
-    // This week: covered days next to days with open shifts
-    await h.moveTo(720, 600);
-    await h.scroll(560, 1400);
-    const open = main.getByText(/^\d+ open$/).filter({ visible: true }).first();
-    const covered = main.getByText(new RegExp(`^${t('gedekt', 'covered')}$`)).filter({ visible: true }).first();
-    if (await covered.count()) await h.hover(covered, 600);
-    // A day with open shifts opens underneath: who is on, what is open, who is free.
-    if (await open.count()) {
-      await h.click(open, 1600);
-      await h.scroll(300, 900);
-      await h.sleep(700);
-    }
-
-    // Waiting for you
+    // The side column: what is waiting for you, and this week's open shifts
+    const side = page.locator('aside[data-tour="dashboard-stats"]');
     for (const label of [t('Claims op open diensten', 'Claims on open shifts'), t('Ruilverzoeken', 'Swap requests')]) {
-      const el = main.getByText(new RegExp(`^${label}$`)).filter({ visible: true }).first();
+      const el = vis(side.getByText(new RegExp(`^${label}$`)));
       if (await el.count()) await h.hover(el, 600);
     }
-    await h.moveTo(900, 500);
-    await h.sleep(900);
+    const openRow = vis(side.getByText(/^\d\d:\d\d–\d\d:\d\d$/));
+    if (await openRow.count()) await h.hover(openRow, 900);
+
+    // This week: covered days next to days with open shifts; one day folds open underneath.
+    await h.moveTo(700, 640);
+    const week = vis(main.getByRole('heading', { name: new RegExp(`^${t('Deze week', 'This week')}`) }));
+    const wb = await week.boundingBox();
+    await h.scroll(wb.y - 140, 1500);
+    const covered = vis(main.getByText(new RegExp(`^${t('gedekt', 'covered')}$`)));
+    if (await covered.count()) await h.hover(covered, 600);
+    const open = vis(main.getByText(/^\d+ open$/));
+    const day = (await open.count()) ? open : covered;
+    await h.click(day, 1600);
+    await h.scroll(320, 1000);
+    await h.sleep(1500);
   },
 };

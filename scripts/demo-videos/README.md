@@ -51,6 +51,8 @@ npm run screenshots -- admin-hours     # one
 
 - Record `dashboard` (and ideally `staff-clock`) during service, around 17:00-22:00: the Vandaag
   timeline then has finished and running shifts, and the employee has a shift to clock in for.
+- `dashboard` records at 1680×1050 (`device: 'wide'`): Vandaag only shows its side column (Wacht op
+  jou, Open deze week) from 1500px wide. Same 16:10 shape as the other desktop clips.
 - Every login marks that user's notifications read, so bells start clean.
 - Clips run against real data on dev. Most clean up after themselves, but:
   - `shifts` and `schedule` both reset the demo week (`DEMO_WEEK` in `04-schedule.mjs`, a few weeks

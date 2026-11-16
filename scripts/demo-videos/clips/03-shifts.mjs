@@ -27,7 +27,7 @@ async function unlockSlot(page) {
 export default {
   name: 'shifts',
   who: 'admin',
-  device: 'desktop',
+  device: 'wide', // the header (week, view, Acties, Publiceren) only fits on one line from ~1600px
 
   async prepare({ page, h }) {
     await unlockSlot(page);

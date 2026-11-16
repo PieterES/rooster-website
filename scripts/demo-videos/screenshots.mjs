@@ -22,7 +22,7 @@ const SHOTS = [
   // Yesterday: a full day, planned next to clocked (dev has clock history from the demo-state seed).
   { name: 'admin-hours', who: 'admin', device: 'desktop', path: () => `/admin/hours?date=${new Date(Date.now() - 86400e3).toISOString().slice(0, 10)}` },
   // The current (published) week.
-  { name: 'admin-schedule', who: 'admin', device: 'desktop', path: () => `/admin/schedule?week=${monday()}` },
+  { name: 'admin-schedule', who: 'admin', device: 'wide', path: () => `/admin/schedule?week=${monday()}` }, // wide: header on one line
   { name: 'employee-dashboard', who: 'employee', device: 'mobile', path: '/me' },
 ];
 
@@ -30,7 +30,7 @@ const wanted = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 const selected = wanted.length ? SHOTS.filter((s) => wanted.includes(s.name)) : SHOTS;
 
 for (const shot of selected) {
-  const { browser, page } = await launch({ who: shot.who, device: shot.device, scale: shot.device === 'desktop' ? 1.5 : 2 });
+  const { browser, page } = await launch({ who: shot.who, device: shot.device, scale: shot.device === 'mobile' ? 2 : 1.5 });
   try {
     await setLanguage(page, shot.who, 'nl');
     const path = typeof shot.path === 'function' ? shot.path() : shot.path;

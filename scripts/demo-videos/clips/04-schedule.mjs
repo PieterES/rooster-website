@@ -76,7 +76,7 @@ export async function dragToEligible(page, h, source, { wantOpen, after = 1000, 
 export default {
   name: 'schedule',
   who: 'admin',
-  device: 'desktop',
+  device: 'wide', // the header (week, view, Acties, Publiceren) only fits on one line from ~1600px
 
   async prepare({ page, h }) {
     await resetDemoWeek(page);
@@ -109,7 +109,7 @@ export default {
       { timeout: 120000 },
     );
     await h.sleep(1500);
-    await h.moveTo(1180, 520); // contract bars in the side panel
+    await h.moveTo(1460, 520); // contract bars in the side panel
     await h.scroll(450, 1200);
     await h.sleep(800);
     await h.scroll(-450, 900);
