@@ -27,23 +27,48 @@ Each clip lives in `clips/` and exports `prepare` (get the app into the start st
 `run` (the recorded part) and optionally `cleanup` (undo what the clip created).
 The interface language is switched per user before each pass and set back to Dutch afterwards.
 
+## Before recording: reset dev
+
+Dev is put into a demo state by `scripts/dev-demo-state.ts` in the app repo (HorecaRooster). Before
+each recording session run at least the requests, notifications and clock steps there:
+
+```bash
+npx tsx scripts/dev-demo-state.ts --apply --only requests,notifications,clock
+```
+
+`requests` uses up seeded claims and swaps (one of each per language), so reseed before recording it.
+
+## Screenshots
+
+The app screenshots on the website (`src/assets/screenshots/`) come from `screenshots.mjs`:
+
+```bash
+npm run screenshots                    # all
+npm run screenshots -- admin-hours     # one
+```
+
 ## Things to know
 
+- Record `dashboard` (and ideally `staff-clock`) during service, around 17:00-22:00: the Vandaag
+  timeline then has finished and running shifts, and the employee has a shift to clock in for.
+- Every login marks that user's notifications read, so bells start clean.
 - Clips run against real data on dev. Most clean up after themselves, but:
-  - `shifts` and `schedule` both reset the demo week (`DEMO_WEEK` in `04-schedule.mjs`): withdraw
-    the publication, then "Week leegmaken" (template + fixed shifts). `shifts` locks two shifts as
-    fixed shifts and unlocks them in `cleanup`. `schedule` leaves the week **published**, because
-    the employee clips need shifts to show; run it before the employee clips.
+  - `shifts` and `schedule` both reset the demo week (`DEMO_WEEK` in `04-schedule.mjs`, a few weeks
+    ahead; it needs availability filled in) through the API: `unpublish`, then `import-empty` with
+    the `winter` template. That also deletes claims and swaps on that week.
+    `shifts` makes one fixed shift and ends it in `cleanup`. `schedule` places people, generates,
+    publishes, changes one shift and publishes again; the week stays **published**.
   - Never run two recordings at once: they share the dev accounts, the interface language and the
-    company settings, and `settings` then restores the other run's in-between values.
-  - `settings` switches the company's claim approval and availability input method; it restores the
-    original values in `cleanup`, so if a run is killed halfway check `/admin/settings` on dev.
-  - `staff-clock` clocks the employee in and out for real. It also logs in as admin to move the
-    clock-in back ~5 hours mid-clip (otherwise quarter-hour rounding shows negative hours) and
-    deletes the clock record in `cleanup`. Phone clocking must be on for the company.
-  - `requests` **approves** one pending claim and one swap request per language. Once dev has no
-    pending claims/swaps left, that clip fails until new ones exist.
-- A full schedule needs enough staff and availability; the demo company was topped up with
-  five extra employees (Bar and Keuken) and full standard availability for that reason.
-- Adding or editing shift types is not shown: on dev, adding one crashes the page after
-  saving and saving uppercases the shift code (the Bar's "MIDDAG" is a leftover of that).
+    company settings.
+  - `departments` switches "Mag roosteren" on for Bediening/Hoofdober and back in `cleanup`.
+  - `settings` changes claim approval and clock rounding and restores both in `cleanup`; if a run is
+    killed halfway, check `/admin/settings` on dev (rounding should be 15 minutes).
+  - `requests` approves one claim and one swap per language (see above).
+  - `staff-schedule` puts a briefing on the employee's next shift (as admin) and removes it again.
+  - `staff-requests` frees a future Bediening shift for the employee to claim, makes a swap request and
+    a leave request, and undoes all of it. Leave is approved automatically on dev and an employee can't
+    cancel approved leave, so the admin revokes it, which leaves it in her list as denied.
+  - `staff-clock` clocks the employee in and out for real, moves the clock-in back ~5 hours mid-clip
+    (as admin) and deletes the record in `cleanup`. Phone clocking must be on for the company.
+- The Bar and Bediening "Sluit" shifts are marked as closing shifts in the template, so the employee's
+  team view shows "Sluitdienst".

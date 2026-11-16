@@ -54,7 +54,7 @@ export default {
 
     // Clock in.
     await h.click(big(), 0);
-    await page.getByText(new RegExp(t('Ingeklokt sinds', 'Clocked in since'))).waitFor();
+    await page.locator('main').getByText(new RegExp(`^${t('Ingeklokt', 'Clocked in')}$`)).waitFor();
     await h.sleep(1600);
 
     // Move the clock-in ~5 hours back (off camera) while we glance at the dashboard.
@@ -64,17 +64,18 @@ export default {
     const rewind = api('PATCH', `/api/admin/clock/${logId}`, { clockIn: new Date(Date.now() - 5 * 3600e3).toISOString() });
     await h.click(tab('/me'), 1600);
     await rewind;
+    // The manager's edit sends the employee a notification; keep the bell clean.
+    await page.evaluate(() => fetch('/api/notifications')).catch(() => {});
     await h.click(tab('/me/clock'), 2400);
 
     // Clock out with the form.
     await h.click(big(), 900);
-    const modal = page.locator('div.fixed', { has: page.getByText(t('Vul in voor het uitklokken', 'Fill in before clocking out')) }).last();
+    const modal = page.getByRole('dialog');
     await h.click(modal.getByRole('button', { name: t('Ja', 'Yes'), exact: true }).first(), 600);
-    // break: the hour + quarter picker, 00:00 → 00:30
-    await h.click(modal.getByRole('button', { name: '00:00', exact: true }), 500);
-    await h.click(modal.getByRole('button', { name: '30', exact: true }), 600);
+    // break: 0:00 → 0:30
+    await h.click(modal.getByRole('button', { name: '0:30', exact: true }), 600);
     await h.click(modal.getByRole('button', { name: t('Uitklokken', 'Clock out'), exact: true }), 0);
-    await page.getByText(new RegExp(t('Uitgeklokt om', 'Clocked out at'))).waitFor();
+    await page.locator('main').getByText(new RegExp(`^${t('Klaar voor vandaag', 'Done for today')}$`)).waitFor();
     await h.sleep(1500);
     await h.scroll(350, 900);
     await h.sleep(1800);

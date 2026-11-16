@@ -10,7 +10,8 @@
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
-    "record:demos": "node --env-file=.env.demo scripts/demo-videos/record.mjs"
+    "record:demos": "node --env-file=.env.demo scripts/demo-videos/record.mjs",
+    "screenshots": "node --env-file=.env.demo scripts/demo-videos/screenshots.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

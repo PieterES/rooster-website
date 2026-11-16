@@ -466,7 +466,7 @@ export const nlGuides: Guide[] = [
     sections: [
       {
         heading: "Begin vroeg met werven en inrichten",
-        html: `<p>Zet je diensten, functies en vaste krachten al in het voorjaar klaar. Nieuwe seizoenskrachten voeg je dan alleen nog toe: naam, contact, functie en uurloon. In Gedekt kost <a href="/hoe-het-werkt/medewerker-toevoegen">een nieuwe medewerker toevoegen</a> een halve minuut, en krijgt die direct een uitnodiging voor de app.</p>`,
+        html: `<p>Zet je diensten, functies en vaste krachten al in het voorjaar klaar. Nieuwe seizoenskrachten voeg je dan alleen nog toe: naam, contact, functie en uurloon. In Gedekt kost <a href="/handleiding/medewerker-toevoegen">een nieuwe medewerker toevoegen</a> een halve minuut, en krijgt die direct een uitnodiging voor de app.</p>`,
       },
       {
         heading: "Een basisrooster plus een flexibele schil",

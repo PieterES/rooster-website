@@ -22,7 +22,7 @@ export const VIEWPORTS = {
 };
 
 // Fake cursor (desktop) or finger-tap indicator (mobile), plus hiding of UI
-// that distracts in a demo (the floating AI button).
+// that distracts in a demo (the floating AI button and the "Aan de slag" tutorial panel).
 const overlayScript = (kind) => `
 (() => {
   const KIND = ${JSON.stringify(kind)};
@@ -30,7 +30,7 @@ const overlayScript = (kind) => `
     if (document.getElementById('__demo_cursor')) return;
     const style = document.createElement('style');
     style.textContent = \`
-      button.fixed.bg-blue-600.rounded-full { display: none !important; }
+      [data-chatbot], section[aria-labelledby^="tutorials-title-"] { display: none !important; }
       #__demo_cursor { position: fixed; left: 0; top: 0; z-index: 2147483647; pointer-events: none;
         transform: translate(-100px, -100px); will-change: transform; }
       #__demo_cursor svg { display: block; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); transition: transform .12s ease; }
@@ -72,9 +72,10 @@ const overlayScript = (kind) => `
   addEventListener('DOMContentLoaded', install);
 })();`;
 
-export async function launch({ who, device }) {
+export async function launch({ who, device, scale }) {
   const browser = await chromium.launch();
-  const context = await browser.newContext({ ...VIEWPORTS[device], locale: 'nl-NL' });
+  const vp = VIEWPORTS[device];
+  const context = await browser.newContext({ ...vp, deviceScaleFactor: scale ?? vp.deviceScaleFactor, locale: 'nl-NL' });
   await context.addInitScript(overlayScript(device === 'mobile' ? 'finger' : 'arrow'));
   const page = await context.newPage();
   page.setDefaultTimeout(15000);
@@ -102,23 +103,16 @@ export async function login(page, who) {
   await page.click('button[type=submit]');
   await page.waitForURL((u) => !u.pathname.startsWith('/login'));
   await page.waitForLoadState('networkidle');
+  // A clean bell in every clip: fetching the notification list marks them all read.
+  await page.evaluate(() => fetch('/api/notifications')).catch(() => {});
 }
 
 // The interface language is stored per user on the server.
 export async function setLanguage(page, who, lang) {
   const label = lang === 'en' ? 'English' : 'Nederlands';
-  if (who === 'admin') {
-    await page.goto(`${APP}/admin/settings`);
-    await page.waitForLoadState('networkidle');
-    const section = page.locator('details', { has: page.locator('h2', { hasText: /^(Taal|Language)$/ }) });
-    if ((await section.getAttribute('open')) === null) {
-      await section.locator('summary').click();
-    }
-  } else {
-    await page.goto(`${APP}/me/settings`);
-    await page.waitForLoadState('networkidle');
-  }
-  await page.getByRole('button', { name: label, exact: true }).click();
+  await page.goto(`${APP}/${who === 'admin' ? 'admin' : 'me'}/settings`);
+  await page.waitForLoadState('networkidle');
+  await page.locator('#taal').getByRole('button', { name: label, exact: true }).click();
   await page.waitForTimeout(1500);
 }
 

@@ -1,60 +1,36 @@
-// Add a new employee and assign a department + function.
-import { APP } from '../lib.mjs';
-
-const NAME = 'Noah de Vries';
-
-async function deleteEmployee(page, t) {
-  await page.goto(`${APP}/admin/employees`);
-  await page.waitForLoadState('networkidle');
-  const card = page.locator('main a[href^="/admin/employees/c"]', { hasText: NAME });
-  while (await card.count()) {
-    await card.first().click();
-    await page.waitForLoadState('networkidle');
-    await page.getByRole('button', { name: t('Medewerker verwijderen', 'Delete employee') }).click();
-    await page.getByRole('button', { name: t('Verwijderen', 'Delete'), exact: true }).click();
-    // the app redirects back to the list after deleting
-    await page.waitForURL((u) => u.pathname === '/admin/employees', { timeout: 30000 }).catch(() => {});
-    await page.goto(`${APP}/admin/employees`, { waitUntil: 'domcontentloaded', timeout: 30000 });
-    await page.waitForLoadState('networkidle');
-  }
-}
-
+// Medewerkers: the team per department with contract hours and this week's hours, then a profile:
+// contact details, when they can usually work ("Kan meestal") and this week's shifts. Read-only.
 export default {
   name: 'employee',
   who: 'admin',
   device: 'desktop',
 
-  async prepare({ page, h, t }) {
-    await deleteEmployee(page, t);
+  async prepare({ h }) {
     await h.goto('/admin/employees');
     await h.park(800, 450);
   },
 
   async run({ page, h, t }) {
-    await h.click(page.getByText(t('Medewerker toevoegen', 'Add employee')), 900);
-    await h.type(page.locator('input[name=name]'), NAME);
-    await h.type(page.locator('input[name=email]'), 'noah.devries@example.com');
-    await h.type(page.locator('input[name=phoneNumber]'), '06 12345678');
-    await h.type(page.locator('input[name=availableDaysPerWeek]'), '4');
-    await h.type(page.locator('input[name=hourlyRate]'), '14.50');
+    const main = page.locator('main');
+    const name = (n) => main.getByText(n, { exact: true }).filter({ visible: true }).first();
+    await h.sleep(600);
 
-    const dept = page.locator('main button', { hasText: 'Bediening' });
-    await h.click(dept, 600);
-    const fn = page.locator('main select').filter({ hasText: 'Ober' });
-    await h.select(fn, { label: 'Ober' }, 700);
+    // Contract and this week's hours per person
+    await h.hover(main.getByText(/^Contract$/i).filter({ visible: true }).first(), 500);
+    await h.hover(main.getByText(new RegExp(`^${t('Deze week', 'This week')}$`, 'i')).filter({ visible: true }).first(), 700);
+    await h.moveTo(700, 560);
+    await h.scroll(420, 1200);
+    await h.sleep(500);
 
-    await h.scroll(450);
-    await h.click(page.locator('main').getByRole('button', { name: t('Medewerker toevoegen', 'Add employee') }), 1500);
-    await page.waitForURL((u) => !u.pathname.endsWith('/new'), { timeout: 6000 }).catch(() => {});
-    if (!/\/admin\/employees$/.test(new URL(page.url()).pathname)) {
-      await h.goto('/admin/employees');
-    }
-    await page.waitForLoadState('networkidle');
-    const card = page.locator('main a', { hasText: NAME });
-    if (await card.count()) await h.hover(card.first(), 1200);
-  },
+    // A profile in the side panel
+    await h.click(name('Sophie Janssen'), 1600);
+    const panel = page.locator('aside').filter({ visible: true }).last();
+    await h.hover(panel.getByText(new RegExp(`^${t('Kan meestal', 'Usually can')}$`)).first(), 900).catch(() => {});
+    await h.hover(panel.getByText(new RegExp(`^${t('Deze week', 'This week')}$`)).first(), 1100).catch(() => {});
 
-  async cleanup({ page, t }) {
-    await deleteEmployee(page, t);
+    // And another one
+    await h.click(name('Lars van den Berg'), 1600);
+    await h.moveTo(1220, 360);
+    await h.sleep(1200);
   },
 };

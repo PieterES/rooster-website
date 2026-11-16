@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import adminDashboard from "../assets/screenshots/admin-dashboard.png";
 import adminHours from "../assets/screenshots/admin-hours.png";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
@@ -90,7 +89,7 @@ import DemoVideo from "../components/DemoVideo.astro";
           ))}
         </ul>
       </div>
-      <DemoVideo name="schedule" lang="nl" label="Een weekrooster genereren en publiceren" url="app.gedekt.com/rooster" class="shadow-2xl" />
+      <DemoVideo name="schedule" lang="nl" label="Een weekrooster maken, genereren en publiceren" url="app.gedekt.com/rooster" class="shadow-2xl" />
     </div>
   </section>
 
@@ -98,7 +97,7 @@ import DemoVideo from "../components/DemoVideo.astro";
   <!-- ADMIN: AFDELINGEN -->
   <section class="bg-white py-24 px-6 lg:px-8">
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-      <DemoVideo name="departments" lang="nl" label="Een afdeling met functies aanmaken" url="app.gedekt.com/afdelingen" class="order-2 lg:order-1" />
+      <DemoVideo name="departments" lang="nl" label="Afdelingen, functies en locaties" url="app.gedekt.com/afdelingen" class="order-2 lg:order-1" />
       <div class="order-1 lg:order-2">
         <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Afdelingen & functies</p>
         <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
@@ -135,7 +134,7 @@ import DemoVideo from "../components/DemoVideo.astro";
           Je hele team.<br/>Eén overzicht.
         </h2>
         <p class="text-[var(--color-stone)] leading-relaxed mb-6">
-          Voeg een medewerker toe, kies de afdeling en functie, en stel contracturen en uurloon in. Ze krijgen direct een uitnodiging voor de app.
+          Per afdeling zie je ieders functie, contracturen en de uren van deze week. Klik op iemand voor contactgegevens, wanneer diegene meestal kan en de diensten van deze week. Een nieuwe collega voeg je toe met afdeling, functie, contract en uurloon, en die krijgt direct een uitnodiging voor de app.
         </p>
         <ul class="space-y-3">
           {[
@@ -152,7 +151,7 @@ import DemoVideo from "../components/DemoVideo.astro";
           ))}
         </ul>
       </div>
-      <DemoVideo name="employee" lang="nl" label="Een medewerker toevoegen" url="app.gedekt.com/medewerkers" />
+      <DemoVideo name="employee" lang="nl" label="Het team en een profiel bekijken" url="app.gedekt.com/medewerkers" />
     </div>
   </section>
 
@@ -160,7 +159,7 @@ import DemoVideo from "../components/DemoVideo.astro";
   <!-- ADMIN: VASTE DIENSTEN -->
   <section class="bg-white py-24 px-6 lg:px-8">
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-      <DemoVideo name="shifts" lang="nl" label="Diensten en vaste diensten instellen" url="app.gedekt.com/vaste-diensten" class="order-2 lg:order-1" />
+      <DemoVideo name="shifts" lang="nl" label="Templates, diensten en vaste diensten" url="app.gedekt.com/vaste-diensten" class="order-2 lg:order-1" />
       <div class="order-1 lg:order-2">
         <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Diensten & vaste diensten</p>
         <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
@@ -214,21 +213,7 @@ import DemoVideo from "../components/DemoVideo.astro";
           ))}
         </ul>
       </div>
-      <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200">
-        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
-          <div class="flex gap-1.5">
-            <div class="w-3 h-3 rounded-full bg-red-400"></div>
-            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div class="w-3 h-3 rounded-full bg-green-400"></div>
-          </div>
-          <div class="flex-1 mx-4">
-            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.gedekt.com/dashboard</div>
-          </div>
-        </div>
-        <div class="bg-gray-100">
-          <Image src={adminDashboard} alt="Beheerder dashboard" class="w-full" loading="lazy" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 600px, 100vw" />
-        </div>
-      </div>
+      <DemoVideo name="dashboard" lang="nl" label="Vandaag in één oogopslag" url="app.gedekt.com/vandaag" />
     </div>
   </section>
 
@@ -304,7 +289,7 @@ import DemoVideo from "../components/DemoVideo.astro";
           ))}
         </ul>
       </div>
-      <DemoVideo name="hours" lang="nl" label="Uren en loonkosten per maand bekijken" url="app.gedekt.com/rapporten" />
+      <DemoVideo name="hours" lang="nl" label="Uren, correcties en loonkosten" url="app.gedekt.com/rapporten" />
     </div>
   </section>
 
@@ -318,7 +303,7 @@ import DemoVideo from "../components/DemoVideo.astro";
         align="center"
       />
       <div class="max-w-4xl mx-auto mt-12">
-        <DemoVideo name="requests" lang="nl" label="Claims en ruilverzoeken goedkeuren" url="app.gedekt.com/ruilverzoeken" />
+        <DemoVideo name="requests" lang="nl" label="Claims en ruilverzoeken goedkeuren" url="app.gedekt.com/verzoeken" />
         <p class="text-[var(--color-stone)] text-sm leading-relaxed text-center max-w-xl mx-auto mt-6">
           Medewerkers claimen open diensten of ruilen onderling. Jij ziet beide kanten, krijgt een waarschuwing als een functie niet past, en keurt goed of af.
         </p>

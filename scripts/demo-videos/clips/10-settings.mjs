@@ -1,22 +1,11 @@
-// Admin settings: switch optional modules, approval rules and how staff enter availability.
+// Instellingen: settings as decisions ("welke onderdelen gebruik je?", "hoeveel keur je zelf goed?")
+// and clock rounding, with a live example under each choice. It adapts to how you work, no manual.
 // Changes real company settings on dev; prepare() remembers them and cleanup() puts them back.
 import { APP } from '../lib.mjs';
 
-const TITLES = {
-  features: /^(Functies|Features)$/,
-  requests: /^(Verzoeken & goedkeuring|Requests & approval)$/,
-  availability: /^(Beschikbaarheid invullen|Entering availability)$/,
-};
-
-const section = (page, key) => page.locator('details', { has: page.locator('summary h2', { hasText: TITLES[key] }) });
-const claimSelect = (page) => section(page, 'requests').locator('select').first();
-const modeSelect = (page) => section(page, 'availability').locator('select').first();
-
-async function open(page, key) {
-  const s = section(page, key);
-  if ((await s.getAttribute('open')) === null) await s.locator('summary').click();
-  await page.waitForTimeout(300);
-}
+const claimGroup = (page, t) => page.getByRole('radiogroup', { name: t('Open diensten claimen', 'Claiming open shifts') });
+const stepSelect = (page) => page.locator('#klokken select').nth(2);
+const checkedLabel = (group) => group.locator('[role=radio][aria-checked=true]').innerText();
 
 let original;
 
@@ -25,52 +14,63 @@ async function gotoSettings(page) {
   await page.waitForLoadState('networkidle');
 }
 
+async function apply(page, t, claimLabel, step) {
+  const group = claimGroup(page, t);
+  // One change at a time: each one autosaves the whole form, and overlapping saves can undo each other.
+  if ((await checkedLabel(group)).trim() !== claimLabel) {
+    await group.getByRole('radio', { name: claimLabel, exact: true }).click();
+    await page.waitForTimeout(2500);
+  }
+  if ((await stepSelect(page).inputValue()) !== step) {
+    await stepSelect(page).selectOption(step);
+    await page.waitForTimeout(2500);
+  }
+}
+
 export default {
   name: 'settings',
   who: 'admin',
   device: 'desktop',
 
-  async prepare({ page, h }) {
+  async prepare({ page, h, t }) {
     await gotoSettings(page);
-    await open(page, 'requests');
-    await open(page, 'availability');
-    original = { claim: await claimSelect(page).inputValue(), mode: await modeSelect(page).inputValue() };
-    // Start state: manual approval, availability per shift.
-    if (original.claim !== 'MANUAL') await claimSelect(page).selectOption('MANUAL');
-    if (original.mode !== 'SHIFTS') await modeSelect(page).selectOption('SHIFTS');
-    await page.waitForTimeout(1500); // autosave
+    original = { claim: (await checkedLabel(claimGroup(page, t))).trim(), step: await stepSelect(page).inputValue() };
+    await apply(page, t, t('Ik beslis', 'I decide'), '15');
     await h.goto('/admin/settings');
-    await h.park(900, 140);
+    await h.park(900, 300);
   },
 
-  async run({ page, h }) {
-    await h.sleep(400);
+  async run({ page, h, t }) {
+    const hint = (text) => page.locator('main').getByText(text, { exact: true }).filter({ visible: true }).first();
+    await h.sleep(500);
+    await h.moveTo(800, 520);
+    await h.scroll(150, 800);
 
-    // Optional modules on/off (only shown, not toggled).
-    await h.click(section(page, 'features').locator('summary'), 700);
-    const toggles = section(page, 'features').locator('button[role=switch], input[type=checkbox]');
-    for (let i = 0; i < Math.min(3, await toggles.count()); i++) await h.hover(toggles.nth(i), 450);
-    await h.click(section(page, 'features').locator('summary'), 500);
+    // Which parts do you use?
+    await h.hover(hint(t('welke onderdelen gebruik je?', 'which parts do you use?')), 700);
+    const toggles = page.locator('#functies [role=switch]');
+    for (let i = 0; i < Math.min(3, await toggles.count()); i++) await h.hover(toggles.nth(i), 400);
 
-    // Approval rules: auto-approve claims within the same function.
-    await h.click(section(page, 'requests').locator('summary'), 700);
-    await h.select(claimSelect(page), 'SAME_FUNCTION', 1200);
-    await h.click(section(page, 'requests').locator('summary'), 500);
+    // How much do you approve yourself?
+    await h.hover(hint(t('hoeveel keur je zelf goed?', 'how much do you approve yourself?')), 700);
+    const group = claimGroup(page, t);
+    await h.hover(group.getByRole('radio', { name: t('Ik beslis', 'I decide'), exact: true }), 400);
+    await h.click(group.getByRole('radio', { name: t('Zelfde functie gaat vanzelf', 'Same function automatic'), exact: true }), 1200);
 
-    // Availability: per shift → time window.
-    await h.click(section(page, 'availability').locator('summary'), 800);
-    await h.hover(section(page, 'availability').locator('p').filter({ hasText: /Tijdvak:|Time window:/ }), 900);
-    await h.select(modeSelect(page), 'TIME_WINDOWS', 1500);
-    await h.hover(section(page, 'availability').locator('summary'), 1200);
+    // Clock rounding: the example under it follows the choice.
+    await h.moveTo(800, 600);
+    const box = await page.locator('#klokken').boundingBox();
+    await h.scroll(box.y - 140, 1500);
+    await h.hover(page.locator('#klokken select').nth(0), 600);
+    await h.select(stepSelect(page), '5', 1600);
+    await h.moveTo(700, 560);
+    await h.sleep(1000);
   },
 
-  async cleanup({ page }) {
+  async cleanup({ page, t }) {
     if (!original) return;
     await gotoSettings(page);
-    await open(page, 'requests');
-    await open(page, 'availability');
-    await claimSelect(page).selectOption(original.claim);
-    await modeSelect(page).selectOption(original.mode);
-    await page.waitForTimeout(2000); // autosave
+    await apply(page, t, original.claim, original.step);
+    original = undefined;
   },
 };

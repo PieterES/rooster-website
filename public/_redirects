@@ -3,3 +3,8 @@
 /gidsen/:slug /:slug/ 301
 /en/guides/:slug/ /en/:slug/ 301
 /en/guides/:slug /en/:slug/ 301
+# The employee demo page now shows the team overview instead of adding someone.
+/hoe-het-werkt/medewerker-toevoegen/ /hoe-het-werkt/medewerkers/ 301
+/hoe-het-werkt/medewerker-toevoegen /hoe-het-werkt/medewerkers/ 301
+/en/how-it-works/adding-an-employee/ /en/how-it-works/employees/ 301
+/en/how-it-works/adding-an-employee /en/how-it-works/employees/ 301

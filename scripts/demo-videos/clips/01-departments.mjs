@@ -1,19 +1,28 @@
-// Create a department and add two functions to it.
+// Afdelingen & functies: departments with their colour and functions (who may also fill what),
+// "Mag roosteren" on a function (delegated scheduling), and the locations.
+// Switches "Mag roosteren" on for one function; cleanup() puts it back the way it was.
 import { APP } from '../lib.mjs';
 
-const deptName = (t) => t('Bakkerij', 'Bakery');
+const DEPT = 'Bediening';
+const RANK = 'Hoofdober';
+let wasOn = null;
 
-async function deleteDept(page, t) {
+const section = (page) => page.locator(`main section[aria-label="${DEPT}"]:visible`);
+const rankButton = (page) => section(page).getByRole('button', { name: new RegExp(`^${RANK}`) }).first();
+const scheduleBox = (page, t) =>
+  section(page).locator('label', { hasText: t('Mag roosteren', 'Can build schedules') }).locator('input[type=checkbox]');
+
+async function setSchedule(page, t, on) {
   await page.goto(`${APP}/admin/departments`);
   await page.waitForLoadState('networkidle');
-  const name = page.locator('main').getByText(deptName(t), { exact: true });
-  while (await name.count()) {
-    const row = name.first().locator('xpath=ancestor::*[.//select][1]');
-    await row.locator('button').last().click();
-    await page.getByRole('button', { name: t('Verwijderen', 'Delete'), exact: true }).click();
-    await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(500);
+  await rankButton(page).click();
+  const box = scheduleBox(page, t);
+  const now = await box.isChecked();
+  if (now !== on) {
+    await box.click();
+    await page.waitForTimeout(1500);
   }
+  return now;
 }
 
 export default {
@@ -22,32 +31,39 @@ export default {
   device: 'desktop',
 
   async prepare({ page, h, t }) {
-    await deleteDept(page, t);
+    wasOn = await setSchedule(page, t, false);
     await h.goto('/admin');
     await h.park(700, 500);
   },
 
   async run({ page, h, t }) {
-    await h.click(page.getByRole('button', { name: /^Team/ }), 500);
-    await h.click(page.getByRole('link', { name: t('Afdelingen & locaties', 'Departments & locations') }), 900);
-    await h.click(page.getByRole('button', { name: t('Afdeling toevoegen', 'Add department') }).first(), 500);
-    await h.type(page.getByPlaceholder(t('Naam nieuwe afdeling', 'New department name')), deptName(t));
-    await h.click(page.getByRole('button', { name: t('Afdeling toevoegen', 'Add department') }).first(), 1000); // the dialog's submit precedes the page button in the DOM
+    const nav = page.getByRole('navigation', { name: t('Hoofdmenu', 'Main menu') });
+    await h.click(nav.getByRole('button', { name: new RegExp(`^${t('Medewerkers', 'Employees')}`) }), 500);
+    await h.click(page.getByRole('link', { name: t('Afdelingen & functies', 'Departments & functions') }), 1100);
 
-    const row = page.locator('main').getByText(deptName(t), { exact: true }).locator('xpath=ancestor::*[.//select][1]');
-    await h.click(row.locator('button').first(), 700);
-
-    const input = page.getByPlaceholder(t('Naam nieuwe functie', 'New function name'));
-    const add = page.getByRole('button', { name: t('Functie toevoegen', 'Add function') });
-    for (const fn of [t('Banketbakker', 'Pastry chef'), t('Bakker', 'Baker')]) {
-      await h.type(input, fn);
-      await h.click(add, 900);
+    // Colour and functions per department ("mag ook": who may fill which function)
+    for (const d of ['Bar', DEPT, 'Keuken']) {
+      await h.hover(page.locator(`main section[aria-label="${d}"]:visible`).getByText(d, { exact: true }).first(), 450);
     }
-    await h.moveTo(900, 760);
-    await h.sleep(1200);
+    await h.hover(page.locator('main section[aria-label="Bar"]:visible [role=group] button').nth(2), 500);
+    await h.hover(section(page).getByText(/^(mag ook|may also):/).filter({ visible: true }).first(), 700);
+
+    // Delegated scheduling: this function may make the schedule
+    await h.click(rankButton(page), 900);
+    await h.click(scheduleBox(page, t), 1400);
+    await h.click(rankButton(page), 900); // close: the "Mag roosteren" label stays on the function
+
+    // Locations
+    await h.moveTo(720, 600);
+    await h.scroll(420, 1100);
+    await h.hover(page.locator('main').getByText('Terras', { exact: true }).filter({ visible: true }).first(), 900);
+    await h.moveTo(1150, 760);
+    await h.sleep(900);
   },
 
   async cleanup({ page, t }) {
-    await deleteDept(page, t);
+    if (wasOn === null) return;
+    await setSchedule(page, t, wasOn);
+    wasOn = null;
   },
 };

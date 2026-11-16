@@ -1,5 +1,7 @@
-// Manager: approve a shift claim and a swap request.
-// Note: this consumes one pending claim and one pending swap per recording.
+// Verzoeken: one inbox for claims, swaps, leave and hours corrections. Filter with the chips,
+// approve a claim, approve a swap with a note for the employees.
+// Uses up one pending claim and one pending swap per recording: reseed dev before recording
+// (HorecaRooster: npx tsx scripts/dev-demo-state.ts --apply --only requests,notifications,clock).
 export default {
   name: 'requests',
   who: 'admin',
@@ -11,17 +13,35 @@ export default {
   },
 
   async run({ page, h, t }) {
-    await h.click(page.locator('main a[href="/admin/claims"]').first(), 1200);
-    const approve = page.getByRole('button', { name: t('Goedkeuren', 'Approve'), exact: true });
-    if (!(await approve.count())) throw new Error('No pending claims left to approve');
-    await h.hover(page.locator('main').getByRole('button', { name: t('Afwijzen', 'Deny'), exact: true }).first(), 300);
-    await h.click(approve.first(), 1500);
+    const nav = page.getByRole('navigation', { name: t('Hoofdmenu', 'Main menu') });
+    await h.click(nav.getByRole('link', { name: new RegExp(`^${t('Verzoeken', 'Requests')}`) }), 1200);
 
-    await h.click(page.getByRole('button', { name: new RegExp(`^${t('Verzoeken', 'Requests')}`) }), 500);
-    await h.click(page.locator('a[href="/admin/swap-requests"]:visible').first(), 1200);
-    if (!(await approve.count())) throw new Error('No pending swap requests left to approve');
-    await h.type(page.locator('main input[type=text]').first(), t('Prima, veel plezier!', 'Fine by me, enjoy!'));
-    await h.click(approve.first(), 1600);
+    const chip = (label) => page.locator('main a[aria-pressed]').filter({ hasText: new RegExp(`^${label}`) }).first();
+    // Clean requests (no "function doesn't meet the requirements" warning) make a calmer demo.
+    const row = (caption) =>
+      page
+        .locator('main [role=button][aria-pressed]:visible')
+        .filter({ hasText: caption })
+        .filter({ hasNotText: /voldoet niet|does not meet|doesn't meet/ })
+        .first();
+    const approve = page.getByRole('button', { name: t('Goedkeuren', 'Approve'), exact: true });
+
+    // The whole inbox, then only the claims
+    await h.moveTo(560, 520);
+    await h.sleep(700);
+    await h.click(chip('Claims'), 1400);
+    await h.click(row(/^Claim/), 1000);
+    await h.hover(page.getByRole('button', { name: t('Afwijzen', 'Deny'), exact: true }), 400);
+    await h.click(approve, 1800);
+
+    // Swaps: approve one with a note for both employees
+    await h.click(chip('Claims'), 600); // off
+    await h.click(chip(t('Ruilen', 'Swaps')), 1400);
+    await h.click(row(new RegExp(`^${t('Ruil', 'Swap')}`)), 1200);
+    await h.type(page.getByPlaceholder(t('Opmerking voor medewerkers (optioneel)', 'Note for employees (optional)')).filter({ visible: true }).first(), t('Prima, fijne dienst!', 'Fine by me, have a good shift!'), 500);
+    await h.click(approve, 1800);
+    await h.click(chip(t('Ruilen', 'Swaps')), 1200); // back to everything
     await h.moveTo(900, 450);
+    await h.sleep(800);
   },
 };

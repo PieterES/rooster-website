@@ -1,6 +1,5 @@
 ---
 import { Image } from "astro:assets";
-import adminDashboard from "../../assets/screenshots/admin-dashboard.png";
 import adminHours from "../../assets/screenshots/admin-hours.png";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Button from "../../components/Button.astro";
@@ -90,7 +89,7 @@ import DemoVideo from "../../components/DemoVideo.astro";
           ))}
         </ul>
       </div>
-      <DemoVideo name="schedule" lang="en" label="Generating and publishing a weekly schedule" url="app.gedekt.com/schedule" class="shadow-2xl" />
+      <DemoVideo name="schedule" lang="en" label="Building, generating and publishing a weekly schedule" url="app.gedekt.com/schedule" class="shadow-2xl" />
     </div>
   </section>
 
@@ -98,7 +97,7 @@ import DemoVideo from "../../components/DemoVideo.astro";
   <!-- MANAGER: DEPARTMENTS -->
   <section class="bg-white py-24 px-6 lg:px-8">
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-      <DemoVideo name="departments" lang="en" label="Creating a department with functions" url="app.gedekt.com/departments" class="order-2 lg:order-1" />
+      <DemoVideo name="departments" lang="en" label="Departments, functions and locations" url="app.gedekt.com/departments" class="order-2 lg:order-1" />
       <div class="order-1 lg:order-2">
         <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Departments & functions</p>
         <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
@@ -135,7 +134,7 @@ import DemoVideo from "../../components/DemoVideo.astro";
           Your whole team.<br/>One overview.
         </h2>
         <p class="text-[var(--color-stone)] leading-relaxed mb-6">
-          Add an employee, pick their department and function, and set contract hours and hourly rate. They get an invite to the app straight away.
+          Per department you see everyone's function, contract hours and this week's hours. Click someone for their contact details, when they can usually work and this week's shifts. Add a new colleague with department, function, contract and hourly rate, and they get an invite to the app straight away.
         </p>
         <ul class="space-y-3">
           {[
@@ -152,7 +151,7 @@ import DemoVideo from "../../components/DemoVideo.astro";
           ))}
         </ul>
       </div>
-      <DemoVideo name="employee" lang="en" label="Adding an employee" url="app.gedekt.com/employees" />
+      <DemoVideo name="employee" lang="en" label="The team and a profile" url="app.gedekt.com/employees" />
     </div>
   </section>
 
@@ -160,7 +159,7 @@ import DemoVideo from "../../components/DemoVideo.astro";
   <!-- MANAGER: FIXED SHIFTS -->
   <section class="bg-white py-24 px-6 lg:px-8">
     <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-      <DemoVideo name="shifts" lang="en" label="Setting up shift types and fixed shifts" url="app.gedekt.com/fixed-shifts" class="order-2 lg:order-1" />
+      <DemoVideo name="shifts" lang="en" label="Templates, shifts and fixed shifts" url="app.gedekt.com/fixed-shifts" class="order-2 lg:order-1" />
       <div class="order-1 lg:order-2">
         <p class="text-[var(--color-amber)] font-semibold text-sm uppercase tracking-widest mb-3">Shift types & fixed shifts</p>
         <h2 class="font-display font-bold text-3xl text-[var(--color-charcoal)] mb-4 leading-tight">
@@ -214,21 +213,7 @@ import DemoVideo from "../../components/DemoVideo.astro";
           ))}
         </ul>
       </div>
-      <div class="rounded-xl overflow-hidden shadow-xl border border-gray-200">
-        <div class="bg-[#f1f5f9] px-4 py-2.5 flex items-center gap-2 border-b border-gray-200">
-          <div class="flex gap-1.5">
-            <div class="w-3 h-3 rounded-full bg-red-400"></div>
-            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div class="w-3 h-3 rounded-full bg-green-400"></div>
-          </div>
-          <div class="flex-1 mx-4">
-            <div class="bg-white rounded-md px-3 py-1 text-xs text-gray-400 font-mono">app.gedekt.com/dashboard</div>
-          </div>
-        </div>
-        <div class="bg-gray-100">
-          <Image src={adminDashboard} alt="Manager dashboard" class="w-full" loading="lazy" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 600px, 100vw" />
-        </div>
-      </div>
+      <DemoVideo name="dashboard" lang="en" label="Today at a glance" url="app.gedekt.com/today" />
     </div>
   </section>
 
@@ -304,7 +289,7 @@ import DemoVideo from "../../components/DemoVideo.astro";
           ))}
         </ul>
       </div>
-      <DemoVideo name="hours" lang="en" label="Reviewing monthly hours and labor cost" url="app.gedekt.com/reports" />
+      <DemoVideo name="hours" lang="en" label="Hours, corrections and labour cost" url="app.gedekt.com/reports" />
     </div>
   </section>
 
@@ -318,7 +303,7 @@ import DemoVideo from "../../components/DemoVideo.astro";
         align="center"
       />
       <div class="max-w-4xl mx-auto mt-12">
-        <DemoVideo name="requests" lang="en" label="Approving shift claims and swap requests" url="app.gedekt.com/swap-requests" />
+        <DemoVideo name="requests" lang="en" label="Approving shift claims and swap requests" url="app.gedekt.com/requests" />
         <p class="text-[var(--color-stone)] text-sm leading-relaxed text-center max-w-xl mx-auto mt-6">
           Staff claim open shifts or swap with each other. You see both sides, get a warning when a function doesn't match, and approve or decline.
         </p>
