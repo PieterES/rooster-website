@@ -1,6 +1,6 @@
 // The flagship: build a week. Start from the template (fixed shifts filled), click a person to see
 // the shifts they can take in green and place them, drag someone from the side panel onto a shift,
-// let "Genereren" fill the rest, publish. Then change a shift in the published week and publish the
+// let "Genereren" fill the rest, publish, look at the week "Op tijd" and back. Then change a shift in the published week and publish the
 // changes: employees only see it then, and only the people it affects get a message.
 // The week stays published afterwards.
 import { APP } from '../lib.mjs';
@@ -117,6 +117,16 @@ export default {
     // Publish the week.
     await h.click(page.locator('main').getByRole('button', { name: t('Publiceren', 'Publish'), exact: true }), 800);
     await h.click(page.getByRole('alertdialog').getByRole('button', { name: t('Publiceren', 'Publish'), exact: true }), 1800);
+
+    // The same week on time: one band per day, every shift a bar on the 08:00–01:00 axis. Then back.
+    const view = (nl, en) => page.locator('main').getByRole('button', { name: t(nl, en), exact: true });
+    await h.click(view('Op tijd', 'By time'), 1400);
+    await h.moveTo(520, 520, 700);
+    await h.moveTo(1100, 520, 1200); // along the day's axis
+    await h.scroll(520, 1500);
+    await h.sleep(900);
+    await h.scroll(-520, 900);
+    await h.click(view('Per dienst', 'By shift'), 1400);
 
     // A change in a published week: marked until you publish it, and only the people it affects hear about it.
     await dragToEligible(page, h, panelRow(page, 'Lars van den Berg'), { wantOpen: false, skip: 'Lars', after: 1500 });
