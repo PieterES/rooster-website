@@ -16,10 +16,15 @@ export const ACCOUNTS = {
   employee: { email: process.env.GEDEKT_EMPLOYEE_EMAIL, password: process.env.GEDEKT_EMPLOYEE_PASSWORD },
 };
 
+export const MAX_VIDEO_WIDTH = 2560;
+
 export const VIEWPORTS = {
-  desktop: { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 },
-  // Same 16:10 shape, wide enough (≥1500px) for side columns such as the one on Vandaag.
-  wide: { viewport: { width: 1680, height: 1050 }, deviceScaleFactor: 1 },
+  // Admin clips: 1680x1050 (16:10), wide enough (≥1500px) that every page shows its side panel
+  // next to the content (Vandaag, Rooster, Verzoeken, Uren, Medewerkers) and the schedule header
+  // stays on one line. Captured at 2x so the video stays sharp on high-DPI screens; the encoder
+  // caps the width at MAX_VIDEO_WIDTH.
+  desktop: { viewport: { width: 1680, height: 1050 }, deviceScaleFactor: 2 },
+  wide: { viewport: { width: 1680, height: 1050 }, deviceScaleFactor: 2 },
   mobile: { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 },
 };
 
@@ -75,9 +80,15 @@ const overlayScript = (kind) => `
 })();`;
 
 export async function launch({ who, device, scale }) {
-  const browser = await chromium.launch();
   const vp = VIEWPORTS[device];
-  const context = await browser.newContext({ ...vp, deviceScaleFactor: scale ?? vp.deviceScaleFactor, locale: 'nl-NL' });
+  const dpr = scale ?? vp.deviceScaleFactor;
+  // The DevTools screencast ignores Playwright's deviceScaleFactor; Chrome's own flag makes the
+  // captured frames really 2x.
+  const browser = await chromium.launch({ args: [`--force-device-scale-factor=${dpr}`] });
+  const context = await browser.newContext({ ...vp, deviceScaleFactor: dpr, locale: 'nl-NL' });
+  // `--now=19:00`: the dev app (AGENT_ENV=dev) then pretends it's that time today (Dutch time).
+  const demoNow = process.env.GEDEKT_DEMO_NOW;
+  if (demoNow) await context.addCookies([{ name: 'demo-now', value: demoNow, url: APP }]);
   await context.addInitScript(overlayScript(device === 'mobile' ? 'finger' : 'arrow'));
   const page = await context.newPage();
   page.setDefaultTimeout(15000);
@@ -261,15 +272,15 @@ export function encode({ dir, frames, end }, outBase) {
   list.push(`file '${frames.at(-1).file}'`);
   const concat = join(dir, 'frames.txt');
   writeFileSync(concat, 'ffconcat version 1.0\n' + list.join('\n') + '\n');
-  // Even dimensions are required by yuv420p.
-  const vf = 'fps=30,scale=trunc(iw/2)*2:trunc(ih/2)*2:flags=lanczos,format=yuv420p';
+  // At most MAX_VIDEO_WIDTH wide (2x desktop frames are 2880-3360px); even dimensions for yuv420p.
+  const vf = `fps=30,scale='trunc(min(iw,${MAX_VIDEO_WIDTH})/2)*2':-2:flags=lanczos,format=yuv420p`;
   const run = (args) => {
     const r = spawnSync(ffmpegPath, ['-y', '-hide_banner', '-loglevel', 'error', ...args], { stdio: 'inherit' });
     if (r.status !== 0) throw new Error('ffmpeg failed: ' + args.join(' '));
   };
   const input = ['-f', 'concat', '-safe', '0', '-i', concat];
   run([...input, '-vf', vf, '-c:v', 'libx264', '-preset', 'slow', '-crf', '24', '-movflags', '+faststart', '-an', `${outBase}.mp4`]);
-  run([...input, '-vf', vf, '-c:v', 'libvpx-vp9', '-crf', '36', '-b:v', '0', '-row-mt', '1', '-deadline', 'good', '-cpu-used', '2', '-an', `${outBase}.webm`]);
-  run(['-i', frames[0].file, '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', '-q:v', '3', `${outBase}.jpg`]);
+  run([...input, '-vf', vf, '-c:v', 'libvpx-vp9', '-crf', '36', '-b:v', '0', '-row-mt', '1', '-deadline', 'good', '-cpu-used', '4', '-an', `${outBase}.webm`]);
+  run(['-i', frames[0].file, '-vf', `scale='trunc(min(iw,${MAX_VIDEO_WIDTH})/2)*2':-2:flags=lanczos`, '-q:v', '3', `${outBase}.jpg`]);
   rmSync(dir, { recursive: true, force: true });
 }

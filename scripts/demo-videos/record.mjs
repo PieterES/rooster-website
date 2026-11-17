@@ -15,6 +15,12 @@ mkdirSync(outDir, { recursive: true });
 const args = process.argv.slice(2);
 const langs = (args.find((a) => a.startsWith('--lang='))?.slice(7) ?? 'nl,en').split(',');
 const dryRun = args.includes('--dry-run');
+// --now=19:00: pretend it's that time today on dev (sets the app's demo-now cookie in every browser).
+const now = args.find((a) => a.startsWith('--now='))?.slice(6);
+if (now) {
+  if (!/^([01]?\d|2[0-3]):[0-5]\d$/.test(now)) die(`--now wants HH:MM, got "${now}"`);
+  process.env.GEDEKT_DEMO_NOW = now;
+}
 const wanted = args.filter((a) => !a.startsWith('--'));
 
 const clipFiles = readdirSync(join(here, 'clips')).filter((f) => f.endsWith('.mjs')).sort();

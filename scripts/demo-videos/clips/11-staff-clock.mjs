@@ -61,7 +61,7 @@ export default {
     const log = await findSophie();
     if (!log) throw new Error('No open clock record found for Sophie');
     logId = log.id;
-    const rewind = api('PATCH', `/api/admin/clock/${logId}`, { clockIn: new Date(Date.now() - 5 * 3600e3).toISOString() });
+    const rewind = api('PATCH', `/api/admin/clock/${logId}`, { clockIn: new Date(new Date(log.clockIn).getTime() - 5 * 3600e3).toISOString() });
     await h.click(tab('/me'), 1600);
     await rewind;
     // The manager's edit sends the employee a notification; keep the bell clean.

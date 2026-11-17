@@ -49,10 +49,21 @@ npm run screenshots -- admin-hours     # one
 
 ## Things to know
 
-- Record `dashboard` (and ideally `staff-clock`) during service, around 17:00-22:00: the Vandaag
-  timeline then has finished and running shifts, and the employee has a shift to clock in for.
-- `dashboard` records at 1680×1050 (`device: 'wide'`): Vandaag only shows its side column (Wacht op
-  jou, Open deze week) from 1500px wide. Same 16:10 shape as the other desktop clips.
+- `dashboard` and `staff-clock` need service hours: the Vandaag timeline then has finished and running
+  shifts, and the employee has a shift to clock in for. Any time of day, pretend it's evening: seed the
+  clock records for that time in the app repo, then record with the same `--now` (it sets the app's
+  `demo-now` cookie, honoured only on dev, where the Pi's `.env` has `AGENT_ENV=dev`):
+
+  ```bash
+  npx tsx scripts/dev-demo-state.ts --apply --only close-open,clock,notifications --now 19:00   # HorecaRooster
+  npm run record:demos -- --now=19:00 dashboard staff-clock                                      # here
+  ```
+- Admin clips record at 1680×1050 (16:10): from 1500px wide every page shows its side panel next to
+  the content (Vandaag, Rooster, Verzoeken, Uren, Medewerkers) and the schedule header stays on one
+  line. Phone clips are 390×844.
+- Everything is captured at 2x (Chrome's `--force-device-scale-factor`, the screencast ignores
+  Playwright's setting) and encoded at most 2560px wide, so the videos stay sharp on retina screens.
+  Encoding a 2560px WebM takes a few minutes per clip.
 - Every login marks that user's notifications read, so bells start clean.
 - Clips run against real data on dev. Most clean up after themselves, but:
   - `shifts` and `schedule` both reset the demo week (`DEMO_WEEK` in `04-schedule.mjs`, a few weeks
