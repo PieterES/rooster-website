@@ -1,5 +1,6 @@
 // Structured data (schema.org JSON-LD) shared across pages.
 import { SITE } from "./routes";
+import { contact } from "./contact";
 
 export const organization = {
   "@type": "Organization",
@@ -8,6 +9,15 @@ export const organization = {
   url: `${SITE}/`,
   logo: `${SITE}/apple-touch-icon.png`,
   areaServed: "NL",
+  email: contact.email,
+  telephone: contact.phone,
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    email: contact.email,
+    telephone: contact.phone,
+    availableLanguage: ["Dutch", "English"],
+  },
 };
 
 export const website = {

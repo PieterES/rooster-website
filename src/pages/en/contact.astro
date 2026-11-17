@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { contact } from "../../data/contact";
 ---
 
 <BaseLayout
@@ -28,6 +29,10 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           <p class="text-[var(--color-stone)] leading-relaxed mb-4">
             We're a small team — there's no support ticket queue. Messages go straight to us.
           </p>
+          <address class="not-italic space-y-2">
+            <p><span class="text-sm text-[var(--color-stone)]">Email:</span> <a href={`mailto:${contact.email}`} class="font-medium text-[var(--color-forest)] underline underline-offset-2">{contact.email}</a></p>
+            <p><span class="text-sm text-[var(--color-stone)]">Phone:</span> <a href={`tel:${contact.phone}`} class="font-medium text-[var(--color-forest)] underline underline-offset-2">{contact.phoneDisplay}</a></p>
+          </address>
         </div>
 
         <div>

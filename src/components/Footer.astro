@@ -2,6 +2,7 @@
 // Footer.astro
 import { guides, guideHref } from "../data/guides";
 import { landingPages } from "../data/landing-pages";
+import { contact } from "../data/contact";
 
 interface Props {
   lang?: "nl" | "en";
@@ -78,10 +79,14 @@ const footerGuides = Object.entries(t.guideLabels)
           <span class="text-white font-display font-semibold text-lg">Gedekt</span>
         </a>
         <p class="text-sm leading-relaxed mb-4">{t.tagline}</p>
-        <p class="text-sm flex items-center gap-1.5">
+        <p class="text-sm flex items-center gap-1.5 mb-4">
           <span>&#127475;&#127473;</span>
           <span>{t.madeIn}</span>
         </p>
+        <address class="not-italic text-sm space-y-1">
+          <a href={`mailto:${contact.email}`} class="block hover:text-white transition-colors">{contact.email}</a>
+          <a href={`tel:${contact.phone}`} class="block hover:text-white transition-colors">{contact.phoneDisplay}</a>
+        </address>
       </div>
 
       <!-- Nav links -->
