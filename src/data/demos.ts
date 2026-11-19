@@ -33,7 +33,7 @@ export const demos: Demo[] = [
       { nl: "Sleep een collega op een dienst, of laat Genereren de rest vullen", en: "Drag a colleague onto a shift, or let Generate fill the rest" },
       { nl: "Publiceren, en later alleen de wijzigingen publiceren", en: "Publish, and later publish just the changes" },
     ],
-    seconds: 42,
+    seconds: 68,
   },
   {
     slug: { nl: "vandaag", en: "today" },
@@ -51,7 +51,7 @@ export const demos: Demo[] = [
       { nl: "De tijdlijn: ingeklokt, bezig, klaar", en: "The timeline: clocked in, running, done" },
       { nl: "Deze week: gedekte dagen en open diensten, en wat op je wacht", en: "This week: covered days and open shifts, and what is waiting for you" },
     ],
-    seconds: 28,
+    seconds: 24,
   },
   {
     slug: { nl: "afdelingen-en-functies", en: "departments-and-functions" },
@@ -69,7 +69,7 @@ export const demos: Demo[] = [
       { nl: "\"Mag roosteren\": het rooster maken overlaten aan je chef", en: "\"Can schedule\": leave the schedule to your head chef" },
       { nl: "Locaties, zoals een terras", en: "Locations, such as a terrace" },
     ],
-    seconds: 23,
+    seconds: 29,
   },
   {
     slug: { nl: "medewerkers", en: "employees" },
@@ -87,7 +87,7 @@ export const demos: Demo[] = [
       { nl: "Een profiel met contactgegevens", en: "A profile with contact details" },
       { nl: "Wanneer iemand meestal kan, en de diensten van deze week", en: "When someone can usually work, and this week's shifts" },
     ],
-    seconds: 21,
+    seconds: 23,
   },
   {
     slug: { nl: "vaste-diensten", en: "fixed-shifts" },
@@ -105,7 +105,7 @@ export const demos: Demo[] = [
       { nl: "Een dag gesloten, met één klik weer open", en: "A day closed, reopened in one click" },
       { nl: "Vaste kracht erop, slotje aan: elke week weer ingepland", en: "A regular on it, lock on: scheduled again every week" },
     ],
-    seconds: 25,
+    seconds: 31,
   },
   {
     slug: { nl: "claims-en-ruilverzoeken", en: "claims-and-swaps" },
@@ -123,7 +123,7 @@ export const demos: Demo[] = [
       { nl: "Een claim op een open dienst goedkeuren", en: "Approve a claim on an open shift" },
       { nl: "Een ruil goedkeuren met een opmerking", en: "Approve a swap with a note" },
     ],
-    seconds: 30,
+    seconds: 35,
   },
   {
     slug: { nl: "uren-en-loonkosten", en: "hours-and-labour-cost" },
@@ -141,7 +141,7 @@ export const demos: Demo[] = [
       { nl: "Een urencorrectie van een medewerker", en: "An hours correction from an employee" },
       { nl: "Rapport per maand, met export", en: "Monthly report, with export" },
     ],
-    seconds: 37,
+    seconds: 41,
   },
   {
     slug: { nl: "medewerkers-app", en: "staff-app" },

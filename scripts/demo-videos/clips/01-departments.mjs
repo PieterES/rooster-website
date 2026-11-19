@@ -29,6 +29,7 @@ export default {
   name: 'departments',
   who: 'admin',
   device: 'desktop',
+  speed: 1.4, // same pace as the employee clips
 
   async prepare({ page, h, t }) {
     wasOn = await setSchedule(page, t, false);

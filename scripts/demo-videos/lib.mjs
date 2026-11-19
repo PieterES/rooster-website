@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { tmpdir } from 'node:os';
+import { homedir } from 'node:os';
 
 export const APP = process.env.GEDEKT_APP_URL ?? 'https://dev.gedekt.com';
 
@@ -277,12 +277,15 @@ export function actions(page, { speed = 1 } = {}) {
 /** Screencast recorder: start() / stop() → writes a list of timestamped JPEG frames. */
 export async function recorder(page, device) {
   const { viewport, deviceScaleFactor } = VIEWPORTS[device];
-  const dir = join(tmpdir(), 'gedekt-demo-frames-' + Date.now());
+  // On disk, not in /tmp: on this machine /tmp is a small RAM disk, and a 2x clip is ~700 MB of frames.
+  const dir = join(process.env.GEDEKT_FRAMES_DIR ?? join(homedir(), '.cache', 'gedekt-demo-frames'), String(Date.now()));
   mkdirSync(dir, { recursive: true });
   const cdp = await page.context().newCDPSession(page);
   const frames = [];
   const writes = [];
+  let stopped = false;
   cdp.on('Page.screencastFrame', ({ data, metadata, sessionId }) => {
+    if (stopped) return;
     const file = join(dir, `f${String(frames.length).padStart(5, '0')}.jpg`);
     frames.push({ file, t: metadata.timestamp });
     writes.push(writeFile(file, Buffer.from(data, 'base64')));
@@ -299,10 +302,18 @@ export async function recorder(page, device) {
       });
     },
     async stop() {
+      stopped = true;
       const end = Date.now() / 1000;
       await cdp.send('Page.stopScreencast');
       await Promise.all(writes);
       return { dir, frames, end };
+    },
+    /** Throw the frames away (a dry run, or a failed take). */
+    async discard() {
+      stopped = true;
+      await cdp.send('Page.stopScreencast').catch(() => {});
+      await Promise.allSettled(writes);
+      rmSync(dir, { recursive: true, force: true });
     },
   };
 }

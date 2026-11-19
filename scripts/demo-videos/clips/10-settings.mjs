@@ -31,6 +31,7 @@ export default {
   name: 'settings',
   who: 'admin',
   device: 'desktop',
+  speed: 1.4, // same pace as the employee clips
 
   async prepare({ page, h, t }) {
     await gotoSettings(page);

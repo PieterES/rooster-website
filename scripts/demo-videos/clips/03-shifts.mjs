@@ -28,6 +28,7 @@ export default {
   name: 'shifts',
   who: 'admin',
   device: 'wide', // the header (week, view, Acties, Publiceren) only fits on one line from ~1600px
+  speed: 1.4, // same pace as the employee clips
 
   async prepare({ page, h }) {
     await unlockSlot(page);

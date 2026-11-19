@@ -23,8 +23,11 @@ npm run record:demos -- schedule              # one clip
 npm run record:demos -- --lang=nl employee    # one clip, one language
 ```
 
-`--speed=1.5` makes every move and pause 1.5x shorter (a clip can set its own `speed`; the `staff-*` clips use 1.4 and show a mouse pointer instead of
-the tap indicator, via `cursor: 'arrow'`).
+`--speed=1.5` makes every move and pause 1.5x shorter (a clip can set its own `speed`). All clips use
+1.4; the `staff-*` phone clips show a mouse pointer instead of the tap indicator (`cursor: 'arrow'`).
+
+Frames go to `~/.cache/gedekt-demo-frames` (override with `GEDEKT_FRAMES_DIR`), not `/tmp`: a 2x take
+is ~700 MB, and on WSL `/tmp` is a small RAM disk. Dry runs and failed takes delete their frames.
 
 Each clip lives in `clips/` and exports `prepare` (get the app into the start state),
 `run` (the recorded part) and optionally `cleanup` (undo what the clip created).
@@ -63,7 +66,15 @@ npm run screenshots -- admin-hours     # one
   ```
 - Admin clips record at 1680×1050 (16:10): from 1500px wide every page shows its side panel next to
   the content (Vandaag, Rooster, Verzoeken, Uren, Medewerkers) and the schedule header stays on one
-  line. Phone clips are 390×844.
+  line. Vandaag fits the screen whole (timeline, side column, Deze week), so `dashboard` doesn't scroll.
+  Phone clips are 390×844.
+- The admin clips were last recorded against a seeded local app (like the `staff-*` clips below), after
+  `dev-demo-state.ts --apply --only close-open,clock,contracts,requests,notifications,replace-personal`
+  (it accepts localhost too). `replace-personal` matters: otherwise a real account shows under
+  "Overig" in the Rooster side panel and in the Rapporten table. `npm run seed` writes this week's
+  clock records an hour off (UTC), so everyone is "60 min te laat" in Uren: delete those records and
+  let the `clock` step recreate them. Publish the current week before `npm run screenshots`, or
+  `admin-schedule` shows the yellow "Concept" bar.
 - Everything is captured at 2x (Chrome's `--force-device-scale-factor`, the screencast ignores
   Playwright's setting) and encoded at most 2560px wide, so the videos stay sharp on retina screens.
   Encoding a 2560px WebM takes a few minutes per clip.

@@ -5,6 +5,7 @@ export default {
   name: 'hours',
   who: 'admin',
   device: 'desktop',
+  speed: 1.4, // same pace as the employee clips
 
   async prepare({ page, h }) {
     await h.goto('/admin/hours');

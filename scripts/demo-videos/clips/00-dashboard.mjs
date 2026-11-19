@@ -6,6 +6,7 @@ export default {
   name: 'dashboard',
   who: 'admin',
   device: 'wide',
+  speed: 1.4, // same pace as the employee clips
 
   async prepare({ h }) {
     await h.goto('/admin');
@@ -40,16 +41,12 @@ export default {
     if (await openRow.count()) await h.hover(openRow, 900);
 
     // This week: covered days next to days with open shifts; one day folds open underneath.
-    await h.moveTo(700, 640);
-    const week = vis(main.getByRole('heading', { name: new RegExp(`^${t('Deze week', 'This week')}`) }));
-    const wb = await week.boundingBox();
-    await h.scroll(wb.y - 140, 1500);
+    // The whole page fits the screen (timeline, side column and this week), so no scrolling here.
     const covered = vis(main.getByText(new RegExp(`^${t('gedekt', 'covered')}$`)));
     if (await covered.count()) await h.hover(covered, 600);
     const open = vis(main.getByText(/^\d+ open$/));
-    const day = (await open.count()) ? open : covered;
-    await h.click(day, 1600);
-    await h.scroll(320, 1000);
+    if (await open.count()) await h.hover(open, 1000);
+    await h.moveTo(820, 560);
     await h.sleep(1500);
   },
 };

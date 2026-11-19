@@ -54,7 +54,7 @@ export async function dragToEligible(page, h, source, { wantOpen, after = 1000, 
     (els, [wantOpen, prefer, skip]) => {
       const ok = els
         .map((el, i) => ({ el, i, r: el.getBoundingClientRect() }))
-        .filter(({ el, r }) => el.className.includes('var(--fit)') && r.top > 120 && r.bottom < innerHeight - 20)
+        .filter(({ el, r }) => (el.className.includes('var(--fit)') || el.className.includes('bg-fit')) && r.top > 120 && r.bottom < innerHeight - 20)
         .filter(({ el }) => /^open\b/.test(el.innerText.trim()) === wantOpen)
         .filter(({ el }) => !skip || !el.innerText.trim().startsWith(skip));
       const pick = (prefer && ok.find(({ el }) => el.title.startsWith(prefer))) || ok[Math.floor(ok.length / 2)];
@@ -77,6 +77,7 @@ export default {
   name: 'schedule',
   who: 'admin',
   device: 'wide', // the header (week, view, Acties, Publiceren) only fits on one line from ~1600px
+  speed: 1.4, // same pace as the employee clips
 
   async prepare({ page, h }) {
     await resetDemoWeek(page);
@@ -129,7 +130,11 @@ export default {
     await h.click(view('Per dienst', 'By shift'), 1400);
 
     // A change in a published week: marked until you publish it, and only the people it affects hear about it.
-    await dragToEligible(page, h, panelRow(page, 'Lars van den Berg'), { wantOpen: false, skip: 'Lars', after: 1500 });
+    // Open a filled shift and take the person off it in the side panel: the shift is open again.
+    // (After Genereren the week is full, so a drag has nowhere left to go.)
+    const filled = cells(page).filter({ hasText: /^Roos V\./ }).first();
+    await h.click(filled, 1100);
+    await h.click(page.getByRole('button', { name: t('Roos Vermeer van de dienst halen', 'Take Roos Vermeer off the shift') }), 1500);
     await h.click(page.locator('main').getByRole('button', { name: t('Wijzigingen publiceren', 'Publish changes'), exact: true }), 1800);
     await h.click(page.getByRole('alertdialog').getByRole('button', { name: t('Publiceren', 'Publish'), exact: true }), 1800);
     await h.moveTo(900, 420);

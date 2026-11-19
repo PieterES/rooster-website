@@ -42,21 +42,24 @@ for (const clip of selected) {
     const { browser, page } = await launch({ who: clip.who, device: clip.device, cursor: clip.cursor });
     const h = actions(page, { speed: speedArg ?? clip.speed ?? 1 });
     const t = (nl, en) => (lang === 'en' ? en : nl);
+    let rec;
     try {
       await setLanguage(page, clip.who, lang);
       await clip.prepare?.({ page, h, t, lang });
-      const rec = await recorder(page, clip.device);
+      rec = await recorder(page, clip.device);
       await rec.start();
       await h.sleep(600);
       await clip.run({ page, h, t, lang });
       await h.sleep(1200);
       const captured = await rec.stop();
       if (!dryRun) encode(captured, join(outDir, label));
+      else await rec.discard();
       console.log(`  ✓ ${captured.frames.length} frames`);
     } catch (e) {
       console.error(`  ✗ ${label}: ${e.message}`);
       await page.screenshot({ path: join(outDir, `${label}-error.png`) }).catch(() => {});
       process.exitCode = 1;
+      await rec?.discard();
     } finally {
       await clip.cleanup?.({ page, h, t, lang }).catch((e) => console.error(`  cleanup failed: ${e.message}`));
       if (lang !== 'nl') await setLanguage(page, clip.who, 'nl').catch(() => {});
