@@ -1,31 +1,16 @@
-// Employee app: my shifts with today marked, a shift with a briefing from the manager, the team
-// schedule (closing shifts labelled), and adding the schedule to your own calendar.
+// Employee app, Rooster: your next shifts; a shift's sheet with the manager's briefing, colleagues that
+// day and swap / give away / report sick; tap a day to see who you work with; swipe to next week and
+// open an open shift (the request sheet, not sent); month view; into your own calendar.
 // prepare() puts a briefing on the employee's next shift (as admin); cleanup() restores it.
-import { APP, launch } from '../lib.mjs';
+import { APP } from '../lib.mjs';
+import { STAFF, asAdmin, call, toTop, ymd, mondayOf } from '../staff.mjs';
 
 const EMPLOYEE = 'Sophie Janssen';
-let setup; // { slotId, before, date }
-
-async function asAdmin(fn) {
-  const admin = await launch({ who: 'admin', device: 'desktop' });
-  try {
-    await admin.page.goto(`${APP}/admin`);
-    return await fn(admin.page);
-  } finally {
-    await admin.browser.close();
-  }
-}
-
-const mondayOf = (d) => {
-  const m = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-  m.setUTCDate(m.getUTCDate() - ((m.getUTCDay() + 6) % 7));
-  return m.toISOString().slice(0, 10);
-};
+let setup; // { slotId, before }
 
 export default {
   name: 'staff-schedule',
-  who: 'employee',
-  device: 'mobile',
+  ...STAFF,
 
   async prepare({ h, t }) {
     const briefing = t(
@@ -33,76 +18,83 @@ export default {
       'Group of 24 at the long table tonight. Allergies are on the card at the pass.',
     );
     setup = await asAdmin(async (page) => {
-      const today = new Date().toISOString().slice(0, 10);
-      const slots = await page.evaluate(async (w) => (await fetch(`/api/admin/schedule?week=${w}`)).json(), mondayOf(new Date()));
-      const next = slots
-        .filter((s) => s.assignedEmployee?.name === EMPLOYEE && s.isPublished && s.date.slice(0, 10) > today)
-        .sort((a, b) => a.date.localeCompare(b.date))[0];
-      if (!next) return null;
-      await page.evaluate(
-        ([id, b]) => fetch(`/api/admin/schedule/${id}/briefing`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing: b }) }),
-        [next.id, briefing],
-      );
-      return { slotId: next.id, before: next.briefing ?? '', date: next.date.slice(0, 10) };
+      const today = ymd(new Date());
+      const monday = mondayOf(new Date());
+      for (const week of [monday, new Date(monday.getTime() + 7 * 86400e3)]) {
+        const slots = await call(page, 'GET', `/api/admin/schedule?week=${ymd(week)}`);
+        const next = slots
+          .filter((s) => s.assignedEmployee?.name === EMPLOYEE && s.isPublished && s.date.slice(0, 10) > today)
+          .sort((a, b) => a.date.localeCompare(b.date))[0];
+        if (!next) continue;
+        await call(page, 'PUT', `/api/admin/schedule/${next.id}/briefing`, { briefing });
+        return { slotId: next.id, before: next.briefing ?? '' };
+      }
+      return null;
     });
     await h.goto('/me');
-    await h.park(195, 600);
+    await h.park(300, 640);
   },
 
   async run({ page, h, t }) {
-    const toggle = (current) => page.locator(`main button[aria-label^="${current}. "]`).first();
-    await h.sleep(700);
+    const main = page.locator('main');
+    await h.sleep(500);
 
-    // This week, today marked
-    const week = page.locator('main').getByText(/^Week \d+$/).first();
-    const wb = await week.boundingBox();
-    await h.scroll(wb.y - 110, 1300);
-    await h.sleep(700);
+    // Your next shifts at a glance
+    const now = main.locator('button.soul-now');
+    await toTop(h, now.first(), 230);
+    await h.sleep(600);
+    // The next shift: the briefing, colleagues that day, and swap / give away / report sick
+    await h.click(now.nth(1), 2200);
+    const sheet = page.getByRole('dialog');
+    for (const name of [t('Ruilen', 'Swap'), t('Weggeven', 'Give away'), t('Ziek melden', 'Report sick')]) {
+      await h.hover(sheet.getByRole('button', { name, exact: true }), 350);
+    }
+    await h.click(sheet.getByRole('button', { name: t('Sluiten', 'Close') }).first(), 400);
 
-    // The next shift has a briefing
-    if (setup) {
-      const dd = String(+setup.date.slice(8));
-      const shift = page.locator('main li').filter({ hasText: new RegExp(`(^|\\D)${dd}\\s+[a-z]{3}`, "i") }).locator('button').first();
-      await h.click(shift, 2400);
-      await h.click(page.getByRole('dialog').getByRole('button', { name: t('Sluiten', 'Close') }).first(), 700);
+    // The week; tap a day to see who you work with
+    const cycle = main.locator('.soul-cyc').first();
+    await toTop(h, cycle, 70);
+    const day = main.locator('li button[aria-expanded=false]').filter({ hasText: /\d\d:\d\d–\d\d:\d\d/ }).last();
+    await h.click(day, 1400);
+
+    // Swipe to next week; on a free day, open shifts can be requested with one tap
+    await toTop(h, cycle, 70);
+    await h.swipe(cycle, -220);
+    await page.waitForLoadState('networkidle');
+    await h.sleep(1200);
+    // (the date and "vrij" have no space between them in the text)
+    const free = main.locator('li button[aria-expanded=false]').filter({ hasText: new RegExp(`\\d\\s*${t('vrij', 'off')}\\s*$`) }).first();
+    if (await free.count()) {
+      await toTop(h, free, 260);
+      await h.click(free, 900);
+      const open = main.locator('button.soul-card-open:visible').first();
+      if (await open.count()) {
+        await h.click(open, 1000);
+        const req = page.getByRole('dialog');
+        await h.hover(req.getByRole('button', { name: t('Aanvragen', 'Request'), exact: true }).first(), 900);
+        await h.click(req.getByRole('button', { name: t('Sluiten', 'Close') }).first(), 500);
+      }
     }
 
-    // The team schedule: who works when, closing shifts labelled
-    const tb = await toggle(t('Mijn rooster', 'My schedule')).boundingBox();
-    await h.scroll(tb.y - 200, 1200);
-    await h.click(toggle(t('Mijn rooster', 'My schedule')), 1400);
-    const closing = page.locator('main').getByText(new RegExp(t('Sluitdienst', 'Closing'))).first();
-    if (await closing.count()) {
-      const cb = await closing.boundingBox();
-      await h.scroll(cb.y - 360, 1500);
-      await h.hover(closing, 1000);
-    }
-    const back = await toggle('Team').boundingBox();
-    await h.scroll(back.y - 200, 1000);
-    await h.click(toggle('Team'), 1200);
+    // Month view
+    await toTop(h, cycle, 70);
+    await h.click(cycle.getByText(t('Tik voor maand', 'Tap for month')), 0);
+    // wait until the month view is really there (it can take a few seconds on `next dev`)
+    await main.getByText(t('Tik voor week', 'Tap for week')).first().waitFor({ timeout: 20000 });
+    await page.waitForTimeout(400); // the scroll position shifts as the month renders
+    // Show the whole calendar before moving on
+    await toTop(h, main.locator('.soul-cyc').first(), 70);
+    await h.sleep(2000);
 
-    // Into your own calendar
+    // Into your phone's calendar
     const cal = page.getByRole('link', { name: t('Zet in je agenda', 'Add to your calendar') });
-    const kb = await cal.boundingBox();
-    await h.scroll(kb.y - 500, 1200);
-    await h.click(cal, 1500);
-    const agenda = page.locator('#agenda');
-    if (await agenda.count()) {
-      const ab = await agenda.boundingBox();
-      if (ab.y > 300) await h.scroll(ab.y - 140, 1000);
-    }
-    await h.sleep(1500);
+    if (await cal.count()) await h.hover(cal, 1200);
   },
 
   async cleanup() {
     if (!setup) return;
     const { slotId, before } = setup;
     setup = undefined;
-    await asAdmin((page) =>
-      page.evaluate(
-        ([id, b]) => fetch(`/api/admin/schedule/${id}/briefing`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing: b }) }),
-        [slotId, before],
-      ),
-    );
+    await asAdmin((page) => call(page, 'PUT', `/api/admin/schedule/${slotId}/briefing`, { briefing: before }));
   },
 };

@@ -21,6 +21,8 @@ if (now) {
   if (!/^([01]?\d|2[0-3]):[0-5]\d$/.test(now)) die(`--now wants HH:MM, got "${now}"`);
   process.env.GEDEKT_DEMO_NOW = now;
 }
+// --speed=1.5: every move and pause in the clips 1.5x shorter (clips can set their own `speed`).
+const speedArg = Number(args.find((a) => a.startsWith('--speed='))?.slice(8)) || undefined;
 const wanted = args.filter((a) => !a.startsWith('--'));
 
 const clipFiles = readdirSync(join(here, 'clips')).filter((f) => f.endsWith('.mjs')).sort();
@@ -37,8 +39,8 @@ for (const clip of selected) {
   for (const lang of langs) {
     const label = `${clip.name}-${lang}`;
     console.log(`▶ ${label}`);
-    const { browser, page } = await launch({ who: clip.who, device: clip.device });
-    const h = actions(page);
+    const { browser, page } = await launch({ who: clip.who, device: clip.device, cursor: clip.cursor });
+    const h = actions(page, { speed: speedArg ?? clip.speed ?? 1 });
     const t = (nl, en) => (lang === 'en' ? en : nl);
     try {
       await setLanguage(page, clip.who, lang);

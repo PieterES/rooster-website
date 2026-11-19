@@ -159,10 +159,10 @@ export const demos: Demo[] = [
       en: "No training needed: staff see their shifts and the briefing, put their schedule in their own calendar, share when they can work, pick up open shifts, swap with a colleague, ask for time off and clock in and out — without texting the manager.",
     },
     steps: [
-      { nl: "Mijn diensten, de briefing en het teamrooster", en: "My shifts, the briefing and the team schedule" },
+      { nl: "Je diensten met de briefing, wie er werkt en open diensten", en: "Your shifts with the briefing, who's working and open shifts" },
       { nl: "Eén tik: kan. Twee tikken: liever. En maximaal aantal dagen.", en: "One tap: can. Two taps: prefer. And a maximum number of days." },
-      { nl: "Open dienst claimen, ruilen of vrij vragen", en: "Claim an open shift, swap or ask for time off" },
-      { nl: "Inklokken, en bij het uitklokken pauze en maaltijd invullen", en: "Clock in, and fill in break and meals when clocking out" },
+      { nl: "Open dienst aanvragen, ruilen met een collega of vrij vragen", en: "Request an open shift, swap with a colleague or ask for time off" },
+      { nl: "Inklokken, een correctie vragen en uitklokken met pauze en maaltijd", en: "Clock in, ask for a correction, and clock out with break and meals" },
     ],
     seconds: 30,
   },

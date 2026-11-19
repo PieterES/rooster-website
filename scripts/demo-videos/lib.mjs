@@ -26,6 +26,10 @@ export const VIEWPORTS = {
   desktop: { viewport: { width: 1680, height: 1050 }, deviceScaleFactor: 2 },
   wide: { viewport: { width: 1680, height: 1050 }, deviceScaleFactor: 2 },
   mobile: { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 },
+  // Google Play phone screenshots: 9:16, 360x640 at 3x = 1080x1920.
+  play: { viewport: { width: 360, height: 640 }, deviceScaleFactor: 3 },
+  // Google Play tablet screenshots: the full admin at 16:9, 1680x945 at 2x = 3360x1890.
+  tablet: { viewport: { width: 1680, height: 945 }, deviceScaleFactor: 2 },
 };
 
 // Fake cursor (desktop) or finger-tap indicator (mobile), plus hiding of UI
@@ -70,6 +74,13 @@ const overlayScript = (kind) => `
       r.className = '__demo_ripple'; r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px';
       document.documentElement.appendChild(r); setTimeout(() => r.remove(), 600);
     }, true);
+    // Touch swipes (CDP touch events) don't move the mouse; the recorder drives the indicator directly.
+    window.__demoFinger = (x, y, down) => {
+      window.__demoPos = { x, y };
+      c.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+      c.classList.toggle('down', down);
+      if (KIND === 'finger') c.classList.toggle('visible', down);
+    };
     addEventListener('mouseup', () => {
       c.classList.remove('down');
       if (KIND === 'finger') setTimeout(() => c.classList.remove('visible'), 250);
@@ -79,7 +90,7 @@ const overlayScript = (kind) => `
   addEventListener('DOMContentLoaded', install);
 })();`;
 
-export async function launch({ who, device, scale }) {
+export async function launch({ who, device, scale, cursor }) {
   const vp = VIEWPORTS[device];
   const dpr = scale ?? vp.deviceScaleFactor;
   // The DevTools screencast ignores Playwright's deviceScaleFactor; Chrome's own flag makes the
@@ -89,7 +100,8 @@ export async function launch({ who, device, scale }) {
   // `--now=19:00`: the dev app (AGENT_ENV=dev) then pretends it's that time today (Dutch time).
   const demoNow = process.env.GEDEKT_DEMO_NOW;
   if (demoNow) await context.addCookies([{ name: 'demo-now', value: demoNow, url: APP }]);
-  await context.addInitScript(overlayScript(device === 'mobile' ? 'finger' : 'arrow'));
+  // `cursor`: 'arrow' (a visible mouse pointer) or 'finger' (only a tap indicator); phones default to finger.
+  await context.addInitScript(overlayScript(cursor ?? (device === 'mobile' || device === 'play' ? 'finger' : 'arrow')));
   const page = await context.newPage();
   page.setDefaultTimeout(15000);
   page.setDefaultNavigationTimeout(60000);
@@ -129,26 +141,46 @@ export async function setLanguage(page, who, lang) {
   await page.waitForTimeout(1500);
 }
 
-/** Human-looking interaction helpers bound to a page. */
-export function actions(page) {
+/** Human-looking interaction helpers bound to a page. `speed` > 1 makes every move and pause shorter. */
+export function actions(page, { speed = 1 } = {}) {
   let pos = { x: 720, y: 450 };
-  const sleep = (ms) => page.waitForTimeout(ms);
+  const sleep = (ms) => page.waitForTimeout(Math.round(ms / speed));
   const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
   async function moveTo(x, y, ms) {
     const dist = Math.hypot(x - pos.x, y - pos.y);
-    const duration = ms ?? Math.min(900, 250 + dist * 0.6);
-    const steps = Math.max(8, Math.round(duration / 16));
+    const duration = (ms ?? Math.min(900, 250 + dist * 0.6)) / speed;
+    const steps = Math.max(6, Math.round(duration / 16));
     const from = { ...pos };
     for (let i = 1; i <= steps; i++) {
       const t = ease(i / steps);
       await page.mouse.move(from.x + (x - from.x) * t, from.y + (y - from.y) * t);
-      await sleep(duration / steps);
+      await page.waitForTimeout(duration / steps);
     }
     pos = { x, y };
   }
 
+  async function scrollBy(dy, ms = 700) {
+    const steps = Math.max(4, Math.round(ms / speed / 16));
+    let done = 0;
+    for (let i = 1; i <= steps; i++) {
+      const target = Math.round(dy * ease(i / steps));
+      await page.mouse.wheel(0, target - done);
+      done = target;
+      await sleep(16);
+    }
+    await sleep(250);
+  }
+
+  // Off screen or under the fixed top bar / bottom nav: scroll there smoothly (Playwright's own
+  // scrollIntoViewIfNeeded jumps), so the video never cuts to a new position.
   async function center(locator) {
+    const vh = page.viewportSize().height;
+    const b = await locator.boundingBox();
+    if (b && (b.y < 70 || b.y + b.height > vh - 80)) {
+      const dy = Math.round(b.y + b.height / 2 - vh / 2);
+      await scrollBy(dy, Math.min(1200, 400 + Math.abs(dy) * 0.6));
+    }
     await locator.scrollIntoViewIfNeeded();
     const box = await locator.boundingBox();
     if (!box) throw new Error('Element not visible: ' + locator);
@@ -185,7 +217,7 @@ export function actions(page) {
     },
     async type(locator, text, after = 300) {
       await this.click(locator, 150);
-      await locator.pressSequentially(text, { delay: 55 });
+      await locator.pressSequentially(text, { delay: Math.round(55 / speed) });
       await sleep(after);
     },
     async select(locator, value, after = 500) {
@@ -205,16 +237,30 @@ export function actions(page) {
       await page.mouse.up();
       await sleep(after);
     },
-    async scroll(dy, ms = 700) {
-      const steps = Math.round(ms / 16);
-      let done = 0;
+    scroll: scrollBy,
+    /** A real finger swipe (touch events) across `locator`: dx < 0 = to the left (next week). */
+    async swipe(locator, dx = -200, ms = 350) {
+      const c = await center(locator);
+      const cdp = await page.context().newCDPSession(page);
+      await cdp.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
+      const x0 = c.x - dx / 2, y = c.y;
+      await moveTo(x0, y);
+      const touch = (type, x) => cdp.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y }] });
+      const finger = (x, down) => page.evaluate(([x, y, d]) => window.__demoFinger?.(x, y, d), [x, y, down]);
+      await finger(x0, true);
+      await touch('touchStart', x0);
+      const steps = Math.max(6, Math.round(ms / speed / 16));
       for (let i = 1; i <= steps; i++) {
-        const target = Math.round(dy * ease(i / steps));
-        await page.mouse.wheel(0, target - done);
-        done = target;
-        await sleep(16);
+        const x = x0 + dx * ease(i / steps);
+        await touch('touchMove', x);
+        await finger(x, true);
+        await page.waitForTimeout(ms / speed / steps);
       }
-      await sleep(250);
+      await touch('touchEnd', x0 + dx);
+      await finger(x0 + dx, false);
+      pos = { x: x0 + dx, y };
+      await page.mouse.move(pos.x, pos.y);
+      await cdp.detach().catch(() => {});
     },
     async goto(path) {
       await page.goto(APP + path);

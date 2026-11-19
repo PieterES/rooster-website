@@ -23,6 +23,9 @@ npm run record:demos -- schedule              # one clip
 npm run record:demos -- --lang=nl employee    # one clip, one language
 ```
 
+`--speed=1.5` makes every move and pause 1.5x shorter (a clip can set its own `speed`; the `staff-*` clips use 1.4 and show a mouse pointer instead of
+the tap indicator, via `cursor: 'arrow'`).
+
 Each clip lives in `clips/` and exports `prepare` (get the app into the start state),
 `run` (the recorded part) and optionally `cleanup` (undo what the clip created).
 The interface language is switched per user before each pass and set back to Dutch afterwards.
@@ -77,11 +80,18 @@ npm run screenshots -- admin-hours     # one
   - `settings` changes claim approval and clock rounding and restores both in `cleanup`; if a run is
     killed halfway, check `/admin/settings` on dev (rounding should be 15 minutes).
   - `requests` approves one claim and one swap per language (see above).
-  - `staff-schedule` puts a briefing on the employee's next shift (as admin) and removes it again.
-  - `staff-requests` frees a future Bediening shift for the employee to claim, makes a swap request and
-    a leave request, and undoes all of it. Leave is approved automatically on dev and an employee can't
-    cancel approved leave, so the admin revokes it, which leaves it in her list as denied.
-  - `staff-clock` clocks the employee in and out for real, moves the clock-in back ~5 hours mid-clip
-    (as admin) and deletes the record in `cleanup`. Phone clocking must be on for the company.
+  - The `staff-*` clips (shared helpers in `staff.mjs`) were last recorded against a freshly seeded
+    local app (HorecaRooster: `npm run seed && npm run seed:scenarios`, phone clocking on, next week
+    published), served with `next build && next start` (`next dev` shows blank frames while routes
+    render). Point `GEDEKT_APP_URL` at `http://localhost:3001` with the seed's logins.
+  - `staff-schedule` puts a briefing on the employee's next shift (as admin) and restores it.
+  - `staff-availability` sets max days and ticks Saturday, and undoes both in `cleanup`.
+  - `staff-requests` requests an open shift on a free day in her own department, swaps with Vera and
+    asks for leave, and withdraws all of it. Withdrawn/revoked leave stays in her list as cancelled,
+    and reseeding doesn't remove it, so delete Sophie's leave requests in the database before each
+    language (`prisma.leaveRequest.deleteMany`), or the next take shows the previous one.
+  - `staff-clock` clocks in and out for real (the employee needs a shift today), moves the clock-in
+    back ~5 hours mid-clip (as admin), asks for a correction, deletes the clock record and rejects the
+    correction in `cleanup`. Phone clocking must be on for the company.
 - The Bar and Bediening "Sluit" shifts are marked as closing shifts in the template, so the employee's
   team view shows "Sluitdienst".
