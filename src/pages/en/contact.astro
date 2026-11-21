@@ -32,6 +32,9 @@ import { contact } from "../../data/contact";
           <address class="not-italic space-y-2">
             <p><span class="text-sm text-[var(--color-stone)]">Email:</span> <a href={`mailto:${contact.email}`} class="font-medium text-[var(--color-forest)] underline underline-offset-2">{contact.email}</a></p>
             <p><span class="text-sm text-[var(--color-stone)]">Phone:</span> <a href={`tel:${contact.phone}`} class="font-medium text-[var(--color-forest)] underline underline-offset-2">{contact.phoneDisplay}</a></p>
+            <p><span class="text-sm text-[var(--color-stone)]">Address:</span> <span class="font-medium text-[var(--color-charcoal)]">Gedekt ({contact.legalName}), {contact.street}, {contact.postalCode} {contact.city}, the Netherlands</span></p>
+            {contact.kvk && <p><span class="text-sm text-[var(--color-stone)]">Chamber of Commerce (KvK):</span> <span class="font-medium text-[var(--color-charcoal)]">{contact.kvk}</span></p>}
+            {contact.vat && <p><span class="text-sm text-[var(--color-stone)]">VAT number:</span> <span class="font-medium text-[var(--color-charcoal)]">{contact.vat}</span></p>}
           </address>
         </div>
 

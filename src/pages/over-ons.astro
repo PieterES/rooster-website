@@ -1,6 +1,7 @@
 ﻿---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
+import { contact } from "../data/contact";
 
 const values = [
   {
@@ -60,6 +61,11 @@ const values = [
           <p class="text-[var(--color-stone)] leading-relaxed">
             Met een passie voor horeca en frustratie voor inefficiënte planningstools hebben wij Gedekt opgericht. Alleen een product dat echt nuttig moet zijn voor mensen die kleine Nederlandse horecalocaties runnen — want die zijn wij zelf geweest.
           </p>
+          <div class="mt-8 pt-6 border-t border-gray-200">
+            <p class="font-display font-semibold text-lg text-[var(--color-charcoal)]">Pieter El Sharouni</p>
+            <p class="text-[var(--color-stone)]">Oprichter van Gedekt · <a href={`mailto:${contact.email}`} class="text-[var(--color-forest)] underline underline-offset-2">{contact.email}</a></p>
+            <p class="text-sm text-[var(--color-stone)] mt-1">Gedekt is een handelsnaam van {contact.legalName} · KvK {contact.kvk} · {contact.city}</p>
+          </div>
         </div>
       </div>
     </div>

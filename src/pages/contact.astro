@@ -33,6 +33,9 @@ import { contact } from "../data/contact";
           <address class="not-italic space-y-2">
             <p><span class="text-sm text-[var(--color-stone)]">E-mail:</span> <a href={`mailto:${contact.email}`} class="font-medium text-[var(--color-forest)] underline underline-offset-2">{contact.email}</a></p>
             <p><span class="text-sm text-[var(--color-stone)]">Telefoon:</span> <a href={`tel:${contact.phone}`} class="font-medium text-[var(--color-forest)] underline underline-offset-2">{contact.phoneDisplay}</a></p>
+            <p><span class="text-sm text-[var(--color-stone)]">Adres:</span> <span class="font-medium text-[var(--color-charcoal)]">Gedekt ({contact.legalName}), {contact.street}, {contact.postalCode} {contact.city}</span></p>
+            {contact.kvk && <p><span class="text-sm text-[var(--color-stone)]">KvK-nummer:</span> <span class="font-medium text-[var(--color-charcoal)]">{contact.kvk}</span></p>}
+            {contact.vat && <p><span class="text-sm text-[var(--color-stone)]">Btw-nummer:</span> <span class="font-medium text-[var(--color-charcoal)]">{contact.vat}</span></p>}
           </address>
         </div>
 

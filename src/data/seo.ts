@@ -11,6 +11,18 @@ export const organization = {
   areaServed: "NL",
   email: contact.email,
   telephone: contact.phone,
+  legalName: contact.legalName,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: contact.street,
+    postalCode: contact.postalCode,
+    addressLocality: contact.city,
+    addressCountry: contact.country,
+  },
+  ...(contact.vat ? { vatID: contact.vat } : {}),
+  ...(contact.kvk
+    ? { identifier: { "@type": "PropertyValue", propertyID: "KvK", value: contact.kvk } }
+    : {}),
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer support",

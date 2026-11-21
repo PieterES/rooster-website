@@ -86,6 +86,11 @@ const footerGuides = Object.entries(t.guideLabels)
         <address class="not-italic text-sm space-y-1">
           <a href={`mailto:${contact.email}`} class="block hover:text-white transition-colors">{contact.email}</a>
           <a href={`tel:${contact.phone}`} class="block hover:text-white transition-colors">{contact.phoneDisplay}</a>
+          <span class="block pt-2">{lang === "nl" ? `Gedekt is een handelsnaam van ${contact.legalName}` : `Gedekt is a trade name of ${contact.legalName}`}</span>
+          <span class="block">{contact.street}</span>
+          <span class="block">{contact.postalCode} {contact.city}</span>
+          {contact.kvk && <span class="block">KvK {contact.kvk}</span>}
+          {contact.vat && <span class="block">{lang === "nl" ? "Btw" : "VAT"} {contact.vat}</span>}
         </address>
       </div>
 

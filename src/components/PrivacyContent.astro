@@ -1,12 +1,16 @@
 ---
 // PrivacyContent.astro — privacy & cookie statement for the website, NL and EN.
 // Covers gedekt.com only; keep it in sync with what the site actually loads (BaseLayout, ConsentBanner, contact form).
+import { contact } from "../data/contact";
 interface Props {
   lang?: "nl" | "en";
 }
 const { lang = "en" } = Astro.props;
 
-const email = "pieter.elsharouni@gedekt.com";
+const email = contact.email;
+const addr = `${contact.street}, ${contact.postalCode} ${contact.city}`;
+const kvkNl = contact.kvk ? `, KvK-nummer ${contact.kvk}` : "";
+const kvkEn = contact.kvk ? `, Chamber of Commerce (KvK) number ${contact.kvk}` : "";
 
 const t = lang === "nl" ? {
   title: "Privacy- en cookieverklaring",
@@ -15,7 +19,7 @@ const t = lang === "nl" ? {
   sections: [
     {
       h: "Wie zijn wij?",
-      p: [`Gedekt is verantwoordelijk voor de verwerking van persoonsgegevens zoals beschreven in deze verklaring. Je bereikt ons via <a href="mailto:${email}">${email}</a> of via het <a href="/contact">contactformulier</a>.`],
+      p: [`Gedekt (een handelsnaam van ${contact.legalName}, ${addr}${kvkNl}) is verantwoordelijk voor de verwerking van persoonsgegevens zoals beschreven in deze verklaring. Je bereikt ons via <a href="mailto:${email}">${email}</a> of via het <a href="/contact">contactformulier</a>.`],
     },
     {
       h: "Welke gegevens verwerken we?",
@@ -61,7 +65,7 @@ const t = lang === "nl" ? {
   sections: [
     {
       h: "Who we are",
-      p: [`Gedekt is responsible for processing personal data as described in this statement. You can reach us at <a href="mailto:${email}">${email}</a> or through the <a href="/en/contact">contact form</a>.`],
+      p: [`Gedekt (a trade name of ${contact.legalName}, ${addr}, the Netherlands${kvkEn}) is responsible for processing personal data as described in this statement. You can reach us at <a href="mailto:${email}">${email}</a> or through the <a href="/en/contact">contact form</a>.`],
     },
     {
       h: "What data we process",
