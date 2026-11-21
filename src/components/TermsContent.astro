@@ -1,0 +1,172 @@
+---
+// TermsContent.astro — algemene voorwaarden for the Gedekt app (app.gedekt.com), NL and EN.
+// Keep the trial, billing and cancellation terms in sync with the app (HorecaRooster: src/lib/billing,
+// billing_* translations) and with the pricing FAQ in prijzen.astro / en/pricing.astro.
+import { contact } from "../data/contact";
+
+interface Props {
+  lang?: "nl" | "en";
+}
+const { lang = "en" } = Astro.props;
+
+const company = `${contact.legalName}, ${contact.street}, ${contact.postalCode} ${contact.city}`;
+const email = `<a href="mailto:${contact.email}">${contact.email}</a>`;
+
+const t = lang === "nl" ? {
+  title: "Algemene voorwaarden",
+  updated: "Laatst bijgewerkt: 21 november 2026",
+  intro: "Deze voorwaarden gelden voor het gebruik van Gedekt, de rooster- en personeelsplanningsapp op app.gedekt.com, en voor elk abonnement daarop. Door een account aan te maken ga je ermee akkoord.",
+  sections: [
+    {
+      h: "1. Wie wij zijn",
+      p: [`Gedekt is een handelsnaam van ${company}, ingeschreven bij de Kamer van Koophandel onder nummer ${contact.kvk}, btw-nummer ${contact.vat}. In deze voorwaarden heet dat "Gedekt" of "wij". De onderneming die een account aanmaakt heet "de klant" of "jij".`],
+    },
+    {
+      h: "2. Voor wie",
+      p: ["Gedekt is bedoeld voor ondernemingen, zoals horecazaken, die het roosteren van hun personeel willen regelen. Je maakt een account aan namens je onderneming en verklaart dat je daartoe bevoegd bent. Medewerkers die de klant uitnodigt, gebruiken Gedekt onder het account van de klant."],
+    },
+    {
+      h: "3. Proefmaand",
+      p: ["Elk nieuw account begint met een gratis proefmaand. Je vult daarvoor geen betaalgegevens in en na afloop wordt er niets automatisch afgeschreven. Sluit je na de proefmaand geen abonnement af, dan blijven je gegevens bewaard, maar kun je niets meer wijzigen totdat je een abonnement afsluit."],
+    },
+    {
+      h: "4. Abonnementen en betaling",
+      p: [
+        `Je kiest een abonnement (Starter, Pro of Business) met maandelijkse of jaarlijkse betaling. De actuele prijzen staan op <a href="/prijzen">gedekt.com/prijzen</a> en zijn inclusief btw.`,
+        "Je betaalt de eerste termijn vooruit via onze betaaldienstverlener Mollie, bijvoorbeeld met iDEAL. Daarna wordt het bedrag elke maand of elk jaar automatisch afgeschreven, totdat je opzegt. Sluit je een abonnement af tijdens de proefmaand, dan gaat de eerste termijn pas in als de proefmaand afloopt.",
+        "Prijswijzigingen maken we minstens 30 dagen van tevoren bekend. Ze gelden vanaf de eerstvolgende termijn.",
+      ],
+    },
+    {
+      h: "5. Opzeggen",
+      p: ["Je kunt je abonnement op elk moment opzeggen in de app. Je kunt Gedekt daarna blijven gebruiken tot het einde van de termijn waarvoor je al hebt betaald; er wordt daarna niets meer afgeschreven. Een al betaalde termijn wordt niet terugbetaald."],
+    },
+    {
+      h: "6. Gebruik van Gedekt",
+      p: [
+        "Je bent verantwoordelijk voor de accounts binnen je onderneming, voor het geheimhouden van inloggegevens en voor de juistheid van de gegevens die je invoert.",
+        "Je gebruikt Gedekt niet in strijd met de wet en niet op een manier die de dienst of andere klanten schaadt. Bij misbruik mogen we een account blokkeren.",
+        "Gedekt helpt bij het roosteren, maar jij blijft verantwoordelijk voor het naleven van de Arbeidstijdenwet, je cao en andere regels die voor je onderneming gelden.",
+      ],
+    },
+    {
+      h: "7. Gegevens en privacy",
+      p: [
+        "De gegevens die je in Gedekt invoert, zoals die van je medewerkers, blijven van jou. Voor die gegevens ben jij de verwerkingsverantwoordelijke en verwerken wij ze alleen om Gedekt te leveren.",
+        `Hoe we omgaan met gegevens die we via de website verzamelen, lees je in onze <a href="/privacy">privacyverklaring</a>. Vragen over de verwerking van gegevens in de app kun je stellen via ${email}.`,
+      ],
+    },
+    {
+      h: "8. Beschikbaarheid",
+      p: ["We doen ons best om Gedekt altijd beschikbaar te houden, maar kunnen geen ononderbroken werking garanderen. Voor onderhoud kan Gedekt soms kort niet bereikbaar zijn; dat plannen we zoveel mogelijk buiten drukke uren."],
+    },
+    {
+      h: "9. Aansprakelijkheid",
+      p: ["Onze aansprakelijkheid is beperkt tot het bedrag dat je in de twaalf maanden voor het ontstaan van de schade aan ons hebt betaald. We zijn niet aansprakelijk voor indirecte schade, zoals gederfde omzet. Deze beperkingen gelden niet bij opzet of bewuste roekeloosheid van onze kant."],
+    },
+    {
+      h: "10. Wijzigingen",
+      p: ["We kunnen deze voorwaarden aanpassen. Belangrijke wijzigingen laten we minstens 30 dagen van tevoren per e-mail weten. Ga je niet akkoord, dan kun je je abonnement opzeggen voordat de wijziging ingaat."],
+    },
+    {
+      h: "11. Toepasselijk recht",
+      p: ["Op deze voorwaarden is Nederlands recht van toepassing. Geschillen leggen we voor aan de bevoegde rechter in het arrondissement Midden-Nederland."],
+    },
+    {
+      h: "12. Contact",
+      p: [`Vragen over deze voorwaarden? Mail naar ${email}, bel ${contact.phoneDisplay} of gebruik het <a href="/contact">contactformulier</a>.`],
+    },
+  ],
+} : {
+  title: "Terms and conditions",
+  updated: "Last updated: 21 November 2026",
+  intro: "These terms apply to the use of Gedekt, the staff scheduling app at app.gedekt.com, and to every subscription to it. By creating an account you agree to them. The Dutch version is the legally binding one.",
+  sections: [
+    {
+      h: "1. Who we are",
+      p: [`Gedekt is a trade name of ${company}, the Netherlands, registered with the Dutch Chamber of Commerce (KvK) under number ${contact.kvk}, VAT number ${contact.vat}. In these terms it is called "Gedekt" or "we". The business that creates an account is called "the customer" or "you".`],
+    },
+    {
+      h: "2. Who it's for",
+      p: ["Gedekt is meant for businesses, such as hospitality venues, that want to manage their staff scheduling. You create an account on behalf of your business and confirm that you are authorised to do so. Employees the customer invites use Gedekt under the customer's account."],
+    },
+    {
+      h: "3. Free month",
+      p: ["Every new account starts with a free trial month. You don't enter any payment details for it and nothing is charged automatically when it ends. If you don't take out a subscription after the trial, your data is kept, but you can't change anything until you subscribe."],
+    },
+    {
+      h: "4. Subscriptions and payment",
+      p: [
+        `You choose a plan (Starter, Pro or Business) with monthly or yearly billing. Current prices are listed at <a href="/en/pricing">gedekt.com/en/pricing</a> and include Dutch VAT.`,
+        "You pay the first period in advance through our payment provider Mollie, for example with iDEAL. After that the amount is charged automatically every month or year until you cancel. If you subscribe during the trial, the first period only starts when the trial ends.",
+        "We announce price changes at least 30 days in advance. They apply from the next billing period.",
+      ],
+    },
+    {
+      h: "5. Cancelling",
+      p: ["You can cancel your subscription at any time in the app. You can keep using Gedekt until the end of the period you have already paid for; nothing is charged after that. A period that has already been paid is not refunded."],
+    },
+    {
+      h: "6. Using Gedekt",
+      p: [
+        "You are responsible for the accounts within your business, for keeping login details secret and for the accuracy of the data you enter.",
+        "You don't use Gedekt against the law or in a way that harms the service or other customers. In case of misuse we may block an account.",
+        "Gedekt helps with scheduling, but you remain responsible for complying with the Dutch Working Hours Act, your collective labour agreement and other rules that apply to your business.",
+      ],
+    },
+    {
+      h: "7. Data and privacy",
+      p: [
+        "The data you enter in Gedekt, such as your employees' details, remains yours. You are the controller of that data and we only process it to provide Gedekt.",
+        `How we handle data collected through the website is described in our <a href="/en/privacy">privacy statement</a>. Questions about data processing in the app can be sent to ${email}.`,
+      ],
+    },
+    {
+      h: "8. Availability",
+      p: ["We do our best to keep Gedekt available at all times, but cannot guarantee uninterrupted operation. Gedekt may occasionally be briefly unavailable for maintenance; we plan that outside busy hours where possible."],
+    },
+    {
+      h: "9. Liability",
+      p: ["Our liability is limited to the amount you paid us in the twelve months before the damage occurred. We are not liable for indirect damage, such as lost revenue. These limits do not apply in case of intent or deliberate recklessness on our part."],
+    },
+    {
+      h: "10. Changes",
+      p: ["We may change these terms. We announce important changes by e-mail at least 30 days in advance. If you don't agree, you can cancel your subscription before the change takes effect."],
+    },
+    {
+      h: "11. Governing law",
+      p: ["These terms are governed by Dutch law. Disputes are submitted to the competent court in the district of Midden-Nederland."],
+    },
+    {
+      h: "12. Contact",
+      p: [`Questions about these terms? E-mail ${email}, call ${contact.phoneDisplay} or use the <a href="/en/contact">contact form</a>.`],
+    },
+  ],
+};
+---
+<section class="bg-[var(--color-cream)] pt-32 pb-12 px-6 lg:px-8">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="font-display font-bold text-4xl md:text-5xl text-[var(--color-charcoal)] leading-tight mb-3">{t.title}</h1>
+    <p class="text-[var(--color-stone)] text-sm">{t.updated}</p>
+  </div>
+</section>
+
+<section class="bg-white py-16 px-6 lg:px-8">
+  <div class="terms max-w-3xl mx-auto text-[var(--color-stone)] leading-relaxed">
+    <p class="text-lg mb-10">{t.intro}</p>
+    {t.sections.map((s) => (
+      <div class="mb-10">
+        <h2 class="font-display font-semibold text-2xl text-[var(--color-charcoal)] mb-4">{s.h}</h2>
+        {s.p.map((p) => <p class="mb-4" set:html={p} />)}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .terms :global(a) {
+    color: var(--color-forest);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

@@ -18,7 +18,7 @@ const t = {
     source: "Hoe heb je ons gevonden?", choose: "Maak een keuze",
     sources: { google: "Google zoeken", ads: "Advertentie (Google / social)", word_of_mouth: "Mond-tot-mond", flyer: "Flyer", email: "E-mail van ons", other: "Anders" },
     otherPh: "Vertel kort hoe",
-    privacy: "Ik ga akkoord met de", privacyLink: "privacyverklaring", privacyHref: "/privacy",
+    privacy: "Ik ga akkoord met de", termsLink: "algemene voorwaarden", termsHref: "/voorwaarden", and: "en de", privacyLink: "privacyverklaring", privacyHref: "/privacy",
     submit: "Start mijn gratis maand →", sending: "Bezig…",
     trialNote: "1 maand gratis, daarna kies je zelf of je doorgaat. Geen betaalgegevens nodig.",
     success: "Gelukt! Check je mail: we hebben je een link en een tijdelijk wachtwoord gestuurd om je account te activeren.",
@@ -40,7 +40,7 @@ const t = {
     source: "How did you find us?", choose: "Choose one",
     sources: { google: "Google search", ads: "Advert (Google / social)", word_of_mouth: "Word of mouth", flyer: "Flyer", email: "E-mail from us", other: "Other" },
     otherPh: "Tell us briefly how",
-    privacy: "I agree to the", privacyLink: "privacy policy", privacyHref: "/en/privacy",
+    privacy: "I agree to the", termsLink: "terms and conditions", termsHref: "/en/terms", and: "and the", privacyLink: "privacy policy", privacyHref: "/en/privacy",
     submit: "Start my free month →", sending: "Sending…",
     trialNote: "1 month free, then you decide whether to continue. No payment details needed.",
     success: "Done! Check your e-mail: we've sent you a link and a temporary password to activate your account.",
@@ -118,7 +118,7 @@ const label = "block text-sm font-medium text-[var(--color-charcoal)] mb-1.5";
 
   <label class="flex items-start gap-2 text-sm text-[var(--color-charcoal)]" data-field="privacyAccepted">
     <input type="checkbox" id="privacyAccepted" name="privacyAccepted" required class="mt-0.5" />
-    <span>{t.privacy} <a href={t.privacyHref} class="underline" target="_blank">{t.privacyLink}</a></span>
+    <span>{t.privacy} <a href={t.termsHref} class="underline" target="_blank">{t.termsLink}</a> {t.and} <a href={t.privacyHref} class="underline" target="_blank">{t.privacyLink}</a></span>
   </label>
 
   <button id="signup-submit" type="submit"

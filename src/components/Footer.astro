@@ -25,6 +25,8 @@ const t = lang === "nl" ? {
   cookieSettings: "Cookie-instellingen",
   privacy: "Privacyverklaring",
   privacyHref: "/privacy",
+  terms: "Algemene voorwaarden",
+  termsHref: "/voorwaarden",
   featuresHref: "/hoe-het-werkt#functies",
   pricingHref: "/prijzen",
   howItWorksHref: "/hoe-het-werkt",
@@ -51,6 +53,8 @@ const t = lang === "nl" ? {
   cookieSettings: "Cookie settings",
   privacy: "Privacy statement",
   privacyHref: "/en/privacy",
+  terms: "Terms and conditions",
+  termsHref: "/en/terms",
   featuresHref: "/en/how-it-works#features",
   pricingHref: "/en/pricing",
   howItWorksHref: "/en/how-it-works",
@@ -134,6 +138,7 @@ const footerGuides = Object.entries(t.guideLabels)
       <p>{t.copyright}</p>
       <p class="mt-2 flex justify-center gap-4">
         <a href={t.privacyHref} class="hover:text-white transition-colors underline underline-offset-2">{t.privacy}</a>
+          <a href={t.termsHref} class="hover:text-white transition-colors underline underline-offset-2">{t.terms}</a>
         <button type="button" data-consent-open class="hover:text-white transition-colors underline underline-offset-2">{t.cookieSettings}</button>
       </p>
     </div>

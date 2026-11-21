@@ -2,3 +2,10 @@
 # for the search on its support page.
 /pagefind/*
   Access-Control-Allow-Origin: *
+
+# Security headers for every page: HTTPS only (HSTS), never framed by another site (clickjacking).
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
