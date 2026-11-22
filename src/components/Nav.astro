@@ -47,7 +47,6 @@ const linkClass = (href: string) => [
 ];
 
 const ctaLabel = isNL ? "Aan de slag →" : "Get started →";
-const loginLabel = isNL ? "Inloggen" : "Log in";
 ---
 
 <header
@@ -114,15 +113,9 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
       </div>
       <a
         href={isNL ? "/aanmelden" : "/en/sign-up"}
-        class="text-sm font-medium text-[var(--color-charcoal)] border border-[var(--color-forest)] px-5 py-2.5 rounded-lg hover:bg-[var(--color-forest)] hover:text-white transition-colors duration-200"
-      >
-        {ctaLabel}
-      </a>
-      <a
-        href="https://app.gedekt.com/login"
         class="bg-[var(--color-forest)] text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-[var(--color-forest-light)] transition-colors duration-200"
       >
-        {loginLabel}
+        {ctaLabel}
       </a>
     </div>
 
@@ -182,11 +175,8 @@ const loginLabel = isNL ? "Inloggen" : "Log in";
     </div>
   </nav>
   <div class="mt-auto flex flex-col gap-3">
-    <a href={isNL ? "/aanmelden" : "/en/sign-up"} class="text-center border border-[var(--color-forest)] text-[var(--color-forest)] font-semibold py-3 rounded-lg">
+    <a href={isNL ? "/aanmelden" : "/en/sign-up"} class="text-center bg-[var(--color-forest)] text-white font-semibold py-3 rounded-lg">
       {ctaLabel}
-    </a>
-    <a href="https://app.gedekt.com/login" class="text-center bg-[var(--color-forest)] text-white font-semibold py-3 rounded-lg">
-      {loginLabel}
     </a>
   </div>
 </div>
